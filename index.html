@@ -1015,6 +1015,17 @@ const LS=(()=>{try{const t="__t";localStorage.setItem(t,t);localStorage.removeIt
                catch(e){return {getItem:k=>k in MEM?MEM[k]:null,setItem:(k,v)=>{MEM[k]=v;},removeItem:k=>{delete MEM[k];}};}})();
 const load=(k,f)=>{try{const v=JSON.parse(LS.getItem(k));return v??f;}catch(e){return f;}};
 const save=(k,v)=>{try{LS.setItem(k,JSON.stringify(v));}catch(e){}};
+/* 課表完成狀態的 key。刻意不用 "11.1" 這種純數字格式 ——
+   Google 試算表會把它當成數值 11.1 存起來，讀回來變 "11.1" 或 "1"，對不上。 */
+const doneKey=(w,k)=>"w"+w+"s"+k;
+(function migrateDoneKeys(){
+  const raw=load("fuji.done.v1",{}); let moved=false;
+  Object.keys(raw).forEach(k=>{
+    const m=/^(\d+)\.(\d+)$/.exec(k);
+    if(m){ raw["w"+m[1]+"s"+m[2]]=raw[k]; delete raw[k]; moved=true; }
+  });
+  if(moved) save("fuji.done.v1",raw);
+})();
 let LOG=load("fuji.log.v1",[]);
 let DONE=load("fuji.done.v1",{});
 BRANCH=load("fuji.branch.v1","half");          // 儲存層備妥後才還原分支選擇
@@ -1160,7 +1171,7 @@ function renderThisWeek(){
     return;
   }
   const w=WEEKS[i], ph=PHASES[w.ph];
-  const done=(w.ses||[]).filter((s,k)=>DONE[w.w+"."+k]).length;
+  const done=(w.ses||[]).filter((s,k)=>DONE[doneKey(w.w,k)]).length;
   box.innerHTML=`<div class="card" style="border-color:var(--sun)">
     <div class="btnrow">
       <span class="pill sun">W${String(w.w).padStart(2,"0")}</span>
@@ -1182,7 +1193,7 @@ function renderThisWeek(){
 const ZN={E:"E 輕鬆",L:"L 長跑",T:"T 節奏",R:"R 快步",RACE:"比賽"};
 function sesHTML(s,wno,k){
   const[z,km,txt]=s;
-  const id=wno+"."+k;
+  const id=doneKey(wno,k);
   const chk=k>=0?`<label class="chk"><input type="checkbox" data-k="${id}" ${DONE[id]?"checked":""}> 完成</label>`:"";
   return `<div class="ses">
     <span class="zn z${z}">${esc(ZN[z]||z)}</span>
@@ -1339,7 +1350,7 @@ function renderPlan(){
     }
     const cur=i===ci, past=i<ci;
     const cnt=w.detail?w.ses.length:w.ses;
-    const done=w.detail?w.ses.filter((s,k)=>DONE[w.w+"."+k]).length:0;
+    const done=w.detail?w.ses.filter((s,k)=>DONE[doneKey(w.w,k)]).length:0;
     const rec=isRecovery(w);
     html+=`<div class="wk ${cur?"cur":""} ${past?"past":""}">
       <button class="wkhead" data-w="${w.w}" aria-expanded="${cur?"true":"false"}">

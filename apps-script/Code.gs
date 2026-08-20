@@ -79,6 +79,9 @@ function sheet(name) {
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, SHEETS[name].length).setFontWeight('bold');
   }
+  // 第一欄一律當純文字。否則像 "11.1"、"0930" 這類 key 會被試算表轉成數值，
+  // 讀回來就對不上原本的字串，造成勾選狀態遺失、刪不掉。
+  sh.getRange(2, 1, sh.getMaxRows() - 1, 1).setNumberFormat('@');
   return sh;
 }
 
