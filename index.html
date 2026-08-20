@@ -1,0 +1,1887 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>富士山への道</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+TC:wght@500;700&display=swap">
+
+<style>
+/* ── tokens ───────────────────────────────────────────── */
+:root{
+  --ground:#EDEFF4;
+  --surface:#FBFCFD;
+  --surface2:#E3E8F1;
+  --line:#C8D1E0;
+  --line-soft:#DCE2EC;
+  --ink:#161B26;
+  --ink2:#4A5468;
+  --ink3:#59637A;   /* 對 --ground 5.17:1、對 --surface2 4.84:1 */
+  --blue:#2F5EA8;
+  --blue-deep:#1F3F73;
+  --blue-soft:#DBE5F6;
+  --sun:#D2673A;
+  --sun-soft:#F8E3D8;
+  --moss:#3A8564;
+  --moss-soft:#DCEEE4;
+  --ochre:#B5811F;
+  --ochre-soft:#F6EBD3;
+  --shadow:0 1px 2px rgba(22,27,38,.06), 0 6px 18px -10px rgba(22,27,38,.18);
+
+  --f-display:"Newsreader","Noto Serif TC",Georgia,"Songti TC",serif;
+  --f-body:"IBM Plex Sans","PingFang TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono","Roboto Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#10141E;
+    --surface:#191F2E;
+    --surface2:#222A3B;
+    --line:#333C51;
+    --line-soft:#262E3E;
+    --ink:#E7EBF3;
+    --ink2:#A4AEC2;
+    --ink3:#8892A8;   /* 對 --ground 5.91:1、對 --surface2 4.60:1 */
+    --blue:#7FA8E2;
+    --blue-deep:#A9C4EE;
+    --blue-soft:#1D2B44;
+    --sun:#EF9366;
+    --sun-soft:#3A2317;
+    --moss:#5FB289;
+    --moss-soft:#17301F;
+    --ochre:#DDAF54;
+    --ochre-soft:#302516;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 20px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#10141E;
+  --surface:#191F2E;
+  --surface2:#222A3B;
+  --line:#333C51;
+  --line-soft:#262E3E;
+  --ink:#E7EBF3;
+  --ink2:#A4AEC2;
+  --ink3:#8892A8;   /* 對 --ground 5.91:1、對 --surface2 4.60:1 */
+  --blue:#7FA8E2;
+  --blue-deep:#A9C4EE;
+  --blue-soft:#1D2B44;
+  --sun:#EF9366;
+  --sun-soft:#3A2317;
+  --moss:#5FB289;
+  --moss-soft:#17301F;
+  --ochre:#DDAF54;
+  --ochre-soft:#302516;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 20px -12px rgba(0,0,0,.7);
+}
+
+/* ── base ─────────────────────────────────────────────── */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:15px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;font-weight:500;text-wrap:balance;line-height:1.25}
+p{margin:0}
+a{color:var(--blue)}
+table{border-collapse:collapse;width:100%}
+:focus-visible{outline:2px solid var(--sun);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+/* ── masthead ─────────────────────────────────────────── */
+.mast{
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+.mast .wrap{position:relative;z-index:2;padding-top:38px;padding-bottom:26px}
+.eyebrow{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink3);display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.eyebrow b{color:var(--sun);font-weight:500}
+.mast h1{
+  font-family:var(--f-display);
+  font-size:clamp(38px,7.5vw,64px);
+  font-weight:500;letter-spacing:-.01em;margin:10px 0 6px;
+}
+.mast h1 em{font-style:italic;color:var(--blue)}
+.mast .sub{color:var(--ink2);max-width:56ch;font-size:15px}
+.mast .ridge{position:absolute;inset:auto 0 0 0;height:100%;width:100%;z-index:1;opacity:.5}
+
+/* ── nav ──────────────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{
+  flex:0 0 auto;appearance:none;background:none;border:0;
+  border-bottom:2px solid transparent;
+  padding:13px 14px;cursor:pointer;
+  font-family:var(--f-body);font-size:14px;color:var(--ink3);
+  white-space:nowrap;transition:color .15s;
+}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--sun);font-weight:500}
+.tabs .idx{font-family:var(--f-mono);font-size:10px;color:var(--ink3);margin-right:6px;vertical-align:1px}
+.tabs button[aria-selected="true"] .idx{color:var(--sun)}
+
+/* ── layout ───────────────────────────────────────────── */
+main{padding:32px 0 80px}
+section[hidden]{display:none}
+.stack{display:flex;flex-direction:column;gap:34px}
+.block{display:flex;flex-direction:column;gap:14px}
+.block > h2{
+  font-family:var(--f-display);font-size:26px;font-weight:500;letter-spacing:-.01em;
+  display:flex;align-items:baseline;gap:12px;
+}
+.block > h2 .tag{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);font-weight:400;
+}
+.lede{color:var(--ink2);max-width:70ch}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:18px 20px;display:flex;flex-direction:column;gap:12px;
+}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+
+/* ── stat tiles ───────────────────────────────────────── */
+.tile{
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:14px 16px;display:flex;flex-direction:column;gap:3px;
+}
+.tile .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3)}
+.tile .v{font-family:var(--f-mono);font-size:27px;font-weight:500;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .u{font-size:12px;color:var(--ink3);font-family:var(--f-body);letter-spacing:0}
+.tile .n{font-size:12px;color:var(--ink2)}
+.tile.accent{border-color:var(--sun);background:var(--sun-soft)}
+.tile.accent .v{color:var(--sun)}
+
+/* countdown */
+.cd{
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:14px 16px;display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden;
+}
+.cd::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--line)}
+.cd.hot::before{background:var(--sun)}
+.cd.go::before{background:var(--moss)}
+.cd .lab{font-size:12px;color:var(--ink2);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cd .big{font-family:var(--f-mono);font-size:24px;font-weight:500;letter-spacing:-.03em;line-height:1.2}
+.cd .dt{font-family:var(--f-mono);font-size:11px;color:var(--ink3)}
+
+/* ── pills ────────────────────────────────────────────── */
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 7px;border-radius:2px;border:1px solid var(--line);color:var(--ink2);
+  background:var(--surface2);white-space:nowrap;
+}
+.pill.blue{background:var(--blue-soft);border-color:transparent;color:var(--blue-deep)}
+.pill.sun{background:var(--sun-soft);border-color:transparent;color:var(--sun)}
+.pill.moss{background:var(--moss-soft);border-color:transparent;color:var(--moss)}
+.pill.ochre{background:var(--ochre-soft);border-color:transparent;color:var(--ochre)}
+
+/* ── tables ───────────────────────────────────────────── */
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+table th,table td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+table th{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink3);font-weight:500;background:var(--surface2);
+  position:sticky;top:0;
+}
+table tbody tr:last-child td{border-bottom:0}
+table td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+table th.n{text-align:right}
+table td.w{white-space:normal;min-width:230px}
+tr.dim td{color:var(--ink3)}
+tr.mark td{background:var(--sun-soft)}
+tr.now td{background:var(--blue-soft)}
+
+/* ── plan rows ────────────────────────────────────────── */
+.phase{
+  display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;
+  padding:16px 0 8px;border-top:2px solid var(--ink);margin-top:8px;
+}
+.phase:first-child{margin-top:0}
+.phase h3{font-family:var(--f-display);font-size:20px;font-weight:500}
+.phase .rng{font-family:var(--f-mono);font-size:11px;color:var(--ink3)}
+.phase .goal{flex-basis:100%;color:var(--ink2);font-size:13.5px;max-width:74ch}
+
+.wk{border:1px solid var(--line);border-radius:3px;background:var(--surface);overflow:hidden}
+.wk.cur{border-color:var(--sun);box-shadow:0 0 0 1px var(--sun)}
+.wk.past{opacity:.62}
+.wkhead{
+  display:grid;grid-template-columns:auto auto 1fr auto;gap:10px;align-items:center;
+  padding:9px 12px;cursor:pointer;background:none;border:0;width:100%;text-align:left;
+  font-family:var(--f-body);color:var(--ink);font-size:14px;
+}
+.wkhead:hover{background:var(--surface2)}
+.wkhead .wno{font-family:var(--f-mono);font-size:11px;color:var(--ink3);min-width:34px}
+.wkhead .wdt{font-family:var(--f-mono);font-size:12px;color:var(--ink2);min-width:74px}
+.wkhead .wsum{font-family:var(--f-mono);font-size:12px;color:var(--ink3);text-align:right;font-variant-numeric:tabular-nums}
+.wkbody{padding:0 12px 12px;display:flex;flex-direction:column;gap:6px}
+.ses{
+  display:grid;grid-template-columns:auto auto 1fr;gap:10px;align-items:start;
+  padding:7px 9px;background:var(--surface2);border-radius:2px;font-size:13.5px;
+}
+.ses .zn{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;padding:1px 5px;border-radius:2px;margin-top:3px}
+.zE{background:var(--blue-soft);color:var(--blue-deep)}
+.zL{background:var(--moss-soft);color:var(--moss)}
+.zT{background:var(--ochre-soft);color:var(--ochre)}
+.zR{background:var(--sun-soft);color:var(--sun)}
+.zRACE{background:var(--sun);color:#fff}
+:root[data-theme="dark"] .zRACE{color:#10141E}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .zRACE{color:#10141E}}
+.ses .dist{font-family:var(--f-mono);font-size:13px;min-width:52px;margin-top:1px}
+.ses .txt{color:var(--ink2);line-height:1.5}
+.chk{display:flex;gap:7px;align-items:center;font-size:12px;color:var(--ink3);padding-top:2px}
+.chk input{accent-color:var(--sun);width:15px;height:15px}
+
+/* ── misc ─────────────────────────────────────────────── */
+.note{
+  border-left:3px solid var(--blue);background:var(--blue-soft);
+  padding:11px 14px;border-radius:0 3px 3px 0;font-size:13.5px;color:var(--ink2);
+}
+.note.warn{border-left-color:var(--sun);background:var(--sun-soft)}
+.note b{color:var(--ink);font-weight:600}
+ul.tight{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:5px;color:var(--ink2);font-size:14px}
+ul.tight b{color:var(--ink);font-weight:600}
+.kvs{display:flex;flex-direction:column;gap:0}
+.kv{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px dashed var(--line-soft);font-size:13.5px}
+.kv:last-child{border-bottom:0}
+.kv .k{color:var(--ink3)}
+.kv .v{font-family:var(--f-mono);text-align:right}
+
+form.log{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;align-items:end}
+label.fld{display:flex;flex-direction:column;gap:4px;font-size:11px;font-family:var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+input,select{
+  font-family:var(--f-mono);font-size:14px;padding:8px 10px;
+  border:1px solid var(--line);border-radius:2px;background:var(--surface);color:var(--ink);
+  width:100%;
+}
+button.act{
+  font-family:var(--f-body);font-size:14px;padding:9px 18px;border-radius:2px;cursor:pointer;
+  background:var(--blue);color:var(--surface);border:1px solid var(--blue);
+}
+:root[data-theme="dark"] button.act{color:#10141E}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button.act{color:#10141E}}
+button.act:hover{background:var(--blue-deep);border-color:var(--blue-deep)}
+button.ghost{
+  font-family:var(--f-body);font-size:12.5px;padding:5px 11px;border-radius:2px;cursor:pointer;
+  background:none;color:var(--ink2);border:1px solid var(--line);
+}
+button.ghost:hover{background:var(--surface2);color:var(--ink)}
+button.ghost[aria-pressed="true"]{background:var(--sun);border-color:var(--sun);color:var(--surface)}
+:root[data-theme="dark"] button.ghost[aria-pressed="true"]{color:#10141E}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button.ghost[aria-pressed="true"]{color:#10141E}}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.chartbox{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:16px;overflow-x:auto}
+.chartbox svg{display:block;min-width:520px;width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--f-mono);font-size:10.5px;color:var(--ink3);letter-spacing:.06em}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:1px;margin-right:5px;vertical-align:-1px}
+
+/* ── 天氣 ─────────────────────────────────────────────── */
+.wxday{
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:12px 14px;display:flex;flex-direction:column;gap:7px;position:relative;overflow:hidden;
+}
+.wxday.pick{border-color:var(--sun);box-shadow:0 0 0 1px var(--sun)}
+.wxday .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.wxday .dow{font-family:var(--f-mono);font-size:12px;color:var(--ink2)}
+.wxday .dow b{color:var(--ink);font-size:14px;font-weight:500}
+.wxday .sc{font-family:var(--f-mono);font-size:22px;font-weight:500;letter-spacing:-.03em;line-height:1}
+.bar{height:5px;border-radius:3px;background:var(--surface2);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:3px}
+.wxday .wx{font-size:12.5px;color:var(--ink2);line-height:1.45}
+.wxday .met{display:flex;gap:11px;flex-wrap:wrap;font-family:var(--f-mono);font-size:11.5px;color:var(--ink3)}
+.wxday .met b{color:var(--ink2);font-weight:500}
+.wxday .asg{
+  font-size:12.5px;padding:6px 8px;border-radius:2px;background:var(--sun-soft);color:var(--sun);
+  display:flex;gap:7px;align-items:center;flex-wrap:wrap;
+}
+.g7{grid-template-columns:repeat(auto-fit,minmax(198px,1fr))}
+.slot{
+  display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:2px;
+  background:var(--surface2);font-size:13.5px;flex-wrap:wrap;
+}
+.slot .hr{font-family:var(--f-mono);font-size:14px;min-width:112px;color:var(--ink)}
+.slot .dsc{color:var(--ink2);font-size:12.5px}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.syncchip{
+  margin-left:auto;align-self:center;flex:0 0 auto;
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;
+  padding:3px 9px;border-radius:2px;border:1px solid var(--line);
+  color:var(--ink3);background:var(--surface);white-space:nowrap;
+}
+.syncchip[data-s="ok"]{color:var(--moss);border-color:var(--moss)}
+.syncchip[data-s="busy"]{color:var(--blue);border-color:var(--blue)}
+.syncchip[data-s="queue"]{color:var(--ochre);border-color:var(--ochre)}
+.syncchip[data-s="err"]{color:var(--sun);border-color:var(--sun)}
+@media(max-width:640px){.syncchip{display:none}}
+.minirow{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.minirow::-webkit-scrollbar{display:none}
+.mini{
+  flex:0 0 auto;min-width:84px;background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:9px 10px;display:flex;flex-direction:column;gap:5px;
+}
+.mini.pick{border-color:var(--sun)}
+.mini .d{font-family:var(--f-mono);font-size:11px;color:var(--ink3)}
+.mini .s{font-family:var(--f-mono);font-size:17px;font-weight:500;letter-spacing:-.02em;line-height:1}
+.mini .t{font-family:var(--f-mono);font-size:10.5px;color:var(--ink2)}
+
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--ink3);font-size:12px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+
+@media(max-width:640px){
+  .mast .wrap{padding-top:26px;padding-bottom:20px}
+  .wkhead{grid-template-columns:auto 1fr;row-gap:2px}
+  .wkhead .wsum{grid-column:1/-1;text-align:left}
+  .wkhead .wdt{min-width:0}
+  .ses{grid-template-columns:auto 1fr;row-gap:2px}
+  .ses .txt{grid-column:1/-1}
+}
+</style>
+
+<header class="mast">
+  <svg class="ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--blue)" stop-opacity=".13"/>
+        <stop offset="1" stop-color="var(--blue)" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,300 L0,232 C120,228 250,214 360,186 C470,158 545,96 600,62 C655,96 730,158 840,186 C950,214 1080,228 1200,232 L1200,300 Z" fill="url(#sky)"/>
+    <path d="M0,232 C120,228 250,214 360,186 C470,158 545,96 600,62 C655,96 730,158 840,186 C950,214 1080,228 1200,232"
+          fill="none" stroke="var(--blue)" stroke-opacity=".38" stroke-width="1.5"/>
+    <path d="M547,101 L566,88 L580,97 L600,62 L620,97 L634,88 L653,101 C630,110 570,110 547,101 Z"
+          fill="var(--sun)" fill-opacity=".22"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow"><span>Mt. Fuji Marathon</span><span>·</span><span id="today-lab">—</span><span>·</span><b id="hero-phase">—</b></div>
+    <h1>富士山<em>への道</em></h1>
+    <p class="sub">從 6 公里到河口湖畔。一份給一週跑 2–3 次的人的十六個月計畫 —— 先在秋季線上賽把半馬一次跑完，再決定 2027 年 12 月站在哪一條起跑線上。</p>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <div class="tabs" role="tablist" id="tabs">
+      <button role="tab" data-t="s-now"  aria-selected="true"><span class="idx">01</span>總覽</button>
+      <button role="tab" data-t="s-wx"   aria-selected="false"><span class="idx">02</span>天氣排跑</button>
+      <button role="tab" data-t="s-base" aria-selected="false"><span class="idx">03</span>現況分析</button>
+      <button role="tab" data-t="s-plan" aria-selected="false"><span class="idx">04</span>訓練計畫</button>
+      <button role="tab" data-t="s-pace" aria-selected="false"><span class="idx">05</span>配速與技術</button>
+      <button role="tab" data-t="s-race" aria-selected="false"><span class="idx">06</span>賽事情報</button>
+      <button role="tab" data-t="s-log"  aria-selected="false"><span class="idx">07</span>訓練日誌</button>
+      <span class="syncchip" id="sync" title="資料同步狀態">—</span>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ══════════ 01 總覽 ══════════ -->
+<section id="s-now" class="stack">
+
+  <div class="block">
+    <h2>倒數 <span class="tag">Countdown</span></h2>
+    <div class="grid g4" id="countdowns"></div>
+    <p class="lede" style="font-size:13px;color:var(--ink3)">線上賽日期標示「推測」者，是依官網上一屆的檔期推算 —— 官網 2026 年版尚未更新，實際日程請於報名期前再確認一次。</p>
+  </div>
+
+  <div class="block">
+    <h2>這七天什麼時候跑 <span class="tag">CWA · 臺中市潭子區</span></h2>
+    <div class="minirow" id="wx-mini"><span style="color:var(--ink3);font-size:13px"><span class="spin"></span> 讀取中央氣象署預報…</span></div>
+    <p class="lede" style="font-size:13px;color:var(--ink3)" id="wx-mini-note"></p>
+  </div>
+
+  <div class="block">
+    <h2>本週 <span class="tag">This Week</span></h2>
+    <div id="thisweek"></div>
+  </div>
+
+  <div class="block">
+    <h2>爬升曲線 <span class="tag">Ascent Profile</span></h2>
+    <p class="lede">縱軸是每週最長一次跑步的距離。這張圖就是這份計畫本身 —— 六十八週堆出四座山頭，每一座都是一場比賽。</p>
+    <div class="chartbox">
+      <svg id="ascent" viewBox="0 0 1000 300" role="img" aria-label="每週最長跑距離的爬升曲線"></svg>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--blue)"></i>每週最長跑</span>
+      <span><i style="background:var(--sun)"></i>比賽</span>
+      <span><i style="background:var(--moss)"></i>減量週</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>目標階梯 <span class="tag">The Ladder</span></h2>
+    <div class="grid g3" id="ladder"></div>
+  </div>
+
+  <div class="block">
+    <h2>這份計畫的三條規則 <span class="tag">Ground Rules</span></h2>
+    <div class="grid g3">
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">長跑不能砍</h3>
+        <p style="color:var(--ink2);font-size:13.5px">忙的那一週就跑兩次，砍掉的是中短跑，長跑留著。長跑是唯一會讓你從 6K 走到 42K 的東西，其他都是配角。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">八成的時間要慢到無聊</h3>
+        <p style="color:var(--ink2);font-size:13.5px">你目前所有跑步都落在 7:53–8:27，全部擠在同一個中等強度。輕鬆跑要慢到 8:40 以後、能邊跑邊講完整句子，快的那一段才有本錢真的快。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">每三到四週退一步</h3>
+        <p style="color:var(--ink2);font-size:13.5px">計畫裡的減量週不是偷懶，是讓身體把前三週的刺激兌現成能力。跳過減量週是初跑者受傷的頭號原因。</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ 02 天氣排跑 ══════════ -->
+<section id="s-wx" class="stack" hidden>
+
+  <div class="block">
+    <h2>路跑條件 <span class="tag">CWA 中央氣象署開放資料</span></h2>
+    <p class="lede">預報地點是<b>臺中市潭子區</b>（你的訓練路線起點）。評分以<b>體感溫度</b>為主 —— 台灣的夏天，決定跑不跑得下去的從來不是氣溫而是體感，濕度高到排汗散不掉時，30 度的體感等於 35 度的懲罰。</p>
+    <div class="btnrow">
+      <button class="ghost" id="wx-reload">重新取得預報</button>
+      <span id="wx-stamp" style="font-size:12px;color:var(--ink3)"></span>
+    </div>
+    <div id="wx-status"></div>
+  </div>
+
+  <div class="block" id="wx-assign-block">
+    <h2>自動排跑 <span class="tag">Auto-schedule</span></h2>
+    <p class="lede">把本週課表的三次跑步，分配到未來七天中條件最好、且彼此至少隔一天的日子。長跑會優先落在週末與分數最高的那天。</p>
+    <div id="wx-assign"></div>
+  </div>
+
+  <div class="block">
+    <h2>未來七天 <span class="tag">7-Day Outlook</span></h2>
+    <div class="grid g7" id="wx-days"></div>
+    <div class="legend">
+      <span><i style="background:var(--moss)"></i>78+ 極佳</span>
+      <span><i style="background:#7FA84E"></i>64–77 良好</span>
+      <span><i style="background:var(--ochre)"></i>50–63 普通</span>
+      <span><i style="background:var(--sun)"></i>36–49 不佳</span>
+      <span><i style="background:#B4453C"></i>35 以下 不建議</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>逐時體感溫度 <span class="tag">Hourly</span></h2>
+    <p class="lede">未來約三天的逐小時體感溫度。橫線是 27°C —— 超過這條線，長跑與節奏跑的品質會明顯掉下來。</p>
+    <div class="chartbox">
+      <svg id="wx-hourly" viewBox="0 0 1000 240" role="img" aria-label="未來三天逐小時體感溫度"></svg>
+    </div>
+    <div id="wx-slots" class="grid" style="gap:7px"></div>
+  </div>
+
+  <div class="block">
+    <h2>評分方式 <span class="tag">Scoring</span></h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">100 分怎麼組成</h3>
+        <div class="kvs">
+          <div class="kv"><span class="k">體感溫度（理想 10–20°C）</span><span class="v">55 分</span></div>
+          <div class="kv"><span class="k">降雨機率</span><span class="v">25 分</span></div>
+          <div class="kv"><span class="k">相對濕度</span><span class="v">12 分</span></div>
+          <div class="kv"><span class="k">風速</span><span class="v">8 分</span></div>
+        </div>
+        <p style="color:var(--ink3);font-size:12.5px">體感溫度取 12 小時區段內的<b>最低值</b> —— 因為你可以選在那個時段裡最涼的時候出門。氣象署超過約三天後不再提供降雨機率，缺值時該項以中性分計並標示「無資料」。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">熱天配速修正</h3>
+        <p style="color:var(--ink2);font-size:13.5px">高溫下維持原配速，心率會漂到節奏跑的區間 —— 表面上是輕鬆跑，身體收到的是高強度刺激，恢復卻跟不上。每張日卡都會直接給你當天該用的配速。</p>
+        <div class="kvs">
+          <div class="kv"><span class="k">體感 ≤ 18°C</span><span class="v">不調整</span></div>
+          <div class="kv"><span class="k">18–21°C</span><span class="v">+8 秒/km</span></div>
+          <div class="kv"><span class="k">21–24°C</span><span class="v">+18 秒/km</span></div>
+          <div class="kv"><span class="k">24–27°C</span><span class="v">+30 秒/km</span></div>
+          <div class="kv"><span class="k">27–29°C</span><span class="v">+45 秒/km</span></div>
+          <div class="kv"><span class="k">29–31°C</span><span class="v">+62 秒/km</span></div>
+          <div class="kv"><span class="k">31–33°C</span><span class="v">+82 秒/km</span></div>
+          <div class="kv"><span class="k">33°C 以上</span><span class="v" style="color:var(--sun)">改期或只做短跑</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="note warn"><b>體感 33°C 以上就別跑長跑了。</b>那不是意志力問題 —— 核心體溫上升到一定程度，身體會強制降速，硬撐換來的是熱衰竭風險與拖長的恢復期。改成清晨、縮短距離，或當作休息日，都比硬跑划算。</div>
+  </div>
+
+</section>
+
+<!-- ══════════ 03 現況分析 ══════════ -->
+<section id="s-base" class="stack" hidden>
+
+  <div class="block">
+    <h2>起點 <span class="tag">Baseline · 2026.08.03–08.18</span></h2>
+    <p class="lede">九次紀錄，橫跨十六天。其中 8/8–8/17 正好是 TATTA RUN 夏季賽期 —— 你在那十天內累積跑了 23.9 公里，完成半馬組的 21.0975。</p>
+    <div class="grid g4" id="base-tiles"></div>
+  </div>
+
+  <div class="block">
+    <h2>全部紀錄 <span class="tag">Log</span></h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr>
+          <th>日期</th><th>時段</th><th class="n">距離</th><th class="n">時間</th><th class="n">配速</th>
+          <th class="n">步頻</th><th class="n">爬升</th><th class="n">下降</th><th>備註</th>
+        </tr></thead>
+        <tbody id="base-rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>距離與配速 <span class="tag">Distance &amp; Pace</span></h2>
+    <div class="chartbox">
+      <svg id="basechart" viewBox="0 0 1000 260" role="img" aria-label="九次訓練的距離與配速"></svg>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--blue)"></i>距離 km</span>
+      <span><i style="background:var(--sun)"></i>配速 min/km（越低越快）</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>診斷 <span class="tag">Read-out</span></h2>
+    <div class="grid g2">
+      <div class="card">
+        <div class="btnrow"><span class="pill moss">優勢</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">出勤穩定，且已經有「累積完成半馬」的經驗</h3>
+        <p style="color:var(--ink2);font-size:13.5px">十六天九跑，包含兩個一天兩趟的日子。你不缺意志力，缺的是把這些量重新分配 —— 同樣的週跑量，改成「兩短一長」會比「五次差不多長」有效得多。</p>
+      </div>
+      <div class="card">
+        <div class="btnrow"><span class="pill sun">首要風險</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">步頻約 134 spm 偏低，步幅偏大</h3>
+        <p style="color:var(--ink2);font-size:13.5px">平均步幅約 0.92 公尺。低步頻大步幅代表腳落在身體前方、著地衝擊大，是脛骨與膝蓋問題的典型前兆 —— 而你正要把長跑距離拉成現在的三倍。三個月內把步頻拉到 155–165 是這份計畫最重要的技術任務。<br><span style="color:var(--ink3);font-size:12.5px">（步頻由 App 步數 ÷ 時間推得，若 App 計步方式不同會有誤差，建議用節拍器實測一次。）</span></p>
+      </div>
+      <div class="card">
+        <div class="btnrow"><span class="pill ochre">注意</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">強度全部擠在灰色地帶</h3>
+        <p style="color:var(--ink2);font-size:13.5px">九次裡有七次落在 7:53–8:27 之間。清晨那兩趟 7:00 / 7:20 其實是淨下坡 38–40 公尺換來的，同一條路傍晚回程就掉到 8:08 / 8:26。你真正的平地輕鬆配速大約在 8:00–8:20。</p>
+      </div>
+      <div class="card">
+        <div class="btnrow"><span class="pill ochre">注意</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">深夜跑與零肌力訓練</h3>
+        <p style="color:var(--ink2);font-size:13.5px">九次裡有四次在 22:00–01:06 之間起跑，睡眠被壓縮時恢復效率會明顯下降。另外紀錄中沒有任何肌力訓練 —— 每週兩次十五分鐘的臀腿核心，是初跑者跨到長距離最划算的保險。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>目前實力推算 <span class="tag">Projection</span></h2>
+    <p class="lede">以 8/18 那次 6.04 km / 47:34 為基準，用 Riegel 公式外推。這是「假設你已具備該距離耐力」的樂觀值 —— 目前你的耐力基礎只撐得到約 6 公里，所以半馬以上的數字要當成「訓練到位後的目標」，不是現在跑得出來的成績。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>距離</th><th class="n">推算完賽</th><th class="n">推算配速</th><th>對應賽事</th><th>判讀</th></tr></thead>
+        <tbody id="proj-rows"></tbody>
+      </table>
+    </div>
+    <div class="note warn"><b>關鍵數字：</b>全馬推算 6:13:30，而富士山全馬關門是 <span class="mono">6:00:00</span>。以目前狀態直接上場會被關門，這正是 2027 年 5 月那道決策閘門存在的理由。</div>
+  </div>
+
+</section>
+
+<!-- ══════════ 03 訓練計畫 ══════════ -->
+<section id="s-plan" class="stack" hidden>
+
+  <div class="block">
+    <h2>結構 <span class="tag">Periodisation</span></h2>
+    <p class="lede">六十八週，從 2026 年 8 月 24 日（週一）到 2027 年 12 月 12 日（週日）比賽當天。每週固定三跑 —— 一次輕鬆、一次輕鬆或節奏、一次長跑；只跑得動兩次的那一週，砍掉中間那次。</p>
+    <div class="note">
+      <b>前三十週逐次開課，第三十一週之後只給每週量與長跑目標。</b>這不是偷懶：十六個月後的單次課表本來就不該現在寫死，該在接近時依當下狀況重排。第 31 週起的數字是週跑量與長跑距離的週期化目標，照著堆就對了。
+    </div>
+    <div class="btnrow" style="margin-top:4px">
+      <span style="font-size:12.5px;color:var(--ink3);font-family:var(--f-mono);letter-spacing:.08em">2027/06 起分支：</span>
+      <button class="ghost" id="br-half" aria-pressed="false">17K 環湖組</button>
+      <button class="ghost" id="br-full" aria-pressed="false">全程馬拉松</button>
+      <span style="font-size:12.5px;color:var(--ink3)">（2027 年 5 月再決定，先看兩條路長什麼樣）</span>
+    </div>
+  </div>
+
+  <div class="block" id="planlist"></div>
+
+</section>
+
+<!-- ══════════ 04 配速與技術 ══════════ -->
+<section id="s-pace" class="stack" hidden>
+
+  <div class="block">
+    <h2>配速區間 <span class="tag">Zones</span></h2>
+    <p class="lede">由 8/18 的 6.04 km 表現推得，範圍刻意放寬因為單次紀錄的推算誤差大。真正的判準是說話測試，不是手錶上的數字 —— 體感優先於配速。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>區間</th><th class="n">配速 /km</th><th>說話測試</th><th>用在哪裡</th><th class="n">佔比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="zn zE mono" style="padding:2px 6px;border-radius:2px">E</span> 輕鬆跑</td><td class="n">8:20 – 9:00</td><td>能講完整句子</td><td>所有短跑與中跑的預設值</td><td class="n">～55%</td></tr>
+          <tr><td><span class="zn zL mono" style="padding:2px 6px;border-radius:2px">L</span> 長跑</td><td class="n">8:40 – 9:20</td><td>能聊天，跑完還有餘力</td><td>每週最長那一次；比輕鬆跑再慢</td><td class="n">～35%</td></tr>
+          <tr><td><span class="zn zT mono" style="padding:2px 6px;border-radius:2px">T</span> 節奏跑</td><td class="n">7:10 – 7:35</td><td>只能講短句</td><td>每次 12–25 分鐘，一週最多一次</td><td class="n">～8%</td></tr>
+          <tr><td><span class="zn zR mono" style="padding:2px 6px;border-radius:2px">R</span> 快步</td><td class="n">6:20 – 6:50</td><td>講不出話</td><td>20–30 秒短段 ×4–6，練跑姿不是練心肺</td><td class="n">～2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>你會覺得輕鬆跑慢得離譜。</b>那是對的。你現在的 8:10 對身體來說已經是中等強度，長跑要能撐 2 小時以上，配速必須再退一格。慢下來不是退步，是把長跑的門打開。</div>
+  </div>
+
+  <div class="block">
+    <h2>步頻矯正 <span class="tag">Cadence · 首要任務</span></h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">現在 ≈ 134 → 目標 155–165</h3>
+        <ul class="tight">
+          <li><b>怎麼練：</b>手機裝節拍器 App，設 <span class="mono">160 bpm</span>，每一拍踩一步。</li>
+          <li><b>劑量：</b>每次跑步中間插兩段 5 分鐘跟拍，其餘時間照常跑。不要整趟都跟拍。</li>
+          <li><b>訣竅：</b>步頻要靠「縮小步幅」拉上去，不是靠跑更快。速度維持不變、腳步變小變密。</li>
+          <li><b>意象：</b>想像腳掌落在身體正下方，不是伸到前面去。</li>
+          <li><b>進程：</b>每兩週往上調 3–5 bpm，別一次跳到 170。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">為什麼這件事排第一</h3>
+        <p style="color:var(--ink2);font-size:13.5px">你的長跑距離要在十週內從 6 公里拉到 18 公里、十一週後一次跑完 21.1 —— 同一次跑步裡的著地次數會變成現在的三倍半。如果每一步的衝擊維持現在的量級，脛骨和膝蓋會先於心肺投降。步頻提高 10% 大約能降低 15–20% 的單步衝擊負荷，這是把後面所有課表撐起來的地基。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>走跑策略 <span class="tag">Run-Walk</span></h2>
+    <p class="lede">不是作弊，是把長距離拆成身體吃得下的段落。用在超過你目前最長距離 1.5 倍以上的長跑，以及所有比賽的前半段。</p>
+    <div class="grid g3">
+      <div class="tile"><span class="k">10–15 km</span><span class="v">9<span class="u">分跑</span> 1<span class="u">分走</span></span><span class="n">長跑第一次踏進新距離時用</span></div>
+      <div class="tile"><span class="k">半馬 · 秋季賽</span><span class="v">12<span class="u">分跑</span> 1<span class="u">分走</span></span><span class="n">從第一分鐘就開始執行，不要等累了才走</span></div>
+      <div class="tile"><span class="k">25 km 冬季賽</span><span class="v">10<span class="u">分跑</span> 1<span class="u">分走</span></span><span class="n">走的那分鐘用來補水與補給</span></div>
+    </div>
+    <div class="note"><b>關鍵在於「事先安排」。</b>累了才走，是崩潰；照表走，是策略。實測上，全程 12:1 的完賽時間通常比「前面撐、後面爆」更快。</div>
+  </div>
+
+  <div class="block">
+    <h2>肌力與補給 <span class="tag">Support</span></h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">每週兩次 · 各 15 分鐘</h3>
+        <ul class="tight">
+          <li><b>深蹲</b> 15 下 ×3</li>
+          <li><b>單腳硬舉</b> 每邊 10 下 ×3 —— 練單腳穩定，跑步本來就是連續單腳跳</li>
+          <li><b>臀橋</b> 15 下 ×3 —— 臀肌無力是膝痛最常見的上游原因</li>
+          <li><b>提踵</b> 20 下 ×3 —— 保護阿基里斯腱與脛骨</li>
+          <li><b>平板支撐</b> 40 秒 ×3</li>
+          <li>安排在輕鬆跑當天跑完後，不要放在長跑前一天</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">補給門檻</h3>
+        <ul class="tight">
+          <li><b>60 分鐘以內：</b>不需要補給，帶水即可</li>
+          <li><b>60–90 分鐘：</b>每 20 分鐘補水，中途一份能量膠或香蕉</li>
+          <li><b>90 分鐘以上：</b>每 45 分鐘一份醣類（約 30–45 g），配電解質</li>
+          <li><b>鐵律：</b>比賽當天不要用沒在訓練中試過的補給品。腸胃要練，長跑就是練腸胃的場合</li>
+          <li>你的長跑在第 6 週會突破 90 分鐘，補給練習從那時開始</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ 05 賽事情報 ══════════ -->
+<section id="s-race" class="stack" hidden>
+
+  <div class="block">
+    <h2>三種距離 <span class="tag">The Three Targets</span></h2>
+    <p class="lede">整件事只有三個距離要記：<b>線上</b>能跑半馬與全馬，<b>實體</b>能跑 17 公里與全馬。17 公里只存在於現場，半馬只存在於線上，全馬兩邊都有 —— 這也是為什麼可以先用線上全馬測試自己，再決定要不要報現場全馬。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>距離</th><th>管道</th><th>什麼時候</th><th class="n">關門</th><th>在這份計畫裡的角色</th></tr></thead>
+        <tbody>
+          <tr class="mark"><td><b>半馬 21.0975 km</b></td><td>線上 TATTA RUN</td><td class="mono">2026/11 秋季</td><td class="n">無</td><td><b>短期目標 —— 一次跑完，第 11 週</b></td></tr>
+          <tr><td>25 km<span style="color:var(--ink3)">（冬季限定）</span></td><td>線上 TATTA RUN</td><td class="mono">2027/03 冬季</td><td class="n">無</td><td>超越半馬，全馬的門檻測驗</td></tr>
+          <tr><td>全馬 42.195 km</td><td>線上 TATTA RUN</td><td class="mono">2027/08 夏季</td><td class="n">無</td><td>沒有關門壓力的全馬測試，決策用</td></tr>
+          <tr><td><b>17 km</b> 環河口湖</td><td>實體 富士山馬拉松</td><td class="mono">2027/12 週日</td><td class="n">3:00:00</td><td>長期目標選項 A · 穩穩完賽看風景</td></tr>
+          <tr><td><b>全馬 42.195 km</b></td><td>實體 富士山馬拉松</td><td class="mono">2027/12 週日</td><td class="n">6:00:00</td><td>長期目標選項 B · 需要一週四跑</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>線上賽沒有關門時間，實體賽有。</b>這是兩者最實質的差別 —— 線上你可以慢慢磨完，現場全馬慢過 8:32/km 就會被收容車帶走。所以先用線上全馬確認自己跑得完，再看能不能跑進 6 小時，是最省心的順序。</div>
+  </div>
+
+  <div class="block">
+    <h2>線上賽的組別逐季不同 <span class="tag">TATTA RUN · 待確認</span></h2>
+    <p class="lede">TATTA RUN 一年四季，但每季開的距離不一樣，而且逐年會變。以下是目前查得到的資料 —— <b>2026 秋季的組別官方尚未公布</b>（報名約 9 月中才開）。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>季別</th><th>賽期</th><th>報名期</th><th>查到的組別</th><th class="n">參加費</th><th>你的目標</th></tr></thead>
+        <tbody>
+          <tr class="dim"><td>春 2026</td><td class="mono">已結束</td><td class="mono">—</td><td class="mono">42.195 / 21.0975</td><td class="n">—</td><td>已參加</td></tr>
+          <tr class="dim"><td>夏 2026 ✓</td><td class="mono">2026/08/08 – 08/17</td><td class="mono">2026/06/05 – 07/31</td><td class="mono">42.195 / 21.0975 / 10</td><td class="n">¥6,500</td><td>已用五趟累積完成 21.0975</td></tr>
+          <tr class="mark"><td><b>秋 2026 ← 下一場</b></td><td class="mono">推測 11/01 – 11/10</td><td class="mono">推測 09/10 – 10/20</td><td class="mono" style="color:var(--sun)">未公布</td><td class="n">—</td><td><b>半馬一次跑完</b></td></tr>
+          <tr class="dim"><td><span style="color:var(--ink3)">（2025 秋 · 參考）</span></td><td class="mono">2025/11/01 – 11/10</td><td class="mono">2025/09/10 – 10/20</td><td class="mono">42.195 / 17 / 10</td><td class="n">¥3,000</td><td>—</td></tr>
+          <tr><td>冬 2027</td><td class="mono">推測 03/07 – 03/16</td><td class="mono">推測 2026/12/08 起</td><td class="mono">50 / 25 / 10<span style="color:var(--ink3)">（2026 年版）</span></td><td class="n">¥6,000</td><td>25 km 一次跑完</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn"><b>報名開放時先確認秋季開了哪些組別。</b>若有半馬就直接報半馬；若沿用 2025 年的 42.195/17/10，就報 17 km 但當天一路跑到 21.1 —— App 記錄的是實際距離，17 km 的完賽照樣成立，你也照樣拿到自己的半馬。無論哪種情況，訓練課表都不用改。</div>
+  </div>
+
+  <div class="block">
+    <h2>實體賽組別 <span class="tag">Mt. Fuji Marathon</span></h2>
+    <p class="lede">富士山馬拉松的組別是 42.195 / 17 / 10.5 / 8 / 4，沒有 21 公里這一檔 —— 半馬只能在線上跑。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>組別</th><th class="n">距離</th><th>日期</th><th class="n">報名費</th><th class="n">關門</th><th class="n">關門均速</th><th>評估</th></tr></thead>
+        <tbody>
+          <tr><td>全程馬拉松</td><td class="n">42.195 km</td><td>週日</td><td class="n">¥25,000</td><td class="n">6:00:00</td><td class="n">8:32/km</td><td>需 16 個月建設，且要加到一週 4 跑</td></tr>
+          <tr class="mark"><td><b>環河口湖賽</b></td><td class="n">17 km</td><td>週日</td><td class="n">¥18,000</td><td class="n">3:00:00</td><td class="n">10:35/km</td><td><b>跑完秋季半馬後，這個距離反而變輕鬆</b></td></tr>
+          <tr class="dim"><td>公益趣味跑</td><td class="n">10.5 km</td><td>週日</td><td class="n">¥10,000</td><td class="n">非競賽</td><td class="n">—</td><td>備案</td></tr>
+          <tr class="dim"><td>富士景觀跑</td><td class="n">8 / 4 km</td><td>週六</td><td class="n">¥7,000 / ¥6,000</td><td class="n">非競賽</td><td class="n">—</td><td>可與主賽事同週參加</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>第 15 回（2026/12/12–13）兩個報名管道皆已額滿</b>，一般報名與 KNT 旅遊套裝都沒有候補機制。目標是第 16 回，依歷屆慣例推測落在 2027 年 12 月 11–12 日（六、日）—— 本頁計畫以 12/12（日）為比賽日排程。實際日期待官方公告。</div>
+  </div>
+
+  <div class="block">
+    <h2>報名戰 <span class="tag">Entry Timeline</span></h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>日期</th><th>事件</th><th>管道</th><th>你要做的事</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">2026/09/10</td><td>秋季 TATTA RUN 報名開放（推測）</td><td>RUNNET</td><td>報半馬組（若該季未開半馬則報 17 km，仍跑滿 21.1）</td></tr>
+          <tr><td class="mono">2026/12/08</td><td>冬季 TATTA RUN 報名開放（推測）</td><td>RUNNET</td><td>報 25 km 組</td></tr>
+          <tr class="mark"><td class="mono">2027/05/07</td><td><b>KNT 旅遊套裝報名開放</b></td><td>info-mtfujimarathon@or.knt.co.jp</td><td>含名額＋住宿＋接駁；名額另計，比一般報名好搶</td></tr>
+          <tr class="mark"><td class="mono">2027/06/01 10:00 JST<br><span style="color:var(--ink3);font-size:11px">＝台灣 09:00</span></td><td><b>一般報名開放</b></td><td>Run Japan</td><td>先到先得、開放後不久即額滿 —— 必須守在電腦前</td></tr>
+          <tr><td class="mono">2027/12/11–12</td><td>第 16 回富士山馬拉松（推測）</td><td>—</td><td>比賽</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>四個報名提醒已經排進排程系統</b>（2027/04/25、05/06、05/28、06/01）。2026 年第 15 回是開放後很快就額滿的，兩條管道建議都準備 —— 旅遊套裝的名額是獨立配額，搶不到一般報名時它是真正的第二次機會。</div>
+  </div>
+
+  <div class="block">
+    <h2>十二月的河口湖 <span class="tag">Conditions</span></h2>
+    <p class="lede">歷屆比賽時段（8:00–14:00）的河口湖觀測站資料。9:00 起跑時多半在 0–5°C，正午回升到 9–13°C —— 溫差是最大的變數，穿法要能邊跑邊減。</p>
+    <div class="grid g4">
+      <div class="tile"><span class="k">起跑氣溫</span><span class="v">0–5<span class="u">°C</span></span><span class="n">最冷的幾屆在 0°C 上下</span></div>
+      <div class="tile"><span class="k">正午氣溫</span><span class="v">9–13<span class="u">°C</span></span><span class="n">2019 年曾異常升到 19.2°C</span></div>
+      <div class="tile"><span class="k">晴天機率</span><span class="v">12<span class="u">/ 13 屆</span></span><span class="n">僅 2019、2025 上午有雨</span></div>
+      <div class="tile"><span class="k">起跑時間</span><span class="v">09:00</span><span class="n">第 2 回起沿用至今</span></div>
+    </div>
+    <div class="card">
+      <h3 style="font-family:var(--f-display);font-size:18px">裝備清單</h3>
+      <ul class="tight">
+        <li><b>上身：</b>長袖排汗衣＋輕薄風衣（可在途中脫下綁腰）。不要穿棉質</li>
+        <li><b>末梢：</b>手套與頭套 —— 起跑那兩小時，手指和耳朵是最痛苦的地方，而且都很輕、隨時能收</li>
+        <li><b>下身：</b>壓縮腿套或緊身褲，比長褲好調節</li>
+        <li><b>起跑前：</b>免洗雨衣保暖，鳴槍後丟掉。日本賽事會回收</li>
+        <li><b>台灣 12 月不會給你這種氣溫。</b>賽前至少安排一次清晨低溫長跑，測試整套穿法會不會過熱或磨擦</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ 06 訓練日誌 ══════════ -->
+<section id="s-log" class="stack" hidden>
+
+  <div class="block">
+    <h2>記一筆 <span class="tag">Add Entry</span></h2>
+    <p class="lede">輸入日期、距離、時間，配速自動算。資料存在這台瀏覽器裡（localStorage），不會上傳到任何地方。</p>
+    <div class="card">
+      <form class="log" id="logform">
+        <label class="fld">日期<input type="date" id="f-date" required></label>
+        <label class="fld">距離 km<input type="number" id="f-km" step="0.01" min="0.1" placeholder="6.04" required></label>
+        <label class="fld">時 : 分 : 秒<input type="text" id="f-time" placeholder="0:47:34" pattern="^\d{1,2}:\d{1,2}(:\d{1,2})?$" required></label>
+        <label class="fld">類型
+          <select id="f-type">
+            <option value="E">E 輕鬆跑</option>
+            <option value="L">L 長跑</option>
+            <option value="T">T 節奏跑</option>
+            <option value="R">R 快步</option>
+            <option value="RACE">比賽</option>
+          </select>
+        </label>
+        <label class="fld">備註<input type="text" id="f-note" placeholder="選填"></label>
+        <button class="act" type="submit">加入</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>週統計 <span class="tag">Weekly Rollup</span></h2>
+    <p class="lede">實際跑量對照計畫目標。連續兩週低於目標 70%，就把後面的課表整體往後延一週，不要硬追。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>週</th><th>起始</th><th class="n">實跑</th><th class="n">計畫</th><th class="n">達成</th><th class="n">次數</th><th class="n">最長</th><th>狀態</th></tr></thead>
+        <tbody id="roll-rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>全部紀錄 <span class="tag">All Entries</span></h2>
+    <div class="btnrow">
+      <button class="ghost" id="export">匯出 JSON</button>
+      <button class="ghost" id="reset">清除自建紀錄</button>
+      <span id="logcount" style="font-size:12.5px;color:var(--ink3)"></span>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>日期</th><th class="n">距離</th><th class="n">時間</th><th class="n">配速</th><th>類型</th><th>備註</th><th></th></tr></thead>
+        <tbody id="log-rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>富士山への道 · 2026.08.24 – 2027.12.12 · 六十八週</span>
+    <span class="mono" id="foot-note">—</span>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script>
+"use strict";
+
+/* ══════════ 資料 ══════════ */
+
+// 九筆基準紀錄（2026/08/03–08/18，來自 App 截圖）
+const SEED = [
+ {d:"2026-08-03",clock:"22:07",km:4.67,sec:2364,steps:5069,up:18,dn:16,kcal:369,note:"夏季賽前練習"},
+ {d:"2026-08-05",clock:"01:06",km:4.64,sec:2203,steps:4916,up:16,dn:14,kcal:366,note:"夏季賽前練習"},
+ {d:"2026-08-07",clock:"00:45",km:4.54,sec:2240,steps:4541,up:16,dn:14,kcal:358,note:"夏季賽前練習"},
+ {d:"2026-08-08",clock:"05:19",km:4.42,sec:1944,steps:4571,up:0, dn:40,kcal:349,note:"夏季賽 D1 早 · 淨下坡"},
+ {d:"2026-08-08",clock:"17:01",km:4.59,sec:2237,steps:4822,up:33,dn:0, kcal:362,note:"夏季賽 D1 晚 · 回程上坡"},
+ {d:"2026-08-13",clock:"22:46",km:6.00,sec:2932,steps:6502,up:24,dn:20,kcal:473,note:"夏季賽期"},
+ {d:"2026-08-15",clock:"05:26",km:4.34,sec:1822,steps:4464,up:0, dn:38,kcal:343,note:"夏季賽 · 最快配速（淨下坡 38m）"},
+ {d:"2026-08-15",clock:"16:33",km:4.57,sec:2311,steps:4945,up:34,dn:0, kcal:361,note:"夏季賽 · 回程上坡"},
+ {d:"2026-08-18",clock:"22:37",km:6.04,sec:2854,steps:6689,up:30,dn:22,kcal:477,note:"賽後 · 最佳長距離表現"}
+];
+
+const RACE_DAY = "2027-12-12";
+
+// 里程碑事件
+const EVENTS = [
+ {d:"2026-09-10", t:"秋季賽報名開放", s:"推測", cls:"hot"},
+ {d:"2026-11-01", t:"秋季 TATTA RUN 半馬", s:"賽期至 11/10 · 推測", cls:"hot"},
+ {d:"2027-03-07", t:"冬季 TATTA RUN 25K", s:"賽期至 03/16 · 推測", cls:""},
+ {d:"2027-06-01", t:"富士山馬拉松一般報名", s:"台灣時間 09:00 開搶", cls:"go"},
+ {d:RACE_DAY,     t:"第 16 回富士山馬拉松", s:"推測日期", cls:"go"}
+];
+
+// 詳細課表 W1–W30。ses = [區間, 公里, 說明]
+const D = (w,s,ph,vol,long,ses,mk)=>({w,s,ph,vol,long,ses,mk:mk||null});
+const DETAIL = [
+ D(1,"2026-08-24","A",18,8,[["E",5,"全程 8:30 以後。慢到覺得可笑為止"],["E",5,"含 2×5 分鐘節拍器 160 bpm 跟拍"],["L",8,"9:00/km 起，可用 9 跑 1 走。這是新的最長距離"]]),
+ D(2,"2026-08-31","A",20,9,[["E",5,"輕鬆"],["E",6,"含 2×5 分鐘 160 bpm"],["L",9,"9:00/km。開始固定帶水"]]),
+ D(3,"2026-09-07","A",23,11,[["E",6,"輕鬆"],["E",6,"跑後加 4×20 秒快步，走回恢復"],["L",11,"9:05/km，約 100 分鐘。9 跑 1 走"]],"秋季賽報名開放（推測 9/10）"),
+ D(4,"2026-09-14","A",18,8,[["E",4,"減量週，別自作主張加量"],["E",6,"含 2×5 分鐘 163 bpm"],["L",8,"輕鬆收尾"]],"減量週 · 本週完成報名"),
+ D(5,"2026-09-21","B",25,12,[["E",6,"輕鬆"],["T",7,"暖身 2K → 節奏 12 分鐘 7:20 → 收操 2K"],["L",12,"9:05/km，9 跑 1 走"]]),
+ D(6,"2026-09-28","B",27,14,[["E",6,"輕鬆"],["E",7,"含 2×5 分鐘 163 bpm"],["L",14,"★長跑破 2 小時 —— 補給練習從這一次開始"]],"補給練習啟動"),
+ D(7,"2026-10-05","B",30,16,[["E",7,"輕鬆"],["T",7,"暖身 2K → 節奏 18 分鐘 7:20 → 收操 2K"],["L",16,"9:10/km，改 10 跑 1 走"]]),
+ D(8,"2026-10-12","B",22,11,[["E",5,"減量"],["E",6,"含 2×5 分鐘 165 bpm"],["L",11,"輕鬆，不要追配速"]],"減量週"),
+ D(9,"2026-10-19","B",32,18,[["E",7,"輕鬆"],["E",7,"跑後 4×20 秒快步"],["L",18,"★賽前最長，比賽距離的 85%。全套裝備與補給演練，12 跑 1 走"]],"賽前最長跑 · 全套演練"),
+ D(10,"2026-10-26","C",20,9,[["E",5,"輕鬆"],["T",6,"暖身 1.5K → 3×2 分鐘 7:20（間休 2 分）→ 收操 1.5K"],["L",9,"腿要留著，別逞強"]],"賽前減量週"),
+ D(11,"2026-11-02","C",25,21.0975,[["E",3,"賽前兩天鬆腿，不要更多"],["RACE",21.0975,"★秋季 TATTA RUN 半馬一次跑完。9:10/km 起跑，12 跑 1 走從第一分鐘就執行，目標 3:05–3:20"]],"★ 秋季賽 半馬（賽期 11/01–11/10）"),
+ D(12,"2026-11-09","C",11,6,[["E",0,"賽後前三天完全休息 —— 這是課表的一部分"],["E",5,"很慢，測試身體"],["E",6,"若無不適才跑"]],"恢復週"),
+ D(13,"2026-11-16","D",24,12,[["E",6,"輕鬆"],["E",6,"含 2×5 分鐘 165 bpm"],["L",12,"重新開始堆疊"]]),
+ D(14,"2026-11-23","D",26,14,[["E",6,"輕鬆"],["T",6,"節奏 15 分鐘 7:15"],["L",14,"9:10/km"]]),
+ D(15,"2026-11-30","D",28,16,[["E",6,"輕鬆"],["E",6,"跑後 5×20 秒快步"],["L",16,"9:10/km"]]),
+ D(16,"2026-12-07","D",21,11,[["E",5,"減量"],["E",5,"輕鬆"],["L",11,"輕鬆"]],"減量週 · 冬季賽報名開放（推測 12/08）"),
+ D(17,"2026-12-14","D",30,18,[["E",6,"輕鬆"],["T",6,"節奏 18 分鐘 7:15"],["L",18,"9:10/km"]]),
+ D(18,"2026-12-21","D",32,20,[["E",6,"輕鬆"],["E",6,"含 2×6 分鐘 167 bpm"],["L",20,"★追平半馬距離，但這次當訓練跑 —— 比賽距離變成日常，才算真的擁有它"]],"長跑追平半馬"),
+ D(19,"2026-12-28","D",22,11,[["E",5,"跨年週，彈性處理"],["E",6,"輕鬆"],["L",11,"能跑就跑，跑不了就順延"]],"減量週 · 跨年彈性"),
+ D(20,"2027-01-04","E",32,19,[["E",6,"輕鬆"],["T",7,"節奏 20 分鐘 7:15"],["L",19,"9:10/km"]]),
+ D(21,"2027-01-11","E",34,20,[["E",7,"輕鬆"],["E",7,"含 2×6 分鐘 167 bpm"],["L",20,"9:10/km"]]),
+ D(22,"2027-01-18","E",36,22,[["E",7,"輕鬆"],["T",7,"節奏 20 分鐘 7:15"],["L",22,"★首度超越半馬距離"]],"★ 突破半馬"),
+ D(23,"2027-01-25","E",25,13,[["E",6,"減量"],["E",6,"輕鬆"],["L",13,"輕鬆"]],"減量週"),
+ D(24,"2027-02-01","E",35,21,[["E",7,"輕鬆"],["E",7,"跑後 5×25 秒快步"],["L",21,"10 跑 1 走，演練冬季賽策略"]]),
+ D(25,"2027-02-08","E",37,23,[["E",7,"輕鬆"],["T",7,"節奏 22 分鐘 7:15"],["L",23,"9:15/km，全套補給演練"]]),
+ D(26,"2027-02-15","E",26,14,[["E",6,"減量"],["E",6,"輕鬆"],["L",14,"輕鬆"]],"減量週 · 冬季賽報名截止（推測 02/27）"),
+ D(27,"2027-02-22","E",38,24,[["E",7,"輕鬆"],["E",7,"含 2×6 分鐘 170 bpm"],["L",24,"★賽前最長。10 跑 1 走全程執行"]],"賽前最長跑"),
+ D(28,"2027-03-01","E",25,10,[["E",5,"減量"],["T",6,"暖身 1.5K → 3×2 分鐘 7:15 → 收操 1.5K"],["L",10,"輕鬆"]],"賽前減量週"),
+ D(29,"2027-03-08","E",28,25,[["E",3,"賽前兩天鬆腿"],["RACE",25,"★冬季 TATTA RUN 25 km 一次跑完。9:20/km 起，10 跑 1 走，目標 3:45–4:00"]],"★ 冬季賽 25 KM（賽期 03/07–03/16）"),
+ D(30,"2027-03-15","E",12,6,[["E",0,"賽後前四天完全休息"],["E",5,"很慢"],["L",6,"若無不適才跑"]],"恢復週")
+];
+
+// W31 起：只給每週量與長跑目標
+const BLOCK_F = {
+  vol : [20,24,26,20, 26,28,30,22, 28,30,24],
+  long: [10,12,14,10, 15,16,18,12, 16,18,13],
+  ses : 3,
+  mk  : {0:"轉換 · 重新建立節奏",6:"★ 決策閘門 · KNT 旅遊套裝報名開放 05/07",8:"春季線上賽 21.0975 一次跑完（推測檔期）",10:"★ 一般報名 06/01 台灣時間 09:00"}
+};
+const BLOCK_FULL = {
+  vol : [28,32,34,26, 34,36,38,28, 36,38,40,30, 40,42,44,32, 42,45,48,34, 46,48,50,36, 42,32,22],
+  long: [18,20,22,16, 22,24,25,18, 24,26,27,20, 26,28,29,21, 28,30,32,22, 30,32,32,24, 26,16,42.195],
+  ses : 4,
+  mk  : {0:"全馬分支啟動 · 從本週起加到一週 4 跑",9:"★ 夏季線上全馬（推測 08/07–08/16）· 沒有關門壓力的實測",18:"★ 長跑首破 30 km",21:"★ 長跑 32 km · 全馬最關鍵的一次",22:"最後一次 32 km，之後開始減量",23:"秋季線上賽（推測 11/01–11/10）· 全馬組當賽前演練",25:"賽前減量週",26:"★ 第 16 回富士山馬拉松 · 42.195 km · 關門 6:00:00"}
+};
+const BLOCK_HALF = {
+  vol : [24,26,28,22, 26,28,30,22, 28,30,30,24, 28,30,32,24, 30,32,32,26, 30,32,32,26, 30,24,17],
+  long: [13,14,15,11, 14,15,16,12, 15,16,17,13, 16,17,18,14, 17,18,18,14, 18,20,18,14, 16,12,17],
+  ses : 3,
+  mk  : {0:"17K 分支啟動 · 維持一週 3 跑",9:"夏季線上賽（推測 08/07–08/16）· 半馬當驗收，看比去年快多少",21:"★ 長跑 20 km · 比賽距離 +3 km 的安全邊際",23:"秋季線上賽（推測 11/01–11/10）· 當賽前長距離演練",25:"賽前減量週",26:"★ 第 16 回富士山馬拉松 · 環河口湖 17 km · 關門 3:00:00"}
+};
+
+const PHASES = {
+ A:{n:"基礎重建與步頻矯正",r:"W1–W4 · 2026.08–09",g:"把所有跑步慢下來，把步頻拉起來。長跑從 8 推到 11 公里 —— 距離成長是次要的，這四週真正的產出是新的跑姿與新的輕鬆配速。地基沒打好，後面七週的堆疊會直接變成傷。"},
+ B:{n:"半馬堆疊",r:"W5–W9 · 2026.09–10",g:"長跑從 12 一路推到 18 公里，每三週退一步。第 6 週長跑會首度超過兩小時，補給練習從那裡開始。第 9 週的 18 公里是比賽距離的 85%，要用完整裝備與走跑策略跑完 —— 那一次順利，比賽就會順利。"},
+ C:{n:"秋季賽 · 半馬",r:"W10–W12 · 2026.10–11",g:"減量、比賽、恢復。21.0975 公里會是你有史以來最長的一次連續跑步，比夏季那次分五趟累積難得多。用 12 跑 1 走從第一分鐘就執行，目標 3 小時 05 分到 3 小時 20 分。賽後三天完全休息是課表的一部分。"},
+ D:{n:"轉換與再堆疊",r:"W13–W19 · 2026.11–12",g:"從半馬的能力往 20 公里推。第 18 週的長跑會追平比賽距離，但這次是當訓練跑 —— 當比賽距離變成日常長跑，你才算真的擁有它。跨年週彈性處理。"},
+ E:{n:"冬季賽 · 25 公里",r:"W20–W30 · 2027.01–03",g:"這是整份計畫的分水嶺。第 22 週長跑首度超越半馬距離；第 27 週的 24 公里是賽前最長跑；第 29 週完成 25 公里。跑完這一段，全馬才會從幻想變成選項。"},
+ F:{n:"決策與維持",r:"W31–W41 · 2027.03–06",g:"恢復、維持、然後在五月做出這份計畫裡最重要的一個決定：報全馬還是報 17K 環湖組。五月決策的依據是：週跑量能不能穩在 30 公里、長跑 25 公里跑完隔天還走得動。決定不了就先報 17K —— 線上全馬隨時能補，現場名額錯過要再等一年。"},
+ G:{n:"實體賽備戰",r:"W42–W68 · 2027.06–12",g:"依五月的決定分成兩條路。全馬需要把週跑量推到 50 公里、長跑推到 32 公里，並且加到一週四跑；17K 只要維持週跑量 30 公里上下、長跑 20 公里，一週三跑就綽綽有餘。"}
+};
+
+
+/* ══════════ 工具 ══════════ */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const DAY=864e5;
+const dt=s=>{const[a,b,c]=s.split("-").map(Number);return new Date(a,b-1,c);};
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const WD=["日","一","二","三","四","五","六"];
+const md=s=>{const d=dt(s);return(d.getMonth()+1)+"/"+d.getDate();};
+const mdw=s=>{const d=dt(s);return md(s)+"("+WD[d.getDay()]+")";};
+const ymd=s=>{const d=dt(s);return d.getFullYear()+"."+String(d.getMonth()+1).padStart(2,"0")+"."+String(d.getDate()).padStart(2,"0");};
+const fkm=v=>Number.isInteger(v)?String(v):(+v).toFixed(1).replace(/\.0$/,"");
+const mmss=t=>{t=Math.round(t);const m=Math.floor(t/60);return m+":"+String(t%60).padStart(2,"0");};
+const hms=t=>{t=Math.round(t);const h=Math.floor(t/3600),m=Math.floor(t%3600/60);
+  return (h?h+":"+String(m).padStart(2,"0"):String(m))+":"+String(t%60).padStart(2,"0");};
+const pace=(km,sec)=>mmss(sec/km);
+const cad=r=>r.steps?Math.round(r.steps/(r.sec/60)):null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today=new Date(); today.setHours(0,0,0,0);
+const daysTo=s=>Math.round((dt(s)-today)/DAY);
+const monday=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-((x.getDay()+6)%7));return x;};
+
+/* ══════════ 組出 68 週 ══════════ */
+function buildWeeks(branch){
+  const out=DETAIL.map(w=>({...w,detail:true}));
+  const push=(blk,startW,startDate,ph)=>{
+    for(let i=0;i<blk.vol.length;i++){
+      const d=new Date(startDate); d.setDate(d.getDate()+i*7);
+      out.push({w:startW+i,s:iso(d),ph,vol:blk.vol[i],long:blk.long[i],ses:blk.ses,
+                mk:blk.mk[i]||null,detail:false});
+    }
+  };
+  push(BLOCK_F,31,dt("2027-03-22"),"F");
+  push(branch==="full"?BLOCK_FULL:BLOCK_HALF,42,dt("2027-06-07"),"G");
+  return out;
+}
+let BRANCH="half";
+let WEEKS=buildWeeks(BRANCH);
+const weekEnd=w=>{const d=dt(w.s);d.setDate(d.getDate()+6);return iso(d);};
+const isRecovery=w=>{
+  const i=WEEKS.indexOf(w); if(i<1) return false;
+  return w.vol<WEEKS[i-1].vol && !(w.ses&&w.ses.some&&w.ses.some(s=>s[0]==="RACE")) &&
+         !(w.mk&&w.mk.indexOf("★")===0);
+};
+const curIdx=()=>{
+  const m=iso(monday(today));
+  for(let i=0;i<WEEKS.length;i++) if(WEEKS[i].s===m) return i;
+  return dt(WEEKS[0].s)>today ? -1 : WEEKS.length;
+};
+
+/* ══════════ 儲存 ══════════ */
+/* localStorage 在部分情境下不可用（私密視窗、data: URL、封鎖第三方儲存），
+   一律經過這層存取；不可用時退回記憶體，頁面照常運作只是關掉就忘。 */
+const MEM={};
+const LS=(()=>{try{const t="__t";localStorage.setItem(t,t);localStorage.removeItem(t);return localStorage;}
+               catch(e){return {getItem:k=>k in MEM?MEM[k]:null,setItem:(k,v)=>{MEM[k]=v;},removeItem:k=>{delete MEM[k];}};}})();
+const load=(k,f)=>{try{const v=JSON.parse(LS.getItem(k));return v??f;}catch(e){return f;}};
+const save=(k,v)=>{try{LS.setItem(k,JSON.stringify(v));}catch(e){}};
+let LOG=load("fuji.log.v1",[]);
+let DONE=load("fuji.done.v1",{});
+BRANCH=load("fuji.branch.v1","half");          // 儲存層備妥後才還原分支選擇
+WEEKS=buildWeeks(BRANCH);
+
+/* ══════════ 雲端同步（Google 試算表 / Apps Script）══════════
+   本機優先：畫面永遠先用 localStorage 的資料畫出來，再去跟雲端對帳。
+   沒網路或還沒設定後端時，全部功能照常，只是資料留在這台裝置。 */
+const CFG=(typeof window!=="undefined"&&window.FUJI_CONFIG)||{};
+/* 後端網址存在瀏覽器裡，不寫進版控 —— 這樣 repo 可以公開，
+   而那把能讀寫訓練資料的鑰匙不會留在 git 歷史中。
+   三種來源，依序：網址列 #gas=... → 本機儲存 → config.js（自架時才填）。 */
+(function(){
+  const m=location.hash.match(/[#&]gas=([^&]+)/);
+  if(m){ try{ save("fuji.gas.v1",decodeURIComponent(m[1])); }catch(e){}
+         history.replaceState(null,"",location.pathname+location.search); }
+})();
+let REMOTE=(load("fuji.gas.v1","")||CFG.gasUrl||"").trim();
+function setRemote(u){
+  u=(u||"").trim();
+  if(u&&!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u)){
+    alert("網址格式不對。應該長這樣：\nhttps://script.google.com/macros/s/AKfycb..../exec");
+    return false;
+  }
+  save("fuji.gas.v1",u); REMOTE=u; location.reload(); return true;
+}
+let QUEUE=load("fuji.queue.v1",[]);
+let SYNCED=false;
+
+function syncChip(state,text){
+  const el=$("#sync"); if(!el) return;
+  el.dataset.s=state; el.textContent=text;
+}
+function refreshChip(){
+  if(!REMOTE) syncChip("","未連線 · 點此設定");
+  else if(QUEUE.length) syncChip("queue","待同步 "+QUEUE.length);
+  else if(SYNCED) syncChip("ok","已同步");
+  else syncChip("","未連線");
+}
+function enqueue(op){
+  if(!REMOTE) return;
+  QUEUE.push(op); save("fuji.queue.v1",QUEUE); refreshChip();
+  flushQueue();
+}
+let flushing=false;
+async function flushQueue(){
+  if(!REMOTE||flushing||!QUEUE.length) return;
+  flushing=true; syncChip("busy","同步中…");
+  const ops=QUEUE.slice();
+  try{
+    const r=await fetch(REMOTE,{
+      method:"POST",
+      // 用 text/plain 送 JSON：這是 CORS「簡單請求」，不會觸發 Apps Script 無法回應的 preflight
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"sync",ops:ops})
+    });
+    const j=await r.json();
+    if(!j.ok) throw new Error(j.error||"後端回報失敗");
+    QUEUE=QUEUE.slice(ops.length); save("fuji.queue.v1",QUEUE);
+    SYNCED=true;
+    applyRemote(j.data);
+  }catch(err){
+    SYNCED=false; syncChip("err","同步失敗"); flushing=false; refreshChip(); return;
+  }
+  flushing=false; refreshChip();
+}
+function applyRemote(data){
+  if(!data) return;
+  if(Array.isArray(data.runs)){
+    LOG=data.runs.map(r=>({id:r.id,d:r.d,km:+r.km,sec:+r.sec,type:r.type||"E",note:r.note||""}));
+    save("fuji.log.v1",LOG);
+  }
+  if(data.done&&typeof data.done==="object"){ DONE=data.done; save("fuji.done.v1",DONE); }
+  if(data.meta&&data.meta.branch&&data.meta.branch!==BRANCH){
+    BRANCH=data.meta.branch; save("fuji.branch.v1",BRANCH);
+    WEEKS=buildWeeks(BRANCH);
+    $("#br-half").setAttribute("aria-pressed",String(BRANCH==="half"));
+    $("#br-full").setAttribute("aria-pressed",String(BRANCH==="full"));
+    renderPlan(); renderAscent(); renderLadder();
+  }
+  renderThisWeek(); renderPlan(); renderLog();
+}
+async function pullRemote(){
+  if(!REMOTE){ refreshChip(); return null; }
+  syncChip("busy","連線中…");
+  try{
+    if(QUEUE.length){ await flushQueue(); }
+    const r=await fetch(REMOTE+(REMOTE.includes("?")?"&":"?")+"action=all",{cache:"no-store"});
+    const j=await r.json();
+    if(!j.ok) throw new Error(j.error||"後端回報失敗");
+    SYNCED=true; applyRemote(j.data); refreshChip();
+    return j.weather||null;
+  }catch(err){
+    SYNCED=false; syncChip("err","連線失敗"); return null;
+  }
+}
+window.addEventListener("online",()=>{ if(QUEUE.length) flushQueue(); });
+
+/* ══════════ 基準統計 ══════════ */
+const B={
+  n:SEED.length,
+  km:SEED.reduce((a,r)=>a+r.km,0),
+  sec:SEED.reduce((a,r)=>a+r.sec,0),
+  kcal:SEED.reduce((a,r)=>a+r.kcal,0),
+  max:Math.max(...SEED.map(r=>r.km)),
+  cad:Math.round(SEED.reduce((a,r)=>a+cad(r),0)/SEED.length),
+  best:SEED[SEED.length-1]
+};
+B.pace=B.sec/B.km;
+B.stride=(B.km*1000)/SEED.reduce((a,r)=>a+r.steps,0);
+
+/* ══════════ 01 總覽 ══════════ */
+function renderCountdowns(){
+  $("#countdowns").innerHTML=EVENTS.map(e=>{
+    const n=daysTo(e.d);
+    const big=n>0?n+'<span class="u"> 天</span>':(n===0?"今天":Math.abs(n)+'<span class="u"> 天前</span>');
+    const cls=n<0?"":(e.cls||"");
+    return `<div class="cd ${cls}">
+      <span class="lab">${esc(e.t)}${e.s?` <span class="pill">${esc(e.s)}</span>`:""}</span>
+      <span class="big">${big}</span>
+      <span class="dt">${ymd(e.d)}</span>
+    </div>`;
+  }).join("");
+}
+
+function renderThisWeek(){
+  const i=curIdx(), box=$("#thisweek");
+  if(i===-1){
+    const w=WEEKS[0], n=daysTo(w.s);
+    box.innerHTML=`<div class="card" style="border-color:var(--sun)">
+      <div class="btnrow"><span class="pill sun">尚未開跑</span><span class="pill">W01</span></div>
+      <h3 style="font-family:var(--f-display);font-size:20px">計畫在 ${mdw(w.s)} 啟動，還有 ${n} 天</h3>
+      <p style="color:var(--ink2);font-size:13.5px">這幾天照常跑，但把配速刻意壓到 8:40 以後 —— 提前適應新的輕鬆配速，第一週會好過很多。第一週目標：${w.vol} 公里，長跑 ${w.long} 公里。</p>
+      ${w.ses.map(s=>sesHTML(s,w.w,-1)).join("")}
+    </div>`;
+    $("#hero-phase").textContent="計畫 "+n+" 天後啟動";
+    return;
+  }
+  if(i>=WEEKS.length){
+    box.innerHTML=`<div class="card"><h3 style="font-family:var(--f-display);font-size:20px">計畫已結束</h3>
+      <p style="color:var(--ink2)">比賽日 ${ymd(RACE_DAY)} 已過。辛苦了 —— 該排下一座山了。</p></div>`;
+    $("#hero-phase").textContent="計畫已完成";
+    return;
+  }
+  const w=WEEKS[i], ph=PHASES[w.ph];
+  const done=(w.ses||[]).filter((s,k)=>DONE[w.w+"."+k]).length;
+  box.innerHTML=`<div class="card" style="border-color:var(--sun)">
+    <div class="btnrow">
+      <span class="pill sun">W${String(w.w).padStart(2,"0")}</span>
+      <span class="pill">${esc(ph.n)}</span>
+      <span class="pill blue">${mdw(w.s)} – ${mdw(weekEnd(w))}</span>
+      ${w.mk?`<span class="pill ochre">${esc(w.mk)}</span>`:""}
+    </div>
+    <div class="grid g3">
+      <div class="tile"><span class="k">本週目標</span><span class="v">${w.vol}<span class="u"> km</span></span></div>
+      <div class="tile"><span class="k">長跑</span><span class="v">${fkm(w.long)}<span class="u"> km</span></span></div>
+      <div class="tile accent"><span class="k">已完成</span><span class="v">${done}<span class="u"> / ${w.detail?w.ses.length:w.ses}</span></span></div>
+    </div>
+    ${w.detail?w.ses.map((s,k)=>sesHTML(s,w.w,k)).join(""):
+      `<p style="color:var(--ink2);font-size:13.5px">本週為週期化目標區段：安排 ${w.ses} 次跑步，其中最長一次 ${fkm(w.long)} 公里，全週合計約 ${w.vol} 公里。其餘各次平均分配，全部維持輕鬆配速，可視狀況把其中一次換成 20 分鐘節奏跑。</p>`}
+  </div>`;
+  $("#hero-phase").textContent="W"+String(w.w).padStart(2,"0")+" · "+ph.n;
+}
+
+const ZN={E:"E 輕鬆",L:"L 長跑",T:"T 節奏",R:"R 快步",RACE:"比賽"};
+function sesHTML(s,wno,k){
+  const[z,km,txt]=s;
+  const id=wno+"."+k;
+  const chk=k>=0?`<label class="chk"><input type="checkbox" data-k="${id}" ${DONE[id]?"checked":""}> 完成</label>`:"";
+  return `<div class="ses">
+    <span class="zn z${z}">${esc(ZN[z]||z)}</span>
+    <span class="dist">${km>0?fkm(km)+" km":"休息"}</span>
+    <span class="txt">${esc(txt)}${chk?"":""}</span>
+    ${chk}
+  </div>`;
+}
+
+function renderAscent(){
+  const svg=$("#ascent"), W=1000,H=300, pad={l:36,r:14,t:18,b:32};
+  const maxY=BRANCH==="full"?44:28;
+  const x=i=>pad.l+(W-pad.l-pad.r)*i/(WEEKS.length-1);
+  const y=v=>H-pad.b-(H-pad.t-pad.b)*Math.min(v,maxY)/maxY;
+  let area="M"+x(0)+","+(H-pad.b), line="";
+  WEEKS.forEach((w,i)=>{ area+=" L"+x(i).toFixed(1)+","+y(w.long).toFixed(1);
+                         line+=(i?" L":"M")+x(i).toFixed(1)+","+y(w.long).toFixed(1); });
+  area+=" L"+x(WEEKS.length-1)+","+(H-pad.b)+" Z";
+
+  let g="";
+  for(let v=10;v<=maxY;v+=10)
+    g+=`<line x1="${pad.l}" y1="${y(v)}" x2="${W-pad.r}" y2="${y(v)}" stroke="var(--line-soft)" stroke-width="1"/>
+        <text x="${pad.l-7}" y="${y(v)+4}" text-anchor="end" font-family="var(--f-mono)" font-size="10" fill="var(--ink3)">${v}</text>`;
+
+  let marks="";
+  WEEKS.forEach((w,i)=>{
+    const race=w.detail?w.ses.some(s=>s[0]==="RACE"):(w.mk&&w.mk.includes("★")&&i===WEEKS.length-1);
+    if(race||(w.mk&&w.mk.indexOf("★")===0)){
+      const lbl=fkm(w.long)+"K";
+      marks+=`<line x1="${x(i)}" y1="${y(w.long)}" x2="${x(i)}" y2="${H-pad.b}" stroke="var(--sun)" stroke-width="1.5" stroke-dasharray="2 2"/>
+        <circle cx="${x(i)}" cy="${y(w.long)}" r="4.5" fill="var(--sun)"/>
+        <text x="${x(i)}" y="${y(w.long)-11}" text-anchor="middle" font-family="var(--f-mono)" font-size="11" font-weight="500" fill="var(--sun)">${lbl}</text>`;
+    } else if(isRecovery(w)){
+      marks+=`<circle cx="${x(i)}" cy="${y(w.long)}" r="2.4" fill="var(--moss)"/>`;
+    }
+  });
+
+  // 月份刻度
+  let ticks="", lastM=-1;
+  WEEKS.forEach((w,i)=>{const d=dt(w.s);
+    if(d.getMonth()!==lastM && d.getDate()<=7){ lastM=d.getMonth();
+      const lab=(d.getMonth()===0?d.getFullYear()+" ":"")+(d.getMonth()+1)+"月";
+      ticks+=`<text x="${x(i)}" y="${H-11}" text-anchor="middle" font-family="var(--f-mono)" font-size="9.5" fill="var(--ink3)">${lab}</text>`;
+    }});
+
+  const ci=curIdx(), cx=ci<0?x(0):(ci>=WEEKS.length?x(WEEKS.length-1):x(ci));
+  const nowMark=`<line x1="${cx}" y1="${pad.t-4}" x2="${cx}" y2="${H-pad.b}" stroke="var(--ink)" stroke-width="1.5"/>
+    <text x="${cx+5}" y="${pad.t+5}" font-family="var(--f-mono)" font-size="10" fill="var(--ink)">現在</text>`;
+
+  svg.innerHTML=`<defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="var(--blue)" stop-opacity=".30"/>
+      <stop offset="1" stop-color="var(--blue)" stop-opacity=".03"/></linearGradient></defs>
+    ${g}
+    <line x1="${pad.l}" y1="${H-pad.b}" x2="${W-pad.r}" y2="${H-pad.b}" stroke="var(--line)" stroke-width="1"/>
+    <path d="${area}" fill="url(#fill)"/>
+    <path d="${line}" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linejoin="round"/>
+    ${marks}${nowMark}${ticks}
+    <text x="${pad.l-7}" y="${pad.t+4}" text-anchor="end" font-family="var(--f-mono)" font-size="10" fill="var(--ink3)">km</text>`;
+}
+
+function renderLadder(){
+  const steps=[
+    {k:"現在",v:B.max.toFixed(2),u:"km",n:"單次最長 · 2026/08/18",s:"done"},
+    {k:"2026 秋 · 線上",v:"21.1",u:"km",n:"半馬一次跑完 ← 短期目標",s:"next"},
+    {k:"2027 冬 · 線上",v:"25",u:"km",n:"超越半馬，全馬的門檻測驗",s:""},
+    {k:"2027 夏 · 線上",v:"42.2",u:"km",n:"全馬測試 · 決定要不要報實體全馬",s:""},
+    {k:"2027 五月",v:"決策",u:"",n:"實體賽報 17K 或全馬",s:"gate"},
+    {k:"2027 十二月 · 實體",v:BRANCH==="full"?"42.2":"17",u:"km",n:"富士山馬拉松 · 河口湖",s:"goal"}
+  ];
+  $("#ladder").innerHTML=steps.map(s=>{
+    const cls=s.s==="next"||s.s==="goal"?"tile accent":"tile";
+    return `<div class="${cls}"><span class="k">${esc(s.k)}</span>
+      <span class="v">${esc(s.v)}${s.u?`<span class="u"> ${s.u}</span>`:""}</span>
+      <span class="n">${esc(s.n)}</span></div>`;
+  }).join("");
+}
+
+/* ══════════ 02 現況 ══════════ */
+function renderBase(){
+  $("#base-tiles").innerHTML=`
+    <div class="tile"><span class="k">總距離</span><span class="v">${B.km.toFixed(2)}<span class="u"> km</span></span><span class="n">${B.n} 次 / 16 天</span></div>
+    <div class="tile"><span class="k">單次最長</span><span class="v">${B.max.toFixed(2)}<span class="u"> km</span></span><span class="n">08/18 · 47:34</span></div>
+    <div class="tile"><span class="k">平均配速</span><span class="v">${mmss(B.pace)}<span class="u"> /km</span></span><span class="n">總時間 ${hms(B.sec)}</span></div>
+    <div class="tile accent"><span class="k">平均步頻</span><span class="v">${B.cad}<span class="u"> spm</span></span><span class="n">步幅 ${B.stride.toFixed(2)} m · 待改善</span></div>`;
+
+  $("#base-rows").innerHTML=SEED.map(r=>{
+    const c=cad(r), low=c<135;
+    return `<tr><td class="mono">${md(r.d)}(${WD[dt(r.d).getDay()]})</td>
+      <td class="mono" style="color:var(--ink3)">${esc(r.clock)}</td>
+      <td class="n">${r.km.toFixed(2)}</td><td class="n">${hms(r.sec)}</td>
+      <td class="n">${pace(r.km,r.sec)}</td>
+      <td class="n" ${low?'style="color:var(--sun)"':""}>${c}</td>
+      <td class="n" style="color:var(--ink3)">+${r.up}</td>
+      <td class="n" style="color:var(--ink3)">−${r.dn}</td>
+      <td class="w" style="color:var(--ink2);font-size:13px">${esc(r.note)}</td></tr>`;
+  }).join("");
+
+  // 距離柱 + 配速線
+  const svg=$("#basechart"), W=1000,H=260,pad={l:40,r:44,t:20,b:38};
+  const n=SEED.length, bw=(W-pad.l-pad.r)/n;
+  const maxKm=7, pMin=6.5*60, pMax=8.8*60;
+  const bx=i=>pad.l+bw*i+bw*0.18, bwid=bw*0.64;
+  const by=v=>H-pad.b-(H-pad.t-pad.b)*v/maxKm;
+  const py=v=>pad.t+(H-pad.t-pad.b)*(v-pMin)/(pMax-pMin);
+  let g="";
+  for(let v=2;v<=6;v+=2)
+    g+=`<line x1="${pad.l}" y1="${by(v)}" x2="${W-pad.r}" y2="${by(v)}" stroke="var(--line-soft)"/>
+        <text x="${pad.l-7}" y="${by(v)+4}" text-anchor="end" font-family="var(--f-mono)" font-size="10" fill="var(--ink3)">${v}</text>`;
+  let bars="",line="",dots="",labs="";
+  SEED.forEach((r,i)=>{
+    const p=r.sec/r.km, cxp=bx(i)+bwid/2;
+    bars+=`<rect x="${bx(i).toFixed(1)}" y="${by(r.km).toFixed(1)}" width="${bwid.toFixed(1)}" height="${(H-pad.b-by(r.km)).toFixed(1)}" fill="var(--blue)" opacity=".55" rx="1"/>`;
+    line+=(i?" L":"M")+cxp.toFixed(1)+","+py(p).toFixed(1);
+    dots+=`<circle cx="${cxp.toFixed(1)}" cy="${py(p).toFixed(1)}" r="3.2" fill="var(--sun)"/>`;
+    labs+=`<text x="${cxp.toFixed(1)}" y="${H-22}" text-anchor="middle" font-family="var(--f-mono)" font-size="9.5" fill="var(--ink3)">${md(r.d)}</text>
+           <text x="${cxp.toFixed(1)}" y="${H-10}" text-anchor="middle" font-family="var(--f-mono)" font-size="9" fill="var(--ink3)">${mmss(p)}</text>`;
+  });
+  let pax="";
+  [7*60,8*60].forEach(v=>{ pax+=`<text x="${W-pad.r+7}" y="${py(v)+4}" font-family="var(--f-mono)" font-size="10" fill="var(--sun)">${mmss(v)}</text>`; });
+  svg.innerHTML=`${g}
+    <line x1="${pad.l}" y1="${H-pad.b}" x2="${W-pad.r}" y2="${H-pad.b}" stroke="var(--line)"/>
+    ${bars}<path d="${line}" fill="none" stroke="var(--sun)" stroke-width="2"/>${dots}${labs}${pax}
+    <text x="${pad.l-7}" y="${pad.t+4}" text-anchor="end" font-family="var(--f-mono)" font-size="10" fill="var(--ink3)">km</text>`;
+
+  // Riegel
+  const base={km:B.best.km,sec:B.best.sec};
+  const proj=[
+    [10,"—","已在能力範圍內，可當作階段測驗"],
+    [17,"秋季 TATTA RUN · 富士山環河口湖","關門 3:00:00，推算值有 37 分鐘餘裕"],
+    [21.0975,"春/夏季 TATTA RUN 半馬","標準半馬，2027 春季拿下"],
+    [25,"冬季 TATTA RUN","全馬的門檻測驗"],
+    [42.195,"富士山全程馬拉松","關門 6:00:00 — 推算值已超過，需大幅提升"]
+  ];
+  $("#proj-rows").innerHTML=proj.map(([d,ev,jd])=>{
+    const s=base.sec*Math.pow(d/base.km,1.06);
+    const over=d===42.195;
+    return `<tr class="${over?"mark":""}"><td class="mono">${d} km</td>
+      <td class="n"${over?' style="color:var(--sun);font-weight:600"':""}>${hms(s)}</td>
+      <td class="n">${mmss(s/d)}</td>
+      <td style="color:var(--ink2);font-size:13px;white-space:normal">${esc(ev)}</td>
+      <td style="color:var(--ink2);font-size:13px;white-space:normal;min-width:220px">${esc(jd)}</td></tr>`;
+  }).join("");
+}
+
+/* ══════════ 03 計畫 ══════════ */
+function renderPlan(){
+  const ci=curIdx();
+  let html="", lastPh="";
+  WEEKS.forEach((w,i)=>{
+    if(w.ph!==lastPh){
+      lastPh=w.ph; const p=PHASES[w.ph];
+      html+=`<div class="phase"><h3>${esc(p.n)}</h3><span class="rng">${esc(p.r)}</span>
+             <p class="goal">${esc(p.g)}</p></div>`;
+    }
+    const cur=i===ci, past=i<ci;
+    const cnt=w.detail?w.ses.length:w.ses;
+    const done=w.detail?w.ses.filter((s,k)=>DONE[w.w+"."+k]).length:0;
+    const rec=isRecovery(w);
+    html+=`<div class="wk ${cur?"cur":""} ${past?"past":""}">
+      <button class="wkhead" data-w="${w.w}" aria-expanded="${cur?"true":"false"}">
+        <span class="wno">W${String(w.w).padStart(2,"0")}</span>
+        <span class="wdt">${md(w.s)}–${md(weekEnd(w))}</span>
+        <span>${w.mk?`<span class="pill ${w.mk.indexOf("★")>=0?"sun":"ochre"}">${esc(w.mk)}</span>`:(rec?`<span class="pill moss">減量週</span>`:"")}</span>
+        <span class="wsum">${w.vol} km · 長 ${fkm(w.long)} · ${cnt} 跑${w.detail?` · ${done}/${cnt}`:""}</span>
+      </button>
+      <div class="wkbody" data-body="${w.w}" ${cur?"":"hidden"}>
+        ${w.detail?w.ses.map((s,k)=>sesHTML(s,w.w,k)).join("")
+          :`<div class="ses"><span class="zn zE">目標</span><span class="dist">${w.vol} km</span>
+             <span class="txt">安排 ${w.ses} 次跑步，最長一次 ${fkm(w.long)} 公里，其餘平均分配並維持輕鬆配速。可把其中一次換成含 20 分鐘節奏跑的課表。接近時再依當下狀況排定單次內容。</span></div>`}
+      </div></div>`;
+  });
+  $("#planlist").innerHTML=html;
+}
+
+/* ══════════ 06 日誌 ══════════ */
+const allRuns=()=>[...SEED.map(r=>({d:r.d,km:r.km,sec:r.sec,type:"seed",note:r.note,seed:true})),...LOG]
+  .sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+
+function renderLog(){
+  const rows=allRuns();
+  $("#logcount").textContent=`共 ${rows.length} 筆（其中 ${SEED.length} 筆為內建基準紀錄，不可刪除）`;
+  $("#log-rows").innerHTML=rows.length?rows.map((r,i)=>`
+    <tr class="${r.seed?"dim":""}">
+      <td class="mono">${ymd(r.d)}</td><td class="n">${r.km.toFixed(2)}</td>
+      <td class="n">${hms(r.sec)}</td><td class="n">${pace(r.km,r.sec)}</td>
+      <td>${r.seed?'<span class="pill">基準</span>':`<span class="zn z${r.type} mono" style="padding:2px 6px;border-radius:2px">${esc(ZN[r.type]||r.type)}</span>`}</td>
+      <td style="white-space:normal;color:var(--ink2);font-size:13px">${esc(r.note||"")}</td>
+      <td>${r.seed?"":`<button class="ghost" data-del="${esc(r.id)}">刪除</button>`}</td>
+    </tr>`).join(""):`<tr><td colspan="7" style="color:var(--ink3)">尚無紀錄</td></tr>`;
+
+  // 週統計
+  const byWeek={};
+  allRuns().forEach(r=>{const k=iso(monday(dt(r.d)));(byWeek[k]=byWeek[k]||[]).push(r);});
+  const keys=Object.keys(byWeek).sort().reverse();
+  $("#roll-rows").innerHTML=keys.length?keys.map(k=>{
+    const rs=byWeek[k], km=rs.reduce((a,r)=>a+r.km,0), mx=Math.max(...rs.map(r=>r.km));
+    const w=WEEKS.find(x=>x.s===k);
+    const plan=w?w.vol:null;
+    const pct=plan?Math.round(km/plan*100):null;
+    let st='<span class="pill">賽前基準期</span>';
+    if(pct!==null) st = pct>=95?'<span class="pill moss">達標</span>'
+                    : pct>=70?'<span class="pill ochre">略低</span>'
+                    : '<span class="pill sun">偏低 · 考慮順延</span>';
+    return `<tr class="${w&&WEEKS.indexOf(w)===curIdx()?"now":""}">
+      <td class="mono">${w?"W"+String(w.w).padStart(2,"0"):"—"}</td>
+      <td class="mono">${md(k)}</td><td class="n">${km.toFixed(1)}</td>
+      <td class="n" style="color:var(--ink3)">${plan!==null?plan:"—"}</td>
+      <td class="n">${pct!==null?pct+"%":"—"}</td>
+      <td class="n">${rs.length}</td><td class="n">${mx.toFixed(2)}</td><td>${st}</td></tr>`;
+  }).join(""):`<tr><td colspan="8" style="color:var(--ink3)">尚無紀錄</td></tr>`;
+}
+
+/* ══════════ 事件 ══════════ */
+$("#tabs").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-t]"); if(!b) return;
+  $$("#tabs button").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
+  $$("main > section").forEach(s=>{s.hidden = s.id!==b.dataset.t;});
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+document.addEventListener("change",e=>{
+  const c=e.target.closest("input[data-k]"); if(!c) return;
+  DONE[c.dataset.k]=c.checked; save("fuji.done.v1",DONE);
+  enqueue({action:"setDone",key:c.dataset.k,value:c.checked});
+  renderThisWeek(); renderPlan();
+});
+
+document.addEventListener("click",e=>{
+  const h=e.target.closest(".wkhead");
+  if(h){
+    const body=document.querySelector(`[data-body="${h.dataset.w}"]`);
+    const open=body.hasAttribute("hidden");
+    body.toggleAttribute("hidden",!open);
+    h.setAttribute("aria-expanded",String(open));
+    return;
+  }
+  const d=e.target.closest("[data-del]");
+  if(d){ LOG=LOG.filter(r=>r.id!==d.dataset.del); save("fuji.log.v1",LOG);
+         enqueue({action:"deleteRun",id:d.dataset.del}); renderLog(); }
+});
+
+$("#logform").addEventListener("submit",e=>{
+  e.preventDefault();
+  const p=$("#f-time").value.split(":").map(Number);
+  const sec=p.length===3?p[0]*3600+p[1]*60+p[2]:p[0]*60+p[1];
+  const km=parseFloat($("#f-km").value);
+  if(!km||!sec) return;
+  const rec={id:"r"+Date.now(),d:$("#f-date").value,km,sec,type:$("#f-type").value,note:$("#f-note").value.trim()};
+  LOG.push(rec); save("fuji.log.v1",LOG);
+  enqueue({action:"addRun",run:rec});
+  $("#f-km").value=""; $("#f-time").value=""; $("#f-note").value="";
+  renderLog();
+});
+
+$("#export").addEventListener("click",()=>{
+  const txt=JSON.stringify({runs:LOG,done:DONE,branch:BRANCH},null,2);
+  navigator.clipboard?.writeText(txt).then(
+    ()=>{$("#export").textContent="已複製到剪貼簿";setTimeout(()=>$("#export").textContent="匯出 JSON",1800);},
+    ()=>{window.prompt("複製以下內容：",txt);}
+  );
+});
+$("#reset").addEventListener("click",()=>{
+  if(!LOG.length){$("#reset").textContent="沒有自建紀錄";setTimeout(()=>$("#reset").textContent="清除自建紀錄",1500);return;}
+  if(confirm("確定清除所有自己新增的紀錄？內建的九筆基準紀錄會保留。")){
+    LOG=[]; save("fuji.log.v1",LOG); renderLog();
+  }
+});
+
+function setBranch(b){
+  BRANCH=b; save("fuji.branch.v1",b);
+  enqueue({action:"setMeta",key:"branch",value:b});
+  $("#br-half").setAttribute("aria-pressed",String(b==="half"));
+  $("#br-full").setAttribute("aria-pressed",String(b==="full"));
+  WEEKS=buildWeeks(b);
+  renderPlan(); renderAscent(); renderLadder(); renderThisWeek(); renderLog();
+}
+$("#br-half").addEventListener("click",()=>setBranch("half"));
+$("#br-full").addEventListener("click",()=>setBranch("full"));
+
+/* ══════════ 天氣資料來源 ══════════
+   線上版：走 Apps Script 代理，CWA 金鑰留在伺服器端，不隨網頁公開。
+   本機版：若 config.js 填了 cwaKeyForLocalFileOnly，就由瀏覽器直接打氣象署。 */
+const CWA={
+  town:"潭子區",
+  week:"F-D0047-075",   // 臺中市未來1週天氣預報（逐12小時）
+  hourly:"F-D0047-073", // 臺中市未來2天天氣預報（逐3小時）
+  ttl:3600e3            // 前端快取 1 小時
+};
+const LOCAL_KEY=(CFG.cwaKeyForLocalFileOnly||"").trim();
+const WXURL=id=>`https://opendata.cwa.gov.tw/api/v1/rest/datastore/${id}`+
+  `?Authorization=${LOCAL_KEY}&LocationName=${encodeURIComponent(CWA.town)}&format=JSON`;
+
+const num=v=>{const n=parseFloat(v);return isFinite(n)?n:null;};
+const pick=(el,name)=>el[name]||[];
+const ev=(t,k)=>t&&t.ElementValue&&t.ElementValue[0]?t.ElementValue[0][k]:null;
+
+/* 跑步指數 0–100 */
+function scoreRun(at,pop,rh,ws){
+  let s;                                   // 體感溫度 55
+  if(at===null) s=28;
+  else if(at<=6)  s=38; else if(at<=10) s=48; else if(at<=20) s=55;
+  else if(at<=23) s=50; else if(at<=26) s=40; else if(at<=28) s=30;
+  else if(at<=30) s=20; else if(at<=32) s=12; else if(at<=34) s=6;
+  else if(at<=36) s=2;  else s=0;
+  let p;                                   // 降雨 25
+  if(pop===null) p=15;
+  else p = pop<=10?25:pop<=20?22:pop<=30?18:pop<=40?14:pop<=50?11:pop<=60?8:pop<=70?5:pop<=80?2:0;
+  let h;                                   // 濕度 12
+  if(rh===null) h=7;
+  else h = rh<=55?12:rh<=65?11:rh<=75?8:rh<=85?5:rh<=92?2:0;
+  let w;                                   // 風 8
+  if(ws===null) w=5;
+  else w = ws<=3?8:ws<=5?6:ws<=7?4:ws<=9?2:0;
+  return Math.max(0,Math.min(100,Math.round(s+p+h+w)));
+}
+const GRADES=[[78,"極佳","var(--moss)"],[64,"良好","#7FA84E"],[50,"普通","var(--ochre)"],[36,"不佳","var(--sun)"],[0,"不建議","#B4453C"]];
+const grade=s=>GRADES.find(g=>s>=g[0]);
+
+/* 熱天配速修正（秒/km） */
+function heatAdj(at){
+  if(at===null) return 20;
+  if(at<=18) return 0;   if(at<=21) return 8;   if(at<=24) return 18;
+  if(at<=27) return 30;  if(at<=29) return 45;  if(at<=31) return 62;
+  if(at<=33) return 82;  return -1;             // -1 = 不建議長跑／節奏跑
+}
+const adjPace=(base,add)=>mmss(base+add);
+
+/* 解析 */
+function parseWeek(json){
+  const loc=json.records.Locations[0].Location[0];
+  const el={}; loc.WeatherElement.forEach(e=>el[e.ElementName]=e.Time);
+  const n=pick(el,"最低體感溫度").length, out=[];
+  for(let i=0;i<n;i++){
+    const T=el["最低體感溫度"][i];
+    out.push({
+      st:T.StartTime, et:T.EndTime,
+      atMin:num(ev(T,"MinApparentTemperature")),
+      atMax:num(ev(pick(el,"最高體感溫度")[i],"MaxApparentTemperature")),
+      tMin :num(ev(pick(el,"最低溫度")[i],"MinTemperature")),
+      tMax :num(ev(pick(el,"最高溫度")[i],"MaxTemperature")),
+      rh   :num(ev(pick(el,"平均相對濕度")[i],"RelativeHumidity")),
+      ws   :num(ev(pick(el,"風速")[i],"WindSpeed")),
+      pop  :num(ev(pick(el,"12小時降雨機率")[i],"ProbabilityOfPrecipitation")),
+      wx   :ev(pick(el,"天氣現象")[i],"Weather")||"—"
+    });
+  }
+  return out;
+}
+function parseHourly(json){
+  const loc=json.records.Locations[0].Location[0];
+  const el={}; loc.WeatherElement.forEach(e=>el[e.ElementName]=e.Time);
+  const at=pick(el,"體感溫度"), pops=pick(el,"3小時降雨機率");
+  const popAt=iso=>{
+    const t=new Date(iso).getTime();
+    const b=pops.find(p=>new Date(p.StartTime).getTime()<=t && t<new Date(p.EndTime).getTime());
+    return b?num(ev(b,"ProbabilityOfPrecipitation")):null;
+  };
+  return at.map(t=>({
+    time:t.DataTime,
+    at:num(ev(t,"ApparentTemperature")),
+    rh:num(ev(pick(el,"相對濕度").find(x=>x.DataTime===t.DataTime),"RelativeHumidity")),
+    pop:popAt(t.DataTime)
+  })).filter(h=>h.at!==null);
+}
+
+/* 取得（含快取） */
+let WX=null;
+async function wxFetch(force,preloaded){
+  const cached=load("fuji.wx.v1",null);
+  if(!force&&cached&&cached.week&&Date.now()-cached.ts<CWA.ttl){ WX=cached; return WX; }
+  if(preloaded&&preloaded.week&&preloaded.week.length){
+    WX={ts:preloaded.ts||Date.now(),week:preloaded.week,hourly:preloaded.hourly||[]};
+    save("fuji.wx.v1",WX); return WX;
+  }
+  if(REMOTE){                                     // 經由 Apps Script 代理（已在伺服器端解析好）
+    const r=await fetch(REMOTE+(REMOTE.includes("?")?"&":"?")+"action=weather"+(force?"&force=1":""),{cache:"no-store"});
+    if(!r.ok) throw new Error("後端回應 HTTP "+r.status);
+    const j=await r.json();
+    if(!j.ok) throw new Error(j.error||"後端回報失敗");
+    if(!j.weather||!j.weather.week||!j.weather.week.length) throw new Error("後端沒有回傳氣象資料");
+    WX={ts:j.weather.ts||Date.now(),week:j.weather.week,hourly:j.weather.hourly||[]};
+  } else if(LOCAL_KEY){                           // 本機檔案：瀏覽器直接打氣象署
+    const get=async id=>{
+      const r=await fetch(WXURL(id),{cache:"no-store"});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      const j=await r.json();
+      if(String(j.success)!=="true") throw new Error("API success=false");
+      if(!j.records||!j.records.Locations||!j.records.Locations.length) throw new Error("查無 "+CWA.town+" 的預報資料");
+      return j;
+    };
+    const [w,h]=await Promise.all([get(CWA.week),get(CWA.hourly)]);
+    WX={ts:Date.now(),week:parseWeek(w),hourly:parseHourly(h)};
+  } else {
+    const e=new Error("NO_SOURCE"); e.code="NO_SOURCE"; throw e;
+  }
+  save("fuji.wx.v1",WX);
+  return WX;
+}
+
+/* 12 小時區段 → 建議時間 */
+function slotLabel(st){
+  const h=new Date(st).getHours();
+  return h<6?"清晨":h<12?"白天 06–18":h<18?"午後 12–18":"夜間 18–06";
+}
+function bestHour(st,et){
+  if(!WX||!WX.hourly.length) return null;
+  const a=new Date(st).getTime(), b=new Date(et).getTime();
+  const inRange=WX.hourly.filter(h=>{const t=new Date(h.time).getTime();return t>=a&&t<b;});
+  if(!inRange.length) return null;
+  return inRange.reduce((m,h)=>h.at<m.at?h:m);
+}
+function slotAdvice(st){
+  const h=new Date(st).getHours();
+  if(h>=18||h<6) return "入夜 20:00 後或翌日清晨 05:00–06:00";
+  if(h<12) return "清晨 05:00–06:30";
+  return "傍晚 17:30 之後";
+}
+
+/* 日彙整 */
+function wxDays(){
+  if(!WX) return [];
+  const map=new Map();
+  WX.week.forEach(s=>{
+    const d=new Date(s.st), key=iso(d);
+    const sc=scoreRun(s.atMin,s.pop,s.rh,s.ws);
+    const bh=bestHour(s.st,s.et);
+    const rec={...s,score:sc,slot:slotLabel(s.st),advice:slotAdvice(s.st),bh};
+    if(!map.has(key)) map.set(key,{date:key,slots:[]});
+    map.get(key).slots.push(rec);
+  });
+  return [...map.values()].map(d=>{
+    const best=d.slots.reduce((m,s)=>s.score>m.score?s:m);
+    return {...d,score:best.score,best};
+  }).slice(0,7);
+}
+
+/* 自動排跑：選 n 天，彼此至少隔一天，總分最高 */
+/* 從 days 中挑 n 天、彼此至少隔一天、總分最高；排不出來回傳 null */
+function pickDaysStrict(days,n){
+  if(days.length<n) return null;
+  const idx=[...days.keys()];
+  const combos=(arr,k)=>k===0?[[]]:arr.flatMap((v,i)=>combos(arr.slice(i+1),k-1).map(c=>[v,...c]));
+  let best=null;
+  combos(idx,n).forEach(c=>{
+    for(let i=1;i<c.length;i++) if(c[i]-c[i-1]<2) return;   // 不排連續兩天
+    const tot=c.reduce((a,i)=>a+days[i].score,0);
+    if(!best||tot>best.tot) best={tot,c};
+  });
+  return best?best.c:null;
+}
+function assignWeek(){
+  const all=wxDays(); if(!all.length) return null;
+  const ci=curIdx();
+  const w = ci===-1?WEEKS[0] : (ci>=WEEKS.length?null:WEEKS[ci]);
+  if(!w) return null;
+
+  // 候選日必須落在該週區間內：本週已開始就從今天算起，尚未開始就從週一算起
+  const lo = ci===-1 ? w.s : iso(today);
+  const hi = weekEnd(w);
+  const days = all.filter(d=>d.date>=lo && d.date<=hi);
+  const ses = w.detail ? w.ses.filter(s=>s[1]>0)
+            : Array.from({length:w.ses},(_,i)=>i===w.ses-1?["L",w.long,"本週最長一次"]
+                :["E",Math.round((w.vol-w.long)/(w.ses-1)),"輕鬆跑"]);
+  if(!days.length)
+    return {week:w,items:[],days:all,picked:new Set(),pending:ses.length,window:null};
+
+  // 預報涵蓋的天數可能不足以排完整週，逐次退讓直到排得出來（維持至少隔一天）
+  let n=Math.min(ses.length,days.length), picked=null;
+  while(n>0 && !(picked=pickDaysStrict(days,n))) n--;
+  if(!picked) picked=[0];
+  n=picked.length;
+
+  // 長跑（或比賽）優先，週末加權
+  const longIdx=ses.reduce((m,s,i)=>(s[0]==="RACE"||s[1]>ses[m][1])?i:m,0);
+  const wkBonus=i=>{const dow=dt(days[i].date).getDay();return (dow===0||dow===6)?6:0;};
+  const bestForLong=picked.reduce((m,i)=>(days[i].score+wkBonus(i))>(days[m].score+wkBonus(m))?i:m,picked[0]);
+  const rest=ses.filter((_,i)=>i!==longIdx);
+  const out=[{day:days[bestForLong],ses:ses[longIdx]}];
+  picked.filter(i=>i!==bestForLong).forEach((di,k)=>{ if(rest[k]) out.push({day:days[di],ses:rest[k]}); });
+  out.sort((a,b)=>a.day.date<b.day.date?-1:1);
+
+  return {week:w,items:out,days:all,picked:new Set(out.map(o=>o.day.date)),
+          pending:ses.length-out.length,window:[lo,hi]};
+}
+
+/* 渲染 */
+const PACE_BASE={E:8*60+40,L:9*60+0,T:7*60+22,R:6*60+35,RACE:9*60+0};
+function paceLine(z,at){
+  const add=heatAdj(at), base=PACE_BASE[z]||PACE_BASE.E;
+  if(add<0) return `<b style="color:var(--sun)">體感過高，建議改期或只做 20–30 分鐘輕鬆跑</b>`;
+  return `建議配速 <b>${adjPace(base,add)}</b>/km${add?`（比常溫慢 ${add} 秒）`:"（無需修正）"}`;
+}
+
+function renderWxMini(){
+  const days=wxDays(), box=$("#wx-mini"), note=$("#wx-mini-note");
+  if(!days.length) return;
+  const a=assignWeek();
+  box.innerHTML=days.map(d=>{
+    const g=grade(d.score), on=a&&a.picked.has(d.date);
+    const dd=dt(d.date);
+    return `<div class="mini ${on?"pick":""}">
+      <span class="d">${md(d.date)}（${WD[dd.getDay()]}）</span>
+      <span class="s" style="color:${g[2]}">${d.score}</span>
+      <span class="bar"><i style="width:${d.score}%;background:${g[2]}"></i></span>
+      <span class="t">${d.best.atMin!==null?d.best.atMin+"°C":"—"} · ${d.best.pop!==null?d.best.pop+"%":"雨機率無資料"}</span>
+    </div>`;
+  }).join("");
+  const top=days.reduce((m,d)=>d.score>m.score?d:m);
+  note.innerHTML=`分數為體感溫度、降雨機率、濕度、風速的綜合路跑指數（滿分 100）。橘框是系統排給你的跑步日。`+
+    `未來七天最佳是 <b>${md(top.date)}（${WD[dt(top.date).getDay()]}）</b>，${esc(top.best.advice)}。詳細看「天氣排跑」分頁。`;
+}
+
+function renderWx(){
+  const days=wxDays();
+  if(!days.length) return;
+  $("#wx-stamp").textContent="更新於 "+new Date(WX.ts).toLocaleString("zh-TW",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})
+    +" · 資料來源：交通部中央氣象署";
+
+  const a=assignWeek();
+  const hot=days.filter(d=>d.score<50).length;
+  $("#wx-status").innerHTML = hot>=5
+    ? `<div class="note warn"><b>未來七天有 ${hot} 天條件不佳。</b>這是台灣夏末的常態，不是你的問題。策略：全部改成清晨出門、配速依下方修正放慢、長跑距離若真的撐不住就砍到八成 —— 課表的距離可以延後一週補，熱衰竭不能。</div>`
+    : `<div class="note">未來七天有 ${7-hot} 天適合出門。優先把長跑排在分數最高的那天。</div>`;
+
+  if(a){
+    const w=a.week;
+    $("#wx-assign").innerHTML=`<div class="card">
+      <div class="btnrow">
+        <span class="pill sun">W${String(w.w).padStart(2,"0")}</span>
+        <span class="pill">${esc(PHASES[w.ph].n)}</span>
+        <span class="pill blue">目標 ${w.vol} km · 長跑 ${w.long} km</span>
+      </div>
+      ${a.items.map(it=>{
+        const[z,km,txt]=it.ses, d=it.day, g=grade(d.score), dd=dt(d.date);
+        return `<div class="ses" style="grid-template-columns:auto auto 1fr;align-items:start">
+          <span class="zn z${z}">${esc(ZN[z]||z)}</span>
+          <span class="dist">${fkm(km)} km</span>
+          <span class="txt">
+            <b style="color:var(--ink)">${md(d.date)}（${WD[dd.getDay()]}）${esc(d.best.advice)}</b>
+            <span class="pill" style="margin-left:6px;color:${g[2]}">${g[1]} ${d.score}</span><br>
+            ${esc(txt)}<br>
+            <span style="color:var(--ink3);font-size:12.5px">${paceLine(z,d.best.atMin)}</span>
+          </span></div>`;
+      }).join("")}
+      ${a.pending>0?`<div class="note warn" style="margin-top:2px"><b>還有 ${a.pending} 次沒排進去。</b>
+        氣象署的預報只到 ${md(iso(new Date(WX.week[WX.week.length-1].st)))}，這一週剩下的日子還沒有資料
+        —— 過幾天回來按「重新取得預報」就會補上。</div>`:""}
+      <p style="color:var(--ink3);font-size:12.5px">排程只考慮天氣與間隔，沒有考慮你的行程 —— 有事就往前後挪一天，只要保持兩次跑步之間至少隔一天就好。
+      ${a.window?`本週可排範圍 ${md(a.window[0])}–${md(a.window[1])}。`:""}</p>
+    </div>`;
+  } else {
+    $("#wx-assign-block").hidden=true;
+  }
+
+  $("#wx-days").innerHTML=days.map(d=>{
+    const g=grade(d.score), dd=dt(d.date), on=a&&a.picked.has(d.date);
+    const asg=a&&a.items.find(i=>i.day.date===d.date);
+    return `<div class="wxday ${on?"pick":""}">
+      <div class="top">
+        <span class="dow"><b>${md(d.date)}</b> （${WD[dd.getDay()]}）</span>
+        <span class="sc" style="color:${g[2]}">${d.score}<span style="font-size:11px;color:var(--ink3)"> ${g[1]}</span></span>
+      </div>
+      <span class="bar"><i style="width:${d.score}%;background:${g[2]}"></i></span>
+      <span class="wx">${esc(d.best.wx)}</span>
+      <span class="met">
+        <span>體感 <b>${d.best.atMin!==null?d.best.atMin:"—"}–${d.best.atMax!==null?d.best.atMax:"—"}°C</b></span>
+        <span>雨 <b>${d.best.pop!==null?d.best.pop+"%":"無資料"}</b></span>
+        <span>濕 <b>${d.best.rh!==null?d.best.rh+"%":"—"}</b></span>
+        <span>風 <b>${d.best.ws!==null?d.best.ws+" m/s":"—"}</b></span>
+      </span>
+      <span class="met">最佳時段 <b>${esc(d.best.advice)}</b>${d.best.bh?` · 最涼 ${new Date(d.best.bh.time).getHours()}:00 體感 ${d.best.bh.at}°C`:""}</span>
+      ${asg?`<span class="asg"><span class="zn z${asg.ses[0]}">${esc(ZN[asg.ses[0]]||asg.ses[0])}</span> ${fkm(asg.ses[1])} km · ${adjPaceText(asg.ses[0],d.best.atMin)}</span>`:""}
+    </div>`;
+  }).join("");
+
+  renderHourly();
+}
+function adjPaceText(z,at){
+  const add=heatAdj(at); if(add<0) return "建議改期";
+  return adjPace(PACE_BASE[z]||PACE_BASE.E,add)+"/km";
+}
+
+function renderHourly(){
+  const H=WX&&WX.hourly?WX.hourly:[];
+  const svg=$("#wx-hourly");
+  if(!H.length){ svg.innerHTML=""; return; }
+  const W=1000,HT=240,pad={l:38,r:14,t:18,b:40};
+  const ats=H.map(h=>h.at);
+  const lo=Math.floor(Math.min(...ats)-2), hi=Math.ceil(Math.max(...ats)+2);
+  const x=i=>pad.l+(W-pad.l-pad.r)*i/(H.length-1);
+  const y=v=>HT-pad.b-(HT-pad.t-pad.b)*(v-lo)/(hi-lo);
+  let g="";
+  for(let v=Math.ceil(lo/2)*2;v<=hi;v+=2)
+    g+=`<line x1="${pad.l}" y1="${y(v)}" x2="${W-pad.r}" y2="${y(v)}" stroke="var(--line-soft)"/>
+        <text x="${pad.l-6}" y="${y(v)+4}" text-anchor="end" font-family="var(--f-mono)" font-size="10" fill="var(--ink3)">${v}</text>`;
+  // 27°C 門檻
+  const th=(27>=lo&&27<=hi)?`<line x1="${pad.l}" y1="${y(27)}" x2="${W-pad.r}" y2="${y(27)}" stroke="var(--sun)" stroke-width="1.2" stroke-dasharray="4 3"/>
+     <text x="${W-pad.r-2}" y="${y(27)-5}" text-anchor="end" font-family="var(--f-mono)" font-size="10" fill="var(--sun)">27°C 品質門檻</text>`:"";
+  let line="",area="M"+pad.l+","+(HT-pad.b);
+  H.forEach((h,i)=>{ line+=(i?" L":"M")+x(i).toFixed(1)+","+y(h.at).toFixed(1);
+                     area+=" L"+x(i).toFixed(1)+","+y(h.at).toFixed(1); });
+  area+=" L"+x(H.length-1)+","+(HT-pad.b)+" Z";
+  // 每日最涼點
+  let lows="",ticks="",seen={};
+  H.forEach((h,i)=>{const d=new Date(h.time),k=iso(d);
+    if(!seen[k]||h.at<seen[k].at) seen[k]={i,at:h.at,hr:d.getHours()};
+    if(d.getHours()===0||i===0){
+      ticks+=`<line x1="${x(i)}" y1="${pad.t}" x2="${x(i)}" y2="${HT-pad.b}" stroke="var(--line)" stroke-dasharray="2 3"/>
+        <text x="${x(i)+4}" y="${HT-24}" font-family="var(--f-mono)" font-size="10" fill="var(--ink3)">${md(k)}</text>`;
+    }
+    if(d.getHours()%6===0)
+      ticks+=`<text x="${x(i)}" y="${HT-9}" text-anchor="middle" font-family="var(--f-mono)" font-size="9" fill="var(--ink3)">${String(d.getHours()).padStart(2,"0")}</text>`;
+  });
+  Object.values(seen).forEach(s=>{
+    lows+=`<circle cx="${x(s.i)}" cy="${y(s.at)}" r="4" fill="var(--moss)"/>
+      <text x="${x(s.i)}" y="${y(s.at)+17}" text-anchor="middle" font-family="var(--f-mono)" font-size="10" fill="var(--moss)">${s.at}°</text>`;
+  });
+  svg.innerHTML=`<defs><linearGradient id="hf" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="var(--sun)" stop-opacity=".26"/>
+    <stop offset="1" stop-color="var(--sun)" stop-opacity=".02"/></linearGradient></defs>
+    ${g}${ticks}
+    <path d="${area}" fill="url(#hf)"/>
+    <path d="${line}" fill="none" stroke="var(--sun)" stroke-width="2"/>
+    ${th}${lows}
+    <text x="${pad.l-6}" y="${pad.t+4}" text-anchor="end" font-family="var(--f-mono)" font-size="10" fill="var(--ink3)">°C</text>`;
+
+  // 最佳時段清單
+  const now=Date.now();
+  const cand=H.filter(h=>new Date(h.time).getTime()>now)
+              .map(h=>({...h,sc:scoreRun(h.at,h.pop,h.rh,null)}))
+              .sort((a,b)=>b.sc-a.sc).slice(0,60);
+  const seenD={}; const top=[];
+  cand.forEach(c=>{const k=iso(new Date(c.time)); if(!seenD[k]){seenD[k]=1;top.push(c);} });
+  top.sort((a,b)=>new Date(a.time)-new Date(b.time));
+  $("#wx-slots").innerHTML=top.slice(0,4).map(c=>{
+    const d=new Date(c.time),g=grade(c.sc);
+    return `<div class="slot">
+      <span class="hr">${md(iso(d))}（${WD[d.getDay()]}）${String(d.getHours()).padStart(2,"0")}:00</span>
+      <span class="pill" style="color:${g[2]}">${g[1]} ${c.sc}</span>
+      <span class="dsc">體感 ${c.at}°C · 濕度 ${c.rh!==null?c.rh+"%":"—"} · 降雨 ${c.pop!==null?c.pop+"%":"無資料"}</span>
+    </div>`;
+  }).join("");
+}
+
+async function initWx(force,preloaded){
+  const st=$("#wx-status"), mini=$("#wx-mini");
+  try{
+    if(force){ mini.innerHTML='<span style="color:var(--ink3);font-size:13px"><span class="spin"></span> 重新取得中…</span>'; }
+    await wxFetch(force,preloaded);
+    renderWxMini(); renderWx();
+  }catch(err){
+    if(err&&err.code==="NO_SOURCE"){
+      mini.innerHTML='<span style="color:var(--ink3);font-size:13px">尚未連線到後端</span>';
+      $("#wx-mini-note").textContent="";
+      st.innerHTML=`<div class="note"><b>還沒連上後端。</b>貼上 Apps Script 網頁應用程式網址就能啟用天氣與跨裝置同步 ——
+        網址只會存在這台裝置的瀏覽器裡。<br>
+        <span style="display:flex;gap:8px;margin-top:9px;flex-wrap:wrap">
+          <input id="gas-input" placeholder="https://script.google.com/macros/s/..../exec" style="flex:1;min-width:240px">
+          <button class="act" id="gas-save">連線</button>
+        </span>
+        <span style="color:var(--ink3);font-size:12.5px;display:block;margin-top:7px">設定步驟見專案的 apps-script/README.md。訓練計畫與日誌不依賴後端，可以照常使用。</span></div>`;
+      $("#wx-assign-block").hidden=true;
+      return;
+    }
+    const offline=!navigator.onLine;
+    const blocked=/Failed to fetch|NetworkError|load failed/i.test(String(err&&err.message));
+    const msg = offline ? "目前沒有網路連線。"
+      : blocked ? "瀏覽器擋下了對氣象署的請求。若這個頁面是以 Artifact／線上分享的形式開啟，其內容安全政策會封鎖外部 API —— 請改用本機的 <span class='mono'>富士山訓練計畫.html</span> 檔案開啟。"
+      : "氣象署 API 回應異常："+esc(String(err&&err.message||err));
+    mini.innerHTML=`<span style="color:var(--ink3);font-size:13px">天氣資料無法載入 —— 其他功能不受影響</span>`;
+    $("#wx-mini-note").textContent="";
+    st.innerHTML=`<div class="note warn"><b>取不到天氣預報。</b>${msg}<br>
+      <span style="color:var(--ink3);font-size:12.5px">訓練計畫、課表與日誌完全不依賴天氣資料，可以照常使用。</span></div>`;
+    $("#wx-assign-block").hidden=true;
+  }
+}
+$("#wx-reload").addEventListener("click",()=>initWx(true));
+$("#sync").addEventListener("click",()=>{
+  const cur=REMOTE||"";
+  const u=prompt("貼上 Apps Script 網頁應用程式網址：\n（留空則改為只存在這台裝置）",cur);
+  if(u!==null) setRemote(u);
+});
+$("#sync").style.cursor="pointer";
+document.addEventListener("click",e=>{
+  const b=e.target.closest("#gas-save");
+  if(!b) return;
+  setRemote(document.querySelector("#gas-input").value);
+});
+
+/* ══════════ 啟動 ══════════ */
+$("#f-date").value=iso(today);
+$("#today-lab").textContent=ymd(iso(today))+"（"+WD[today.getDay()]+"）";
+const dLeft=daysTo(RACE_DAY);
+$("#foot-note").textContent="距富士山馬拉松 "+dLeft+" 天 · 資料存於本機瀏覽器";
+$("#br-half").setAttribute("aria-pressed",String(BRANCH==="half"));
+$("#br-full").setAttribute("aria-pressed",String(BRANCH==="full"));
+renderCountdowns(); renderThisWeek(); renderAscent(); renderLadder();
+renderBase(); renderPlan(); renderLog();
+refreshChip();
+// 一次往返同時取回訓練資料與天氣；沒設定後端時 pullRemote 回 null，initWx 自行降級
+(async()=>{ const wx=await pullRemote(); initWx(false,wx); })();
+</script>

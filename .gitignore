@@ -1,0 +1,5 @@
+# 本機測試用的私人設定（含金鑰時絕對不要進版控）
+config.local.js
+*.bak-*
+.DS_Store
+Thumbs.db
