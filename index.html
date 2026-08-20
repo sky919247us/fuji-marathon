@@ -1106,7 +1106,7 @@ function applyRemote(data){
     $("#br-full").setAttribute("aria-pressed",String(BRANCH==="full"));
     renderPlan(); renderAscent(); renderLadder();
   }
-  renderThisWeek(); renderPlan(); renderLog();
+  renderThisWeek(); renderPlan(); renderLog(); renderLadder();
 }
 async function pullRemote(){
   if(!REMOTE){ refreshChip(); return null; }
@@ -1255,8 +1255,10 @@ function renderAscent(){
 }
 
 function renderLadder(){
+  // 「現在」要看實際最長跑，包含之後補進來的紀錄，不能寫死基準期的數字
+  const mx=allRuns().reduce((m,r)=>r.km>m.km?r:m,{km:0,d:""});
   const steps=[
-    {k:"現在",v:B.max.toFixed(2),u:"km",n:"單次最長 · 2026/08/18",s:"done"},
+    {k:"現在",v:mx.km.toFixed(2),u:"km",n:"單次最長 · "+(mx.d?ymd(mx.d):"—"),s:"done"},
     {k:"2026 秋 · 線上",v:"21.1",u:"km",n:"半馬一次跑完 ← 短期目標",s:"next"},
     {k:"2027 冬 · 線上",v:"25",u:"km",n:"超越半馬，全馬的門檻測驗",s:""},
     {k:"2027 夏 · 線上",v:"42.2",u:"km",n:"全馬測試 · 決定要不要報實體全馬",s:""},
