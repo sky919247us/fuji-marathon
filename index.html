@@ -847,6 +847,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
             <option value="RACE">比賽</option>
           </select>
         </label>
+        <label class="fld">步數<input type="number" id="f-steps" step="1" min="0" placeholder="選填"></label>
         <label class="fld">備註<input type="text" id="f-note" placeholder="選填"></label>
         <button class="act" type="submit">加入</button>
       </form>
@@ -873,7 +874,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     </div>
     <div class="tblwrap">
       <table>
-        <thead><tr><th>日期</th><th class="n">距離</th><th class="n">時間</th><th class="n">配速</th><th>類型</th><th>備註</th><th></th></tr></thead>
+        <thead><tr><th>日期</th><th class="n">距離</th><th class="n">時間</th><th class="n">配速</th><th class="n">步頻</th><th>類型</th><th>備註</th><th></th></tr></thead>
         <tbody id="log-rows"></tbody>
       </table>
     </div>
@@ -898,15 +899,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 // 九筆基準紀錄（2026/08/03–08/18，來自 App 截圖）
 const SEED = [
- {d:"2026-08-03",clock:"22:07",km:4.67,sec:2364,steps:5069,up:18,dn:16,kcal:369,note:"夏季賽前練習"},
- {d:"2026-08-05",clock:"01:06",km:4.64,sec:2203,steps:4916,up:16,dn:14,kcal:366,note:"夏季賽前練習"},
- {d:"2026-08-07",clock:"00:45",km:4.54,sec:2240,steps:4541,up:16,dn:14,kcal:358,note:"夏季賽前練習"},
- {d:"2026-08-08",clock:"05:19",km:4.42,sec:1944,steps:4571,up:0, dn:40,kcal:349,note:"夏季賽 D1 早 · 淨下坡"},
- {d:"2026-08-08",clock:"17:01",km:4.59,sec:2237,steps:4822,up:33,dn:0, kcal:362,note:"夏季賽 D1 晚 · 回程上坡"},
- {d:"2026-08-13",clock:"22:46",km:6.00,sec:2932,steps:6502,up:24,dn:20,kcal:473,note:"夏季賽期"},
- {d:"2026-08-15",clock:"05:26",km:4.34,sec:1822,steps:4464,up:0, dn:38,kcal:343,note:"夏季賽 · 最快配速（淨下坡 38m）"},
- {d:"2026-08-15",clock:"16:33",km:4.57,sec:2311,steps:4945,up:34,dn:0, kcal:361,note:"夏季賽 · 回程上坡"},
- {d:"2026-08-18",clock:"22:37",km:6.04,sec:2854,steps:6689,up:30,dn:22,kcal:477,note:"賽後 · 最佳長距離表現"}
+ {id:"s20260803T2207",d:"2026-08-03",clock:"22:07",km:4.67,sec:2364,steps:5069,up:18,dn:16,kcal:369,note:"夏季賽前練習"},
+ {id:"s20260805T0106",d:"2026-08-05",clock:"01:06",km:4.64,sec:2203,steps:4916,up:16,dn:14,kcal:366,note:"夏季賽前練習"},
+ {id:"s20260807T0045",d:"2026-08-07",clock:"00:45",km:4.54,sec:2240,steps:4541,up:16,dn:14,kcal:358,note:"夏季賽前練習"},
+ {id:"s20260808T0519",d:"2026-08-08",clock:"05:19",km:4.42,sec:1944,steps:4571,up:0, dn:40,kcal:349,note:"夏季賽 D1 早 · 淨下坡"},
+ {id:"s20260808T1701",d:"2026-08-08",clock:"17:01",km:4.59,sec:2237,steps:4822,up:33,dn:0, kcal:362,note:"夏季賽 D1 晚 · 回程上坡"},
+ {id:"s20260813T2246",d:"2026-08-13",clock:"22:46",km:6.00,sec:2932,steps:6502,up:24,dn:20,kcal:473,note:"夏季賽期"},
+ {id:"s20260815T0526",d:"2026-08-15",clock:"05:26",km:4.34,sec:1822,steps:4464,up:0, dn:38,kcal:343,note:"夏季賽 · 最快配速（淨下坡 38m）"},
+ {id:"s20260815T1633",d:"2026-08-15",clock:"16:33",km:4.57,sec:2311,steps:4945,up:34,dn:0, kcal:361,note:"夏季賽 · 回程上坡"},
+ {id:"s20260818T2237",d:"2026-08-18",clock:"22:37",km:6.04,sec:2854,steps:6689,up:30,dn:22,kcal:477,note:"賽後 · 最佳長距離表現"}
 ];
 
 const RACE_DAY = "2027-12-12";
@@ -1122,7 +1123,8 @@ async function flushQueue(){
 function applyRemote(data){
   if(!data) return;
   if(Array.isArray(data.runs)){
-    LOG=data.runs.map(r=>({id:r.id,d:r.d,km:+r.km,sec:+r.sec,type:r.type||"E",note:r.note||""}));
+    LOG=data.runs.map(r=>({id:r.id,d:r.d,clock:r.clock||"",km:+r.km,sec:+r.sec,type:r.type||"E",
+      steps:r.steps||null,up:r.up,down:r.down,kcal:r.kcal,note:r.note||""}));
     save("fuji.log.v1",LOG);
   }
   if(data.done&&typeof data.done==="object"){ DONE=data.done; save("fuji.done.v1",DONE); }
@@ -1398,8 +1400,15 @@ function renderPlan(){
 }
 
 /* ══════════ 06 日誌 ══════════ */
-const allRuns=()=>[...SEED.map(r=>({d:r.d,km:r.km,sec:r.sec,type:"seed",note:r.note,seed:true})),...LOG]
-  .sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+/* 基準 9 筆也會寫進雲端。以 id 去重，雲端有的就用雲端版本，
+   避免同一趟跑步在清單裡出現兩次；離線時仍能顯示內建基準。 */
+const allRuns=()=>{
+  const ids=new Set(LOG.map(r=>r.id));
+  const seed=SEED.filter(r=>!ids.has(r.id))
+    .map(r=>({id:r.id,d:r.d,clock:r.clock,km:r.km,sec:r.sec,steps:r.steps,
+              type:"seed",note:r.note,seed:true}));
+  return [...seed,...LOG].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:(String(a.clock||"")<String(b.clock||"")?-1:1));
+};
 
 function renderLog(){
   const rows=allRuns();
@@ -1408,10 +1417,11 @@ function renderLog(){
     <tr class="${r.seed?"dim":""}">
       <td class="mono">${ymd(r.d)}</td><td class="n">${r.km.toFixed(2)}</td>
       <td class="n">${hms(r.sec)}</td><td class="n">${pace(r.km,r.sec)}</td>
+      <td class="n"${r.steps&&Math.round(r.steps/(r.sec/60))<140?' style="color:var(--sun)"':''}>${r.steps?Math.round(r.steps/(r.sec/60)):"—"}</td>
       <td>${r.seed?'<span class="pill">基準</span>':`<span class="zn z${r.type} mono" style="padding:2px 6px;border-radius:2px">${esc(ZN[r.type]||r.type)}</span>`}</td>
       <td style="white-space:normal;color:var(--ink2);font-size:13px">${esc(r.note||"")}</td>
       <td>${r.seed?"":`<button class="ghost" data-del="${esc(r.id)}">刪除</button>`}</td>
-    </tr>`).join(""):`<tr><td colspan="7" style="color:var(--ink3)">尚無紀錄</td></tr>`;
+    </tr>`).join(""):`<tr><td colspan="8" style="color:var(--ink3)">尚無紀錄</td></tr>`;
 
   // 週統計
   const byWeek={};
@@ -1470,10 +1480,12 @@ $("#logform").addEventListener("submit",e=>{
   const sec=p.length===3?p[0]*3600+p[1]*60+p[2]:p[0]*60+p[1];
   const km=parseFloat($("#f-km").value);
   if(!km||!sec) return;
-  const rec={id:"r"+Date.now(),d:$("#f-date").value,km,sec,type:$("#f-type").value,note:$("#f-note").value.trim()};
+  const steps=parseInt($("#f-steps").value,10);
+  const rec={id:"r"+Date.now(),d:$("#f-date").value,km,sec,type:$("#f-type").value,
+             steps:isFinite(steps)&&steps>0?steps:null,note:$("#f-note").value.trim()};
   LOG.push(rec); save("fuji.log.v1",LOG);
   enqueue({action:"addRun",run:rec});
-  $("#f-km").value=""; $("#f-time").value=""; $("#f-note").value="";
+  $("#f-km").value=""; $("#f-time").value=""; $("#f-note").value=""; $("#f-steps").value="";
   renderLog();
 });
 

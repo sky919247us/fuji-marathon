@@ -21,7 +21,7 @@ const DS_HOUR  = 'F-D0047-073';  // 臺中市未來2天天氣預報（逐3小時
 const WX_CACHE_SEC = 3600;       // 氣象資料快取 1 小時，避免打爆 CWA
 
 const SHEETS = {
-  runs: ['id', 'date', 'km', 'sec', 'type', 'note', 'created'],
+  runs: ['id', 'date', 'clock', 'km', 'sec', 'type', 'steps', 'up', 'down', 'kcal', 'note', 'created'],
   done: ['key', 'value', 'updated'],
   meta: ['key', 'value', 'updated']
 };
@@ -72,34 +72,51 @@ function json(obj) {
 
 function sheet(name) {
   const ss = SpreadsheetApp.getActive();
+  const want = SHEETS[name];
   let sh = ss.getSheetByName(name);
   if (!sh) {
     sh = ss.insertSheet(name);
-    sh.appendRow(SHEETS[name]);
+    sh.appendRow(want);
     sh.setFrozenRows(1);
-    sh.getRange(1, 1, 1, SHEETS[name].length).setFontWeight('bold');
+    sh.getRange(1, 1, 1, want.length).setFontWeight('bold');
+  } else {
+    // 非破壞性補欄：既有資料不動，只把缺少的欄位加到最右邊。
+    // 這樣舊版部署留下的表格可以直接沿用，不必手動搬資料。
+    const lastCol = Math.max(sh.getLastColumn(), 1);
+    const have = sh.getRange(1, 1, 1, lastCol).getValues()[0].map(String);
+    const missing = want.filter(function (w) { return have.indexOf(w) < 0; });
+    if (missing.length) {
+      sh.getRange(1, lastCol + 1, 1, missing.length)
+        .setValues([missing]).setFontWeight('bold');
+    }
   }
-  // 第一欄一律當純文字。否則像 "11.1"、"0930" 這類 key 會被試算表轉成數值，
+  // 第一欄一律純文字。否則像 "11.1"、"0930" 這類 key 會被試算表轉成數值，
   // 讀回來就對不上原本的字串，造成勾選狀態遺失、刪不掉。
-  sh.getRange(2, 1, sh.getMaxRows() - 1, 1).setNumberFormat('@');
+  if (sh.getMaxRows() > 1) sh.getRange(2, 1, sh.getMaxRows() - 1, 1).setNumberFormat('@');
   return sh;
+}
+
+/** 依實際標題列讀寫，不假設欄位順序 —— 這樣補欄之後舊資料仍然對得上 */
+function headerOf(sh) {
+  return sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0].map(String);
 }
 
 function rows(name) {
   const sh = sheet(name);
+  const head = headerOf(sh);
   const last = sh.getLastRow();
   if (last < 2) return [];
-  const head = SHEETS[name];
   return sh.getRange(2, 1, last - 1, head.length).getValues()
-    .map(r => { const o = {}; head.forEach((h, i) => o[h] = r[i]); return o; })
-    .filter(o => o[head[0]] !== '' && o[head[0]] !== null);
+    .map(function (r) { const o = {}; head.forEach(function (h, i) { o[h] = r[i]; }); return o; })
+    .filter(function (o) { return o[head[0]] !== '' && o[head[0]] !== null; });
 }
 
 function findRow(name, keyCol, keyVal) {
   const sh = sheet(name);
+  const head = headerOf(sh);
+  const col = head.indexOf(keyCol) + 1;
   const last = sh.getLastRow();
-  if (last < 2) return -1;
-  const col = SHEETS[name].indexOf(keyCol) + 1;
+  if (col < 1 || last < 2) return -1;
   const vals = sh.getRange(2, col, last - 1, 1).getValues();
   for (let i = 0; i < vals.length; i++) {
     if (String(vals[i][0]) === String(keyVal)) return i + 2;
@@ -109,10 +126,13 @@ function findRow(name, keyCol, keyVal) {
 
 /** 日期一律正規化成 YYYY-MM-DD 字串，避免試算表把它轉成 Date 物件後時區跑掉 */
 function ymd(v) {
-  if (v instanceof Date) {
-    return Utilities.formatDate(v, 'Asia/Taipei', 'yyyy-MM-dd');
-  }
+  if (v instanceof Date) return Utilities.formatDate(v, 'Asia/Taipei', 'yyyy-MM-dd');
   return String(v || '').slice(0, 10);
+}
+
+function numOrBlank(v) {
+  const n = Number(v);
+  return (v === null || v === undefined || v === '' || !isFinite(n)) ? '' : n;
 }
 
 function getData() {
@@ -122,12 +142,17 @@ function getData() {
   rows('meta').forEach(r => { meta[String(r.key)] = String(r.value); });
   return {
     runs: rows('runs').map(r => ({
-      id:   String(r.id),
-      d:    ymd(r.date),
-      km:   Number(r.km),
-      sec:  Number(r.sec),
-      type: String(r.type || 'E'),
-      note: String(r.note || '')
+      id:    String(r.id),
+      d:     ymd(r.date),
+      clock: String(r.clock || ''),
+      km:    Number(r.km),
+      sec:   Number(r.sec),
+      type:  String(r.type || 'E'),
+      steps: numOrBlank(r.steps) === '' ? null : Number(r.steps),
+      up:    numOrBlank(r.up)    === '' ? null : Number(r.up),
+      down:  numOrBlank(r.down)  === '' ? null : Number(r.down),
+      kcal:  numOrBlank(r.kcal)  === '' ? null : Number(r.kcal),
+      note:  String(r.note || '')
     })).filter(r => r.km > 0 && r.sec > 0),
     done: done,
     meta: meta,
@@ -138,11 +163,23 @@ function getData() {
 function upsertRun(run) {
   if (!run || !run.id) throw new Error('缺少 run.id');
   const sh = sheet('runs');
+  const head = headerOf(sh);
+  const rec = {
+    id:      String(run.id),
+    date:    ymd(run.d),
+    clock:   String(run.clock || ''),
+    km:      Number(run.km),
+    sec:     Number(run.sec),
+    type:    String(run.type || 'E'),
+    steps:   numOrBlank(run.steps),
+    up:      numOrBlank(run.up),
+    down:    numOrBlank(run.down),
+    kcal:    numOrBlank(run.kcal),
+    note:    String(run.note || ''),
+    created: new Date()
+  };
+  const row = head.map(function (h) { return (h in rec) ? rec[h] : ''; });
   const at = findRow('runs', 'id', run.id);
-  const row = [
-    String(run.id), ymd(run.d), Number(run.km), Number(run.sec),
-    String(run.type || 'E'), String(run.note || ''), new Date()
-  ];
   if (at > 0) sh.getRange(at, 1, 1, row.length).setValues([row]);
   else        sh.appendRow(row);
   return run.id;
