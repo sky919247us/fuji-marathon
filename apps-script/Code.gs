@@ -90,9 +90,16 @@ function sheet(name) {
         .setValues([missing]).setFontWeight('bold');
     }
   }
-  // 第一欄一律純文字。否則像 "11.1"、"0930" 這類 key 會被試算表轉成數值，
-  // 讀回來就對不上原本的字串，造成勾選狀態遺失、刪不掉。
-  if (sh.getMaxRows() > 1) sh.getRange(2, 1, sh.getMaxRows() - 1, 1).setNumberFormat('@');
+  // 文字型欄位鎖成純文字。否則 "11.1"、"0930" 會被判定為數值、"22:07" 會被
+  // 判定為時間，讀回來都對不上原本的字串（勾選狀態遺失、時段變成 1899 年的日期）。
+  const TEXT_COLS = { runs: ['id', 'clock', 'type'], done: ['key'], meta: ['key'] };
+  if (sh.getMaxRows() > 1) {
+    const head = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0].map(String);
+    (TEXT_COLS[name] || []).forEach(function (c) {
+      const i = head.indexOf(c);
+      if (i >= 0) sh.getRange(2, i + 1, sh.getMaxRows() - 1, 1).setNumberFormat('@');
+    });
+  }
   return sh;
 }
 
@@ -130,6 +137,13 @@ function ymd(v) {
   return String(v || '').slice(0, 10);
 }
 
+/** 時段一律正規化成 "HH:mm"。試算表會把 "22:07" 判定成時間型別存成 Date，
+    讀回來會變成 1899-12-30T22:07，所以讀取端要能還原。 */
+function hhmm(v) {
+  if (v instanceof Date) return Utilities.formatDate(v, 'Asia/Taipei', 'HH:mm');
+  return String(v || '').slice(0, 5);
+}
+
 function numOrBlank(v) {
   const n = Number(v);
   return (v === null || v === undefined || v === '' || !isFinite(n)) ? '' : n;
@@ -144,7 +158,7 @@ function getData() {
     runs: rows('runs').map(r => ({
       id:    String(r.id),
       d:     ymd(r.date),
-      clock: String(r.clock || ''),
+      clock: hhmm(r.clock),
       km:    Number(r.km),
       sec:   Number(r.sec),
       type:  String(r.type || 'E'),
