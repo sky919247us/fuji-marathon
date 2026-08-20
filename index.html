@@ -246,6 +246,7 @@ tr.now td{background:var(--blue-soft)}
 .zL{background:var(--moss-soft);color:var(--moss)}
 .zT{background:var(--ochre-soft);color:var(--ochre)}
 .zR{background:var(--sun-soft);color:var(--sun)}
+.zS{background:var(--surface2);color:var(--ink2);border:1px solid var(--line)}
 .zRACE{background:var(--sun);color:#fff}
 :root[data-theme="dark"] .zRACE{color:#10141E}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .zRACE{color:#10141E}}
@@ -390,8 +391,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <button role="tab" data-t="s-base" aria-selected="false"><span class="idx">03</span>現況分析</button>
       <button role="tab" data-t="s-plan" aria-selected="false"><span class="idx">04</span>訓練計畫</button>
       <button role="tab" data-t="s-pace" aria-selected="false"><span class="idx">05</span>配速與技術</button>
-      <button role="tab" data-t="s-race" aria-selected="false"><span class="idx">06</span>賽事情報</button>
-      <button role="tab" data-t="s-log"  aria-selected="false"><span class="idx">07</span>訓練日誌</button>
+      <button role="tab" data-t="s-str"  aria-selected="false"><span class="idx">06</span>肌力訓練</button>
+      <button role="tab" data-t="s-race" aria-selected="false"><span class="idx">07</span>賽事情報</button>
+      <button role="tab" data-t="s-log"  aria-selected="false"><span class="idx">08</span>訓練日誌</button>
       <span class="syncchip" id="sync" title="資料同步狀態">—</span>
     </div>
   </div>
@@ -703,19 +705,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   </div>
 
   <div class="block">
-    <h2>肌力與補給 <span class="tag">Support</span></h2>
+    <h2>補給 <span class="tag">Fuelling</span></h2>
     <div class="grid g2">
-      <div class="card">
-        <h3 style="font-family:var(--f-display);font-size:18px">每週兩次 · 各 15 分鐘</h3>
-        <ul class="tight">
-          <li><b>深蹲</b> 15 下 ×3</li>
-          <li><b>單腳硬舉</b> 每邊 10 下 ×3 —— 練單腳穩定，跑步本來就是連續單腳跳</li>
-          <li><b>臀橋</b> 15 下 ×3 —— 臀肌無力是膝痛最常見的上游原因</li>
-          <li><b>提踵</b> 20 下 ×3 —— 保護阿基里斯腱與脛骨</li>
-          <li><b>平板支撐</b> 40 秒 ×3</li>
-          <li>安排在輕鬆跑當天跑完後，不要放在長跑前一天</li>
-        </ul>
-      </div>
       <div class="card">
         <h3 style="font-family:var(--f-display);font-size:18px">補給門檻</h3>
         <ul class="tight">
@@ -723,15 +714,165 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
           <li><b>60–90 分鐘：</b>每 20 分鐘補水，中途一份能量膠或香蕉</li>
           <li><b>90 分鐘以上：</b>每 45 分鐘一份醣類（約 30–45 g），配電解質</li>
           <li><b>鐵律：</b>比賽當天不要用沒在訓練中試過的補給品。腸胃要練，長跑就是練腸胃的場合</li>
-          <li>你的長跑在第 6 週會突破 90 分鐘，補給練習從那時開始</li>
         </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:18px">你的時間點</h3>
+        <p style="color:var(--ink2);font-size:13.5px">8/20 那趟 9.09 km 花了 <span class="mono">1:10:57</span> —— 你已經跨過 60 分鐘那條線。從第 6 週（長跑 14 km、約兩小時）開始，補給會從「可有可無」變成「不做會撞牆」。</p>
+        <p style="color:var(--ink2);font-size:13.5px">熱天再加一層：體感 30°C 以上排汗量大增，電解質比醣類更早出問題。超過 90 分鐘的長跑一定要帶含鈉的東西 —— 只灌白開水反而有低血鈉風險。</p>
       </div>
     </div>
   </div>
 
 </section>
 
-<!-- ══════════ 05 賽事情報 ══════════ -->
+<!-- ══════════ 06 肌力訓練 ══════════ -->
+<section id="s-str" class="stack" hidden>
+
+  <div class="block">
+    <h2>每週兩次 · 各 15 分鐘 <span class="tag">Strength</span></h2>
+    <p class="lede">這是初跑者跨到長距離最划算的保險。跑步是連續的單腳跳躍，每一步落地承受 2–3 倍體重 —— 肌力訓練不是為了變壯，是為了讓關節周邊的肌肉有能力吸收那個衝擊，而不是讓韌帶和骨頭去扛。</p>
+    <div class="note warn"><b>已經排進課表了</b>，會在「訓練計畫」每一週出現可勾選的項目。
+      安排在<b>輕鬆跑當天跑完之後</b>，不要放在長跑前一天 —— 長跑要的是新鮮的腿。
+      比賽週不做，恢復週只做一次。</div>
+  </div>
+
+  <div class="block">
+    <h2>怎麼隨訓練進階 <span class="tag">Progression</span></h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>階段</th><th>週次</th><th class="n">組數</th><th>重點</th></tr></thead>
+        <tbody>
+          <tr class="mark"><td><b>A 基礎</b></td><td class="mono">W1–W4</td><td class="n">2</td><td><b>只求動作做對。做不標準就退階，不要硬撐次數</b></td></tr>
+          <tr><td>B 加量</td><td class="mono">W5–W9</td><td class="n">3</td><td>動作穩了才加組數；臀橋改單腳</td></tr>
+          <tr><td>C 賽期</td><td class="mono">W10–W12</td><td class="n">1 / 0</td><td>賽前週減到 1 組，比賽週不做</td></tr>
+          <tr><td>D 負重</td><td class="mono">W13–W19</td><td class="n">3</td><td>深蹲與單腳硬舉開始負重（背包裝書 5–8 kg）；提踵改單腳</td></tr>
+          <tr><td>E 進階</td><td class="mono">W20–W30</td><td class="n">3</td><td>負重續增至 8–10 kg；平板改側棒式</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>加負重的前提是動作品質不掉。</b>寧可徒手做對三個月，也不要負重做錯三週 —— 錯誤動作加上負重，等於把原本要預防的傷害提早招來。</div>
+  </div>
+
+  <div class="block">
+    <h2>五個動作 <span class="tag">The Five</span></h2>
+    <p class="lede">依序做完算一輪，組間休息 30–45 秒。全部做完約 12–15 分鐘。</p>
+
+    <div class="card">
+      <div class="btnrow"><span class="pill blue">01</span><span class="pill">15 下 × 2–3 組</span></div>
+      <h3 style="font-family:var(--f-display);font-size:20px">深蹲</h3>
+      <p style="color:var(--ink2);font-size:13.5px"><b>為什麼跑者需要：</b>股四頭與臀肌是落地時的主要煞車。這兩處無力，衝擊就直接傳到膝關節。</p>
+      <ul class="tight">
+        <li><b>起始：</b>雙腳與肩同寬或略寬，腳尖微向外開 15–30 度</li>
+        <li><b>下蹲：</b>想像往後坐一張矮椅子。<b>髖部先往後</b>，膝蓋才跟著彎</li>
+        <li><b>膝蓋方向：</b>必須跟腳尖同方向。膝蓋內夾是最常見也最傷的錯誤</li>
+        <li><b>深度：</b>大腿與地面平行，或到你能保持下背不拱起的最低點為止</li>
+        <li><b>節奏：</b>下降 3 秒、底部停 1 秒、起身 1 秒。慢下降才有訓練效果</li>
+        <li><b>呼吸：</b>下蹲吸氣，起身吐氣</li>
+      </ul>
+      <div class="note warn" style="font-size:13px"><b>怎麼知道做錯了：</b>腳跟離地（腳踝活動度不足，先在腳跟下墊個薄物）；下背有壓力而非大腿臀部痠（蹲太深或彎腰了）；膝蓋往內塌（臀中肌無力，刻意把膝蓋往外推）。</div>
+      <div class="grid g2">
+        <div class="tile"><span class="k">退階</span><span class="v" style="font-size:15px">扶椅背 / 坐箱蹲</span><span class="n">屁股輕碰椅面就起來，確保每下深度一致</span></div>
+        <div class="tile"><span class="k">進階</span><span class="v" style="font-size:15px">背包負重 / 停頓蹲</span><span class="n">底部停 3 秒再起身</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="btnrow"><span class="pill blue">02</span><span class="pill">每邊 10 下 × 2–3 組</span><span class="pill sun">五個裡最重要</span></div>
+      <h3 style="font-family:var(--f-display);font-size:20px">單腳硬舉</h3>
+      <p style="color:var(--ink2);font-size:13.5px"><b>為什麼跑者需要：</b>跑步本來就是連續的單腳支撐。這個動作同時練後側鏈（臀、腿後肌）與單腳平衡 —— 直接對應「腳落地那一瞬間骨盆穩不穩」。</p>
+      <ul class="tight">
+        <li><b>起始：</b>單腳站立，支撐腳膝蓋<b>微彎不鎖死</b></li>
+        <li><b>動作：</b>髖關節像門鉸鏈往後推，上身前傾，後腿同時往後伸直</li>
+        <li><b>成形：</b>從頭到後腳跟連成一條斜線</li>
+        <li><b>關鍵：</b>骨盆保持水平，後腿的髖不可以往外翻開</li>
+        <li><b>深度：</b>上身到接近水平，或到你還能維持平衡與骨盆水平的角度</li>
+        <li><b>回程：</b>用臀部把身體拉回直立，不是用下背</li>
+        <li><b>節奏：</b>前傾 3 秒、回程 2 秒。會搖晃是正常的，那正是在練的東西</li>
+      </ul>
+      <div class="note warn" style="font-size:13px"><b>怎麼知道做錯了：</b>下背痠而非臀部與腿後側痠（變成彎腰而不是屈髖）；骨盆翻轉（把手放在兩側髖骨上，感覺是否等高）；支撐腳膝蓋打直鎖死（壓力會跑到膝關節）。</div>
+      <div class="grid g2">
+        <div class="tile"><span class="k">退階</span><span class="v" style="font-size:15px">單手扶牆</span><span class="n">先求動作正確，平衡自然會進步</span></div>
+        <div class="tile"><span class="k">進階</span><span class="v" style="font-size:15px">對側手持重物</span><span class="n">右腳站就左手拿，增加抗旋轉需求</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="btnrow"><span class="pill blue">03</span><span class="pill">15 下 × 2–3 組</span></div>
+      <h3 style="font-family:var(--f-display);font-size:20px">臀橋</h3>
+      <p style="color:var(--ink2);font-size:13.5px"><b>為什麼跑者需要：</b>臀肌無力是跑者膝痛最常見的上游原因。臀部推不動，大腿前側和膝蓋就得代償。久坐的人幾乎都有這個問題。</p>
+      <ul class="tight">
+        <li><b>起始：</b>仰躺屈膝，腳跟距臀部約一個手掌寬，雙手放身體兩側</li>
+        <li><b>發力：</b><b>用腳跟推地</b>（不是腳尖），把髖部往上推</li>
+        <li><b>頂點：</b>膝、髖、肩成一直線就停，<b>不要再往上頂</b></li>
+        <li><b>停留：</b>頂端夾臀 1–2 秒，感覺臀部收緊</li>
+        <li><b>下降：</b>3 秒慢慢放下，臀部輕碰地面就再推上去</li>
+      </ul>
+      <div class="note warn" style="font-size:13px"><b>怎麼知道做錯了：</b>下背有感覺而不是臀部 —— 這是最典型的錯誤，代表你用腰椎過度伸展代替了臀部發力。修正：頂點降低一點，推起前先讓肋骨往下收、骨盆稍微後傾。腿後肌抽筋同樣是臀肌沒出力的訊號。</div>
+      <div class="grid g2">
+        <div class="tile"><span class="k">退階</span><span class="v" style="font-size:15px">縮小幅度</span><span class="n">只推到一半，先找到臀部發力的感覺</span></div>
+        <div class="tile"><span class="k">進階</span><span class="v" style="font-size:15px">單腳臀橋</span><span class="n">一腳伸直離地，骨盆維持水平</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="btnrow"><span class="pill blue">04</span><span class="pill">20 下 × 2–3 組</span></div>
+      <h3 style="font-family:var(--f-display);font-size:20px">提踵</h3>
+      <p style="color:var(--ink2);font-size:13.5px"><b>為什麼跑者需要：</b>小腿與阿基里斯腱是跑步時的彈簧。你的長跑距離要在十週內成長三倍，脛骨疼痛與阿基里斯腱炎正是這階段最常見的兩種傷 —— 這個動作直接預防它們。</p>
+      <ul class="tight">
+        <li><b>起始：</b>雙腳與髖同寬站立，可扶牆保持平衡</li>
+        <li><b>上升：</b>慢慢踮到最高，重心平均落在前腳掌，不要偏到小指側</li>
+        <li><b>停留：</b>頂端停 1 秒</li>
+        <li><b>下降：</b><b>用 3 秒慢慢放下</b> —— 這是整個動作的重點</li>
+        <li><b>為什麼要慢放：</b>離心收縮（拉長中出力）才是強化肌腱的關鍵。快放等於白做</li>
+      </ul>
+      <div class="note warn" style="font-size:13px"><b>怎麼知道做錯了：</b>下降太快（多數人的通病，心裡數 3 秒）；踮起時腳踝往外翻；只靠彈跳而非肌肉控制。做完隔天小腿應有輕微痠感，完全沒有代表幅度或速度不對。</div>
+      <div class="grid g2">
+        <div class="tile"><span class="k">退階</span><span class="v" style="font-size:15px">平地雙腳</span><span class="n">扶牆，先求動作控制</span></div>
+        <div class="tile"><span class="k">進階</span><span class="v" style="font-size:15px">階梯邊緣單腳</span><span class="n">腳跟可降到低於階面，加大活動範圍</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="btnrow"><span class="pill blue">05</span><span class="pill">40 秒 × 2–3 組</span></div>
+      <h3 style="font-family:var(--f-display);font-size:20px">平板支撐</h3>
+      <p style="color:var(--ink2);font-size:13.5px"><b>為什麼跑者需要：</b>核心不是拿來看的，是拿來在跑步時穩住軀幹的。核心撐不住，跑到後半段上身會晃、骨盆會塌，配速跟著掉 —— 你 8/20 後段連 3 分鐘都撐不住，有一部分是這個原因。</p>
+      <ul class="tight">
+        <li><b>起始：</b>前臂與腳尖撐地，手肘在肩膀正下方</li>
+        <li><b>身體：</b>頭、背、臀、腿連成一直線</li>
+        <li><b>收緊：</b>肋骨往下收、骨盆稍微後傾、夾臀、腹部像要被打一拳那樣收緊</li>
+        <li><b>呼吸：</b><b>正常呼吸，不要憋氣</b>。憋氣代表你在用腹壓撐而不是用肌肉撐</li>
+        <li><b>時間：</b>撐到姿勢開始跑掉就停，不要為了秒數塌腰</li>
+      </ul>
+      <div class="note warn" style="font-size:13px"><b>怎麼知道做錯了：</b>下背有壓力（塌腰了，把骨盆後傾、夾臀）；屁股翹高（那是偷懶，讓核心不用出力）；憋氣。40 秒姿勢正確，遠勝 2 分鐘塌腰。</div>
+      <div class="grid g2">
+        <div class="tile"><span class="k">退階</span><span class="v" style="font-size:15px">膝蓋著地</span><span class="n">縮短槓桿，先撐住正確姿勢</span></div>
+        <div class="tile"><span class="k">進階</span><span class="v" style="font-size:15px">側棒式（W20 起）</span><span class="n">練臀中肌，直接對應跑步的骨盆穩定</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>三條原則 <span class="tag">Rules</span></h2>
+    <div class="grid g3">
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:17px">品質優先於數量</h3>
+        <p style="color:var(--ink2);font-size:13.5px">做到第 11 下姿勢開始跑掉，就停在第 10 下。15 下做爛不如 10 下做對 —— 錯誤動作是在訓練錯誤的模式，比不做還糟。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:17px">痠痛可以，痛不行</h3>
+        <p style="color:var(--ink2);font-size:13.5px">肌肉痠脹正常，隔天會緩解。關節內部的尖銳疼痛、單側刺痛、痛到影響走路，都要停 —— 那不是進步的訊號。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:17px">時機比強度重要</h3>
+        <p style="color:var(--ink2);font-size:13.5px">接在輕鬆跑當天跑完後做，讓休息日真的是休息日。絕不要排在長跑前一天 —— 帶著痠腿跑長跑，是把兩個訓練都做壞。</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ 07 賽事情報 ══════════ -->
 <section id="s-race" class="stack" hidden>
 
   <div class="block">
@@ -955,6 +1096,22 @@ const DETAIL = [
  D(29,"2027-03-08","E",28,25,[["E",3,"賽前兩天鬆腿"],["RACE",25,"★冬季 TATTA RUN 25 km 一次跑完。9:20/km 起，10 跑 1 走，目標 3:45–4:00"]],"★ 冬季賽 25 KM（賽期 03/07–03/16）"),
  D(30,"2027-03-15","E",12,6,[["E",0,"賽後前四天完全休息"],["E",5,"很慢"],["L",6,"若無不適才跑"]],"恢復週")
 ];
+
+/* 肌力訓練排進課表才會真的做。隨分期進階：先求動作品質，穩了才加量、加負重。
+   比賽週不做，恢復週只做一次。 */
+const STRENGTH={
+ A:["徒手 2 組 · 重點是動作做對，不追次數","徒手 2 組 · 深蹲可扶椅子退階"],
+ B:["徒手 3 組 · 動作穩了才加量","徒手 3 組 · 臀橋改單腳"],
+ C:["賽前週 · 只做 1 組維持神經活性","恢復期 · 等無痠痛再開始"],
+ D:["3 組 · 深蹲與單腳硬舉開始負重（背包裝書 5–8 kg）","3 組 · 提踵改單腳"],
+ E:["3 組 · 負重續增至 8–10 kg","3 組 · 平板改側棒式，練臀中肌"]
+};
+DETAIL.forEach(w=>{
+  const race=w.ses.some(x=>x[0]==="RACE"), recov=/恢復週/.test(w.mk||"");
+  const n=race?0:(recov?1:2), t=STRENGTH[w.ph]||STRENGTH.E;
+  for(let i=0;i<n;i++)
+    w.ses.push(["S",0,"肌力 15 分鐘 · "+t[i]+(i===0?"（接在輕鬆跑當天跑完後）":"（不要排在長跑前一天）")]);
+});
 
 // W31 起：只給每週量與長跑目標
 const BLOCK_F = {
@@ -1211,7 +1368,7 @@ function renderThisWeek(){
     <div class="grid g3">
       <div class="tile"><span class="k">本週目標</span><span class="v">${w.vol}<span class="u"> km</span></span></div>
       <div class="tile"><span class="k">長跑</span><span class="v">${fkm(w.long)}<span class="u"> km</span></span></div>
-      <div class="tile accent"><span class="k">已完成</span><span class="v">${done}<span class="u"> / ${w.detail?w.ses.length:w.ses}</span></span></div>
+      <div class="tile accent"><span class="k">已完成</span><span class="v">${done}<span class="u"> / ${w.detail?w.ses.length:w.ses}</span></span><span class="n">含肌力訓練</span></div>
     </div>
     ${w.detail?w.ses.map((s,k)=>sesHTML(s,w.w,k)).join(""):
       `<p style="color:var(--ink2);font-size:13.5px">本週為週期化目標區段：安排 ${w.ses} 次跑步，其中最長一次 ${fkm(w.long)} 公里，全週合計約 ${w.vol} 公里。其餘各次平均分配，全部維持輕鬆配速，可視狀況把其中一次換成 20 分鐘節奏跑。</p>`}
@@ -1219,14 +1376,14 @@ function renderThisWeek(){
   $("#hero-phase").textContent="W"+String(w.w).padStart(2,"0")+" · "+ph.n;
 }
 
-const ZN={E:"E 輕鬆",L:"L 長跑",T:"T 節奏",R:"R 快步",RACE:"比賽"};
+const ZN={E:"E 輕鬆",L:"L 長跑",T:"T 節奏",R:"R 快步",RACE:"比賽",S:"肌力"};
 function sesHTML(s,wno,k){
   const[z,km,txt]=s;
   const id=doneKey(wno,k);
   const chk=k>=0?`<label class="chk"><input type="checkbox" data-k="${id}" ${DONE[id]?"checked":""}> 完成</label>`:"";
   return `<div class="ses">
     <span class="zn z${z}">${esc(ZN[z]||z)}</span>
-    <span class="dist">${km>0?fkm(km)+" km":"休息"}</span>
+    <span class="dist">${km>0?fkm(km)+" km":(z==="S"?"15 分":"休息")}</span>
     <span class="txt">${esc(txt)}${chk?"":""}</span>
     ${chk}
   </div>`;
@@ -1381,6 +1538,8 @@ function renderPlan(){
     }
     const cur=i===ci, past=i<ci;
     const cnt=w.detail?w.ses.length:w.ses;
+    const runCnt=w.detail?w.ses.filter(x=>x[1]>0).length:w.ses;
+    const sCnt=w.detail?w.ses.filter(x=>x[0]==="S").length:0;
     const done=w.detail?w.ses.filter((s,k)=>DONE[doneKey(w.w,k)]).length:0;
     const rec=isRecovery(w);
     html+=`<div class="wk ${cur?"cur":""} ${past?"past":""}">
@@ -1388,12 +1547,12 @@ function renderPlan(){
         <span class="wno">W${String(w.w).padStart(2,"0")}</span>
         <span class="wdt">${md(w.s)}–${md(weekEnd(w))}</span>
         <span>${w.mk?`<span class="pill ${w.mk.indexOf("★")>=0?"sun":"ochre"}">${esc(w.mk)}</span>`:(rec?`<span class="pill moss">減量週</span>`:"")}</span>
-        <span class="wsum">${w.vol} km · 長 ${fkm(w.long)} · ${cnt} 跑${w.detail?` · ${done}/${cnt}`:""}</span>
+        <span class="wsum">${w.vol} km · 長 ${fkm(w.long)} · ${runCnt} 跑${sCnt?` + ${sCnt} 肌力`:""}${w.detail?` · ${done}/${cnt}`:""}</span>
       </button>
       <div class="wkbody" data-body="${w.w}" ${cur?"":"hidden"}>
         ${w.detail?w.ses.map((s,k)=>sesHTML(s,w.w,k)).join("")
           :`<div class="ses"><span class="zn zE">目標</span><span class="dist">${w.vol} km</span>
-             <span class="txt">安排 ${w.ses} 次跑步，最長一次 ${fkm(w.long)} 公里，其餘平均分配並維持輕鬆配速。可把其中一次換成含 20 分鐘節奏跑的課表。接近時再依當下狀況排定單次內容。</span></div>`}
+             <span class="txt">安排 ${w.ses} 次跑步，最長一次 ${fkm(w.long)} 公里，其餘平均分配並維持輕鬆配速。可把其中一次換成含 20 分鐘節奏跑的課表。<b>肌力訓練維持每週兩次</b>，接在輕鬆跑當天跑完後。接近時再依當下狀況排定單次內容。</span></div>`}
       </div></div>`;
   });
   $("#planlist").innerHTML=html;
