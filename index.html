@@ -646,15 +646,30 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
   <div class="block">
     <h2>步頻矯正 <span class="tag">Cadence · 首要任務</span></h2>
+    <p class="lede">步頻沒有單一目標值 —— 它跟著配速走。在 10:00/km 硬追 160 會變成原地碎步，很不自然；重點是<b>在慢速下把步頻穩住</b>，而不是追一個固定數字。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>配速</th><th class="n">目標步頻</th><th class="n">對應步幅</th><th>用在哪</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">10:00 /km</td><td class="n">150</td><td class="n">0.67 m</td><td>熱天長跑</td></tr>
+          <tr><td class="mono">9:00 /km</td><td class="n">155</td><td class="n">0.72 m</td><td>一般長跑</td></tr>
+          <tr><td class="mono">8:30 /km</td><td class="n">158</td><td class="n">0.75 m</td><td>輕鬆跑</td></tr>
+          <tr><td class="mono">8:00 /km</td><td class="n">160</td><td class="n">0.78 m</td><td>輕鬆跑上緣</td></tr>
+          <tr><td class="mono">7:30 /km</td><td class="n">165</td><td class="n">0.81 m</td><td>節奏跑</td></tr>
+          <tr class="mark"><td class="mono"><b>你現在 8:00</b></td><td class="n"><b>134</b></td><td class="n"><b>0.93 m</b></td><td><b>步幅過大，腳落在身體前方</b></td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="grid g2">
       <div class="card">
-        <h3 style="font-family:var(--f-display);font-size:18px">現在 ≈ 134 → 目標 155–165</h3>
+        <h3 style="font-family:var(--f-display);font-size:18px">怎麼練</h3>
         <ul class="tight">
-          <li><b>怎麼練：</b>手機裝節拍器 App，設 <span class="mono">160 bpm</span>，每一拍踩一步。</li>
-          <li><b>劑量：</b>每次跑步中間插兩段 5 分鐘跟拍，其餘時間照常跑。不要整趟都跟拍。</li>
-          <li><b>訣竅：</b>步頻要靠「縮小步幅」拉上去，不是靠跑更快。速度維持不變、腳步變小變密。</li>
-          <li><b>意象：</b>想像腳掌落在身體正下方，不是伸到前面去。</li>
-          <li><b>進程：</b>每兩週往上調 3–5 bpm，別一次跳到 170。</li>
+          <li><b>在慢速下練，不要在快速下練。</b>速度一上來，步頻會自動被步幅吃掉，練不到東西</li>
+          <li><b>劑量：</b>每次跑步插兩段 5 分鐘跟節拍器，其餘照常跑。不要整趟跟拍</li>
+          <li><b>設定：</b>節拍器設成你當天配速對應的數字（見上表），每一拍踩一步</li>
+          <li><b>訣竅：</b>靠縮小步幅把步頻拉上去，速度維持不變、腳步變小變密</li>
+          <li><b>意象：</b>腳掌落在身體正下方，不是伸到前面去</li>
+          <li><b>進程：</b>每兩週往上 3–5，別一次跳 20</li>
         </ul>
       </div>
       <div class="card">
@@ -666,13 +681,25 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
   <div class="block">
     <h2>走跑策略 <span class="tag">Run-Walk</span></h2>
-    <p class="lede">不是作弊，是把長距離拆成身體吃得下的段落。用在超過你目前最長距離 1.5 倍以上的長跑，以及所有比賽的前半段。</p>
+    <p class="lede">不是作弊，是把長距離拆成身體吃得下的段落。<b>唯一的規則是比例要從頭到尾固定</b> —— 撐不住代表跑的那段太快，不是比例太貪心。</p>
+    <div class="note warn"><b>比例崩掉是配速問題，不是耐力問題。</b>
+      2026/08/20 那趟 9.09 km 就是典型：從 6 跑 1 走一路掉到 5:1、4:1、3:1、2:1，最後連 3 分鐘都撐不住。
+      平均 7:49/km 是含走路的數字，實際「跑」的段落大約在 7:20–7:30 —— 對現階段來說太快了。
+      同樣的體力，用 10:00/km 守住 4:1 全程不變，總跑步時間更長、恢復更快、而且可以複製。</div>
     <div class="grid g3">
-      <div class="tile"><span class="k">10–15 km</span><span class="v">9<span class="u">分跑</span> 1<span class="u">分走</span></span><span class="n">長跑第一次踏進新距離時用</span></div>
-      <div class="tile"><span class="k">半馬 · 秋季賽</span><span class="v">12<span class="u">分跑</span> 1<span class="u">分走</span></span><span class="n">從第一分鐘就開始執行，不要等累了才走</span></div>
-      <div class="tile"><span class="k">25 km 冬季賽</span><span class="v">10<span class="u">分跑</span> 1<span class="u">分走</span></span><span class="n">走的那分鐘用來補水與補給</span></div>
+      <div class="tile accent"><span class="k">起手式 · 現在用這個</span><span class="v">4<span class="u">分跑</span> 1<span class="u">分走</span></span><span class="n">跑的那段 10:00/km。慢到覺得在浪費時間才對</span></div>
+      <div class="tile"><span class="k">升級條件</span><span class="v">5<span class="u">:</span>1</span><span class="n">全程守住 4:1 且尾段不掉速，才升上來</span></div>
+      <div class="tile"><span class="k">半馬 · 目標</span><span class="v">8<span class="u">:</span>1</span><span class="n">十一週後的目標，不是現在做得到的</span></div>
     </div>
-    <div class="note"><b>關鍵在於「事先安排」。</b>累了才走，是崩潰；照表走，是策略。實測上，全程 12:1 的完賽時間通常比「前面撐、後面爆」更快。</div>
+    <div class="card">
+      <h3 style="font-family:var(--f-display);font-size:18px">驗收標準</h3>
+      <ul class="tight">
+        <li><b>不是跑多快，是最後一段和第一段速度一樣。</b>這是唯一重要的指標</li>
+        <li>走的那一分鐘正常走，不要衝 —— 那是拿來降心率的，不是拿來趕進度的</li>
+        <li>從第一分鐘就開始執行。累了才走是崩潰，照表走才是策略</li>
+        <li>比例中途掉下來，下一趟就把跑的配速再放慢 20–30 秒，不要改比例</li>
+      </ul>
+    </div>
   </div>
 
   <div class="block">
