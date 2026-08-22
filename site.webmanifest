@@ -1,0 +1,17 @@
+{
+  "name": "富士山への道",
+  "short_name": "富士山",
+  "description": "68 週馬拉松訓練計畫，目標 2027 年 12 月富士山馬拉松",
+  "lang": "zh-Hant-TW",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#14294D",
+  "theme_color": "#10141E",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "favicon.svg",  "sizes": "any",     "type": "image/svg+xml" }
+  ]
+}
