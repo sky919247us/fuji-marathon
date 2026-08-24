@@ -342,8 +342,10 @@ button.ghost[aria-pressed="true"]{background:var(--sun);border-color:var(--sun);
 .slot .dsc{color:var(--ink2);font-size:12.5px}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
 @keyframes sp{to{transform:rotate(360deg)}}
+.navrow{display:flex;align-items:center;gap:8px}
+.navrow .tabs{flex:1;min-width:0}
 .syncchip{
-  margin-left:auto;align-self:center;flex:0 0 auto;
+  align-self:center;flex:0 0 auto;cursor:pointer;
   font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;
   padding:3px 9px;border-radius:2px;border:1px solid var(--line);
   color:var(--ink3);background:var(--surface);white-space:nowrap;
@@ -351,8 +353,8 @@ button.ghost[aria-pressed="true"]{background:var(--sun);border-color:var(--sun);
 .syncchip[data-s="ok"]{color:var(--moss);border-color:var(--moss)}
 .syncchip[data-s="busy"]{color:var(--blue);border-color:var(--blue)}
 .syncchip[data-s="queue"]{color:var(--ochre);border-color:var(--ochre)}
-.syncchip[data-s="err"]{color:var(--sun);border-color:var(--sun)}
-@media(max-width:640px){.syncchip{display:none}}
+.syncchip[data-s="err"]{color:var(--sun);border-color:var(--sun);background:var(--sun-soft);font-weight:600}
+@media(max-width:640px){.syncchip{font-size:9.5px;padding:3px 6px;letter-spacing:0}}
 .minirow{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .minirow::-webkit-scrollbar{display:none}
 .mini{
@@ -400,6 +402,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 <nav>
   <div class="wrap">
+    <div class="navrow">
     <div class="tabs" role="tablist" id="tabs">
       <button role="tab" data-t="s-now"  aria-selected="true"><span class="idx">01</span>總覽</button>
       <button role="tab" data-t="s-wx"   aria-selected="false"><span class="idx">02</span>天氣排跑</button>
@@ -409,7 +412,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <button role="tab" data-t="s-str"  aria-selected="false"><span class="idx">06</span>肌力訓練</button>
       <button role="tab" data-t="s-race" aria-selected="false"><span class="idx">07</span>賽事情報</button>
       <button role="tab" data-t="s-log"  aria-selected="false"><span class="idx">08</span>訓練日誌</button>
-      <span class="syncchip" id="sync" title="資料同步狀態">—</span>
+    </div>
+    <span class="syncchip" id="sync" title="資料同步狀態">—</span>
     </div>
   </div>
 </nav>
@@ -1390,6 +1394,22 @@ function setRemote(u){
   }
   save("fuji.gas.v1",u); REMOTE=u; location.reload(); return true;
 }
+/* Apps Script 偶發會回 404／逾時（Google 端的暫時性故障）。
+   單次失敗就放棄會讓畫面靜默停在舊資料，所以一律走重試。 */
+async function fetchJSON(url,opts,tries){
+  tries=tries||3; let last;
+  for(let i=0;i<tries;i++){
+    try{
+      const r=await fetch(url,opts);
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      return await r.json();
+    }catch(e){
+      last=e;
+      if(i<tries-1) await new Promise(x=>setTimeout(x,700*(i+1)));
+    }
+  }
+  throw last;
+}
 let QUEUE=load("fuji.queue.v1",[]);
 let SYNCED=false;
 
@@ -1399,9 +1419,9 @@ function syncChip(state,text){
 }
 function refreshChip(){
   if(!REMOTE) syncChip("","未連線 · 點此設定");
-  else if(QUEUE.length) syncChip("queue","待同步 "+QUEUE.length);
+  else if(QUEUE.length) syncChip("queue","待同步 "+QUEUE.length+" · 點此重試");
   else if(SYNCED) syncChip("ok","已同步");
-  else syncChip("","未連線");
+  else syncChip("err","連線失敗 · 點此重試");
 }
 function enqueue(op){
   if(!REMOTE) return;
@@ -1414,13 +1434,12 @@ async function flushQueue(){
   flushing=true; syncChip("busy","同步中…");
   const ops=QUEUE.slice();
   try{
-    const r=await fetch(REMOTE,{
+    // 用 text/plain 送 JSON：這是 CORS「簡單請求」，不會觸發 Apps Script 無法回應的 preflight
+    const j=await fetchJSON(REMOTE,{
       method:"POST",
-      // 用 text/plain 送 JSON：這是 CORS「簡單請求」，不會觸發 Apps Script 無法回應的 preflight
       headers:{"Content-Type":"text/plain;charset=utf-8"},
       body:JSON.stringify({action:"sync",ops:ops})
     });
-    const j=await r.json();
     if(!j.ok) throw new Error(j.error||"後端回報失敗");
     QUEUE=QUEUE.slice(ops.length); save("fuji.queue.v1",QUEUE);
     SYNCED=true;
@@ -1452,13 +1471,16 @@ async function pullRemote(){
   syncChip("busy","連線中…");
   try{
     if(QUEUE.length){ await flushQueue(); }
-    const r=await fetch(REMOTE+(REMOTE.includes("?")?"&":"?")+"action=all",{cache:"no-store"});
-    const j=await r.json();
+    const j=await fetchJSON(REMOTE+(REMOTE.includes("?")?"&":"?")+"action=all",{cache:"no-store"});
     if(!j.ok) throw new Error(j.error||"後端回報失敗");
     SYNCED=true; applyRemote(j.data); refreshChip();
     return j.weather||null;
   }catch(err){
-    SYNCED=false; syncChip("err","連線失敗"); return null;
+    SYNCED=false; refreshChip();
+    // 畫面會停在 localStorage 的舊資料，必須講明白，否則使用者會以為紀錄沒上傳
+    const n=(LOG&&LOG.length)||0;
+    if(n) syncChip("err","連線失敗 · 顯示舊資料");
+    return null;
   }
 }
 window.addEventListener("online",()=>{ if(QUEUE.length) flushQueue(); });
@@ -1925,9 +1947,7 @@ async function wxFetch(force,preloaded){
     save("fuji.wx.v1",WX); return WX;
   }
   if(REMOTE){                                     // 經由 Apps Script 代理（已在伺服器端解析好）
-    const r=await fetch(REMOTE+(REMOTE.includes("?")?"&":"?")+"action=weather"+(force?"&force=1":""),{cache:"no-store"});
-    if(!r.ok) throw new Error("後端回應 HTTP "+r.status);
-    const j=await r.json();
+    const j=await fetchJSON(REMOTE+(REMOTE.includes("?")?"&":"?")+"action=weather"+(force?"&force=1":""),{cache:"no-store"});
     if(!j.ok) throw new Error(j.error||"後端回報失敗");
     if(!j.weather||!j.weather.week||!j.weather.week.length) throw new Error("後端沒有回傳氣象資料");
     WX={ts:j.weather.ts||Date.now(),week:j.weather.week,hourly:j.weather.hourly||[]};
@@ -2227,7 +2247,13 @@ async function initWx(force,preloaded){
   }
 }
 $("#wx-reload").addEventListener("click",()=>initWx(true));
-$("#sync").addEventListener("click",()=>{
+$("#sync").addEventListener("click",async ()=>{
+  // 已設定但沒同步成功 → 直接重試，這是最常見的情況
+  if(REMOTE && (!SYNCED || QUEUE.length)){
+    const wx=await pullRemote();
+    if(SYNCED) initWx(false,wx);
+    return;
+  }
   const cur=REMOTE||"";
   const u=prompt("貼上 Apps Script 網頁應用程式網址：\n（留空則改為只存在這台裝置）",cur);
   if(u!==null) setRemote(u);
