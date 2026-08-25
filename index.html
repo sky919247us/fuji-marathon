@@ -486,6 +486,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     <h2>路跑條件 <span class="tag">CWA 中央氣象署開放資料</span></h2>
     <p class="lede">預報地點是<b>臺中市潭子區</b>（你的訓練路線起點）。評分以<b>體感溫度</b>為主 —— 台灣的夏天，決定跑不跑得下去的從來不是氣溫而是體感，濕度高到排汗散不掉時，30 度的體感等於 35 度的懲罰。</p>
     <div class="btnrow">
+      <span style="font-size:12.5px;color:var(--ink3);font-family:var(--f-mono);letter-spacing:.08em">習慣跑步時段：</span>
+      <button class="ghost" data-pref="night">夜間 19–01</button>
+      <button class="ghost" data-pref="dawn">清晨 04–08</button>
+      <button class="ghost" data-pref="any">不限</button>
       <button class="ghost" id="wx-reload">重新取得預報</button>
       <span id="wx-stamp" style="font-size:12px;color:var(--ink3)"></span>
     </div>
@@ -517,6 +521,31 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <svg id="wx-hourly" viewBox="0 0 1000 240" role="img" aria-label="未來三天逐小時體感溫度"></svg>
     </div>
     <div id="wx-slots" class="grid" style="gap:7px"></div>
+  </div>
+
+  <div class="block">
+    <h2>夜跑的兩個代價 <span class="tag">Trade-offs</span></h2>
+    <p class="lede">你的紀錄裡 11 趟有 7 趟在 20:00–01:06 之間，排程已改成以夜間為準。夜跑在台灣的夏天是合理選擇 —— 但有兩件事要知道。</p>
+    <div class="grid g2">
+      <div class="card">
+        <div class="btnrow"><span class="pill ochre">代價一</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">夜間比清晨熱 2–3°C</h3>
+        <p style="color:var(--ink2);font-size:13.5px">2026/08 台中實測：20:00 約 33°C、23:00 約 31°C、05:00 約 29°C。
+        換算配速代價約 <b>17–37 秒/km</b>。<br>
+        <b>可操作的結論：夜跑越晚越涼。</b>22:00–23:00 比 20:00 好上一個檔次，長跑尤其值得往後挪。</p>
+      </div>
+      <div class="card">
+        <div class="btnrow"><span class="pill sun">代價二 · 比較嚴重</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">壓縮睡眠等於壓縮恢復</h3>
+        <p style="color:var(--ink2);font-size:13.5px">你有幾趟起跑在 22:46、01:06、00:45 —— 跑完加上盥洗與心率回落，入睡容易拖到兩三點。
+        <b>訓練的效果是在睡眠中兌現的</b>，長期睡不夠，課表照跑但進步會打折，受傷風險也上升。<br>
+        22:00 前起跑、跑完 90 分鐘內入睡，是比配速更值得優先處理的事。</p>
+      </div>
+    </div>
+    <div class="note warn"><b>但賽前最後兩個月必須改成早上跑長跑。</b>
+      富士山馬拉松 <span class="mono">09:00</span> 起跑，氣溫 0–5°C。如果 16 個月的訓練全在夜間 30°C 進行，
+      身體從未練習過「在早上九點輸出」—— 生理時鐘對耐力表現的影響是真的。
+      計畫已在 <b>W58（2027 年 9 月底）</b>標記：從那一週起長跑改到早上，其餘課表維持夜間即可。</div>
   </div>
 
   <div class="block">
@@ -1324,7 +1353,8 @@ const BLOCK_FULL = {
   vol : [28,32,34,26, 34,36,38,28, 36,38,40,30, 40,42,44,32, 42,45,48,34, 46,48,50,36, 42,32,22],
   long: [18,20,22,16, 22,24,25,18, 24,26,27,20, 26,28,29,21, 28,30,32,22, 30,32,32,24, 26,16,42.195],
   ses : 4,
-  mk  : {0:"全馬分支啟動 · 從本週起加到一週 4 跑",9:"★ 夏季線上全馬（推測 08/07–08/16）· 沒有關門壓力的實測",18:"★ 長跑首破 30 km",21:"★ 長跑 32 km · 全馬最關鍵的一次",22:"最後一次 32 km，之後開始減量",23:"秋季線上賽（推測 11/01–11/10）· 全馬組當賽前演練",25:"賽前減量週",26:"★ 第 16 回富士山馬拉松 · 42.195 km · 關門 6:00:00"}
+  mk  : {16:"★ 長跑改到早上 —— 比賽 09:00 起跑，身體需要練習在那個時段輸出",
+         0:"全馬分支啟動 · 從本週起加到一週 4 跑",9:"★ 夏季線上全馬（推測 08/07–08/16）· 沒有關門壓力的實測",18:"★ 長跑首破 30 km",21:"★ 長跑 32 km · 全馬最關鍵的一次",22:"最後一次 32 km，之後開始減量",23:"秋季線上賽（推測 11/01–11/10）· 全馬組當賽前演練",25:"賽前減量週",26:"★ 第 16 回富士山馬拉松 · 42.195 km · 關門 6:00:00"}
 };
 const BLOCK_HALF = {
   vol : [24,26,28,22, 26,28,30,22, 28,30,30,24, 28,30,32,24, 30,32,32,26, 30,32,32,26, 30,24,17],
@@ -1453,6 +1483,19 @@ async function fetchJSON(url,opts,tries){
   }
   throw last;
 }
+/* 偏好時段。使用者慣常夜跑，排程若一直建議清晨等於沒用。
+   夜間比清晨熱約 2–3°C（實測 2026/08 台中），代價換算約 17–37 秒/km。 */
+const PREF_HOURS={
+  night:{lo:19,hi:1,  label:"夜間",  advice:"入夜 22:00–23:00（越晚越涼）", bump:2},
+  dawn: {lo:4, hi:8,  label:"清晨",  advice:"清晨 05:00–06:00",             bump:0},
+  any:  {lo:0, hi:24, label:"不限",  advice:"",                             bump:0}
+};
+let TPREF=load("fuji.tpref.v1","night");
+const inPref=h=>{
+  const p=PREF_HOURS[TPREF]||PREF_HOURS.any;
+  if(TPREF==="any") return true;
+  return p.lo>p.hi ? (h>=p.lo||h<=p.hi) : (h>=p.lo&&h<=p.hi);
+};
 let QUEUE=load("fuji.queue.v1",[]);
 let SYNCED=false;
 
@@ -1500,6 +1543,10 @@ function applyRemote(data){
     save("fuji.log.v1",LOG);
   }
   if(data.done&&typeof data.done==="object"){ DONE=data.done; save("fuji.done.v1",DONE); }
+  if(data.meta&&data.meta.tpref&&data.meta.tpref!==TPREF){
+    TPREF=data.meta.tpref; save("fuji.tpref.v1",TPREF);
+    if(WX){ paintPref(); renderWxMini(); renderWx(); }
+  }
   if(data.meta&&data.meta.branch&&data.meta.branch!==BRANCH){
     BRANCH=data.meta.branch; save("fuji.branch.v1",BRANCH);
     WEEKS=buildWeeks(BRANCH);
@@ -2020,7 +2067,10 @@ function slotLabel(st){
 function bestHour(st,et){
   if(!WX||!WX.hourly.length) return null;
   const a=new Date(st).getTime(), b=new Date(et).getTime();
-  const inRange=WX.hourly.filter(h=>{const t=new Date(h.time).getTime();return t>=a&&t<b;});
+  const inRange=WX.hourly.filter(h=>{
+    const d=new Date(h.time), t=d.getTime();
+    return t>=a && t<b && inPref(d.getHours());
+  });
   if(!inRange.length) return null;
   return inRange.reduce((m,h)=>h.at<m.at?h:m);
 }
@@ -2034,12 +2084,18 @@ function slotAdvice(st){
 /* 日彙整 */
 function wxDays(){
   if(!WX) return [];
+  const P=PREF_HOURS[TPREF]||PREF_HOURS.any;
   const map=new Map();
   WX.week.forEach(s=>{
-    const d=new Date(s.st), key=iso(d);
-    const sc=scoreRun(s.atMin,s.pop,s.rh,s.ws);
-    const bh=bestHour(s.st,s.et);
-    const rec={...s,score:sc,slot:slotLabel(s.st),advice:slotAdvice(s.st),bh};
+    const d=new Date(s.st), h=d.getHours(), key=iso(d);
+    // 夜間與清晨都落在 18:00–06:00 這個時段裡；白天時段只有「不限」才納入
+    if(TPREF!=="any" && h<18) return;
+    const bh=bestHour(s.st,s.et);           // 逐時資料涵蓋範圍內取偏好時段的最低體感
+    // 沒有逐時資料時退回區段最低值，夜跑再加上與清晨的溫差
+    const at = bh ? bh.at : (s.atMin===null?null:s.atMin+P.bump);
+    const sc=scoreRun(at,s.pop,s.rh,s.ws);
+    const rec={...s,atUse:at,score:sc,slot:slotLabel(s.st),
+               advice:P.advice||slotAdvice(s.st),bh,est:!bh};
     if(!map.has(key)) map.set(key,{date:key,slots:[]});
     map.get(key).slots.push(rec);
   });
@@ -2117,7 +2173,7 @@ function renderWxMini(){
       <span class="d">${md(d.date)}（${WD[dd.getDay()]}）</span>
       <span class="s" style="color:${g[2]}">${d.score}</span>
       <span class="bar"><i style="width:${d.score}%;background:${g[2]}"></i></span>
-      <span class="t">${d.best.atMin!==null?d.best.atMin+"°C":"—"} · ${d.best.pop!==null?d.best.pop+"%":"雨機率無資料"}</span>
+      <span class="t">${d.best.atUse!==null&&d.best.atUse!==undefined?Math.round(d.best.atUse)+"°C":"—"} · ${d.best.pop!==null?d.best.pop+"%":"雨機率無資料"}</span>
     </div>`;
   }).join("");
   const top=days.reduce((m,d)=>d.score>m.score?d:m);
@@ -2154,7 +2210,7 @@ function renderWx(){
             <b style="color:var(--ink)">${md(d.date)}（${WD[dd.getDay()]}）${esc(d.best.advice)}</b>
             <span class="pill" style="margin-left:6px;color:${g[2]}">${g[1]} ${d.score}</span><br>
             ${esc(txt)}<br>
-            <span style="color:var(--ink3);font-size:12.5px">${paceLine(z,d.best.atMin)}</span>
+            <span style="color:var(--ink3);font-size:12.5px">${paceLine(z,d.best.atUse)}</span>
           </span></div>`;
       }).join("")}
       ${a.pending>0?`<div class="note warn" style="margin-top:2px"><b>還有 ${a.pending} 次沒排進去。</b>
@@ -2178,13 +2234,13 @@ function renderWx(){
       <span class="bar"><i style="width:${d.score}%;background:${g[2]}"></i></span>
       <span class="wx">${esc(d.best.wx)}</span>
       <span class="met">
-        <span>體感 <b>${d.best.atMin!==null?d.best.atMin:"—"}–${d.best.atMax!==null?d.best.atMax:"—"}°C</b></span>
+        <span>體感 <b>${d.best.atUse!==null&&d.best.atUse!==undefined?Math.round(d.best.atUse):"—"}°C</b>${d.best.est?'<span style="color:var(--ink3)"> 估</span>':""}</span>
         <span>雨 <b>${d.best.pop!==null?d.best.pop+"%":"無資料"}</b></span>
         <span>濕 <b>${d.best.rh!==null?d.best.rh+"%":"—"}</b></span>
         <span>風 <b>${d.best.ws!==null?d.best.ws+" m/s":"—"}</b></span>
       </span>
       <span class="met">最佳時段 <b>${esc(d.best.advice)}</b>${d.best.bh?` · 最涼 ${new Date(d.best.bh.time).getHours()}:00 體感 ${d.best.bh.at}°C`:""}</span>
-      ${asg?`<span class="asg"><span class="zn z${asg.ses[0]}">${esc(ZN[asg.ses[0]]||asg.ses[0])}</span> ${fkm(asg.ses[1])} km · ${adjPaceText(asg.ses[0],d.best.atMin)}</span>`:""}
+      ${asg?`<span class="asg"><span class="zn z${asg.ses[0]}">${esc(ZN[asg.ses[0]]||asg.ses[0])}</span> ${fkm(asg.ses[1])} km · ${adjPaceText(asg.ses[0],d.best.atUse)}</span>`:""}
     </div>`;
   }).join("");
 
@@ -2241,7 +2297,7 @@ function renderHourly(){
 
   // 最佳時段清單
   const now=Date.now();
-  const cand=H.filter(h=>new Date(h.time).getTime()>now)
+  const cand=H.filter(h=>new Date(h.time).getTime()>now && inPref(new Date(h.time).getHours()))
               .map(h=>({...h,sc:scoreRun(h.at,h.pop,h.rh,null)}))
               .sort((a,b)=>b.sc-a.sc).slice(0,60);
   const seenD={}; const top=[];
@@ -2290,6 +2346,15 @@ async function initWx(force,preloaded){
   }
 }
 $("#wx-reload").addEventListener("click",()=>initWx(true));
+function paintPref(){
+  $$("[data-pref]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.pref===TPREF)));
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-pref]"); if(!b) return;
+  TPREF=b.dataset.pref; save("fuji.tpref.v1",TPREF);
+  enqueue({action:"setMeta",key:"tpref",value:TPREF});
+  paintPref(); renderWxMini(); renderWx();
+});
 $("#sync").addEventListener("click",async ()=>{
   // 已設定但沒同步成功 → 直接重試，這是最常見的情況
   if(REMOTE && (!SYNCED || QUEUE.length)){
@@ -2315,6 +2380,7 @@ const dLeft=daysTo(RACE_DAY);
 $("#foot-note").textContent="距富士山馬拉松 "+dLeft+" 天 · 資料存於本機瀏覽器";
 $("#br-half").setAttribute("aria-pressed",String(BRANCH==="half"));
 $("#br-full").setAttribute("aria-pressed",String(BRANCH==="full"));
+paintPref();
 renderCountdowns(); renderThisWeek(); renderAscent(); renderLadder();
 renderBase(); renderPlan(); renderLog();
 refreshChip();
