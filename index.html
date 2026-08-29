@@ -564,14 +564,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <div class="card">
         <h3 style="font-family:var(--f-display);font-size:18px">熱天配速修正</h3>
         <p style="color:var(--ink2);font-size:13.5px">高溫下維持原配速，心率會漂到節奏跑的區間 —— 表面上是輕鬆跑，身體收到的是高強度刺激，恢復卻跟不上。每張日卡都會直接給你當天該用的配速。</p>
+        <p style="color:var(--ink3);font-size:12.5px">修正值已依 08/29 實測減半。<b>熱適應是真的</b> —— 連續數週在台灣夏天訓練後，同樣溫度下的配速損失會明顯小於通用換算表的假設。</p>
         <div class="kvs">
           <div class="kv"><span class="k">體感 ≤ 18°C</span><span class="v">不調整</span></div>
-          <div class="kv"><span class="k">18–21°C</span><span class="v">+8 秒/km</span></div>
-          <div class="kv"><span class="k">21–24°C</span><span class="v">+18 秒/km</span></div>
-          <div class="kv"><span class="k">24–27°C</span><span class="v">+30 秒/km</span></div>
-          <div class="kv"><span class="k">27–29°C</span><span class="v">+45 秒/km</span></div>
-          <div class="kv"><span class="k">29–31°C</span><span class="v">+62 秒/km</span></div>
-          <div class="kv"><span class="k">31–33°C</span><span class="v">+82 秒/km</span></div>
+          <div class="kv"><span class="k">18–21°C</span><span class="v">+5 秒/km</span></div>
+          <div class="kv"><span class="k">21–24°C</span><span class="v">+11 秒/km</span></div>
+          <div class="kv"><span class="k">24–27°C</span><span class="v">+18 秒/km</span></div>
+          <div class="kv"><span class="k">27–29°C</span><span class="v">+25 秒/km</span></div>
+          <div class="kv"><span class="k">29–31°C</span><span class="v">+33 秒/km</span></div>
+          <div class="kv"><span class="k">31–33°C</span><span class="v">+42 秒/km</span></div>
           <div class="kv"><span class="k">33°C 以上</span><span class="v" style="color:var(--sun)">改期或只做短跑</span></div>
         </div>
       </div>
@@ -680,19 +681,26 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
   <div class="block">
     <h2>配速區間 <span class="tag">Zones</span></h2>
-    <p class="lede">由 8/18 的 6.04 km 表現推得，範圍刻意放寬因為單次紀錄的推算誤差大。真正的判準是說話測試，不是手錶上的數字 —— 體感優先於配速。</p>
+    <p class="lede">已依 <b>2026/08/29</b> 的實測校準：那一趟在體感 33°C 下，後半 4 公里以<b>鼻呼吸</b>維持 <span class="mono">8:21/km</span>。
+      原本的區間由八月高溫紀錄推算，低估了實際能力 —— 因為你已經熱適應，通用換算表的熱天懲罰對你過重。
+      真正的判準仍是呼吸與說話測試，不是手錶上的數字。</p>
     <div class="tblwrap">
       <table>
         <thead><tr><th>區間</th><th class="n">配速 /km</th><th>說話測試</th><th>用在哪裡</th><th class="n">佔比</th></tr></thead>
         <tbody>
-          <tr><td><span class="zn zE mono" style="padding:2px 6px;border-radius:2px">E</span> 輕鬆跑</td><td class="n">8:20 – 9:00</td><td>能講完整句子</td><td>所有短跑與中跑的預設值</td><td class="n">～55%</td></tr>
-          <tr><td><span class="zn zL mono" style="padding:2px 6px;border-radius:2px">L</span> 長跑</td><td class="n">8:40 – 9:20</td><td>能聊天，跑完還有餘力</td><td>每週最長那一次；比輕鬆跑再慢</td><td class="n">～35%</td></tr>
+          <tr><td><span class="zn zE mono" style="padding:2px 6px;border-radius:2px">E</span> 輕鬆跑</td><td class="n">7:40 – 8:20</td><td>能講完整句子</td><td>所有短跑與中跑的預設值</td><td class="n">～55%</td></tr>
+          <tr><td><span class="zn zL mono" style="padding:2px 6px;border-radius:2px">L</span> 長跑</td><td class="n">8:00 – 8:40</td><td>能聊天，跑完還有餘力</td><td>每週最長那一次；比輕鬆跑再慢</td><td class="n">～35%</td></tr>
           <tr class="mark"><td><span class="zn zM mono" style="padding:2px 6px;border-radius:2px">M</span> 馬拉松配速</td><td class="n">8:20 – 8:35</td><td>能講短句，但不想講</td><td>長跑尾段 4–6 km；sub-6 的目標配速</td><td class="n">～5%</td></tr>
-          <tr><td><span class="zn zT mono" style="padding:2px 6px;border-radius:2px">T</span> 節奏跑</td><td class="n">7:10 – 7:35</td><td>只能講短句</td><td>每次 12–25 分鐘，一週最多一次</td><td class="n">～8%</td></tr>
-          <tr><td><span class="zn zR mono" style="padding:2px 6px;border-radius:2px">R</span> 快步</td><td class="n">6:20 – 6:50</td><td>講不出話</td><td>20–30 秒短段 ×4–6，練跑姿不是練心肺</td><td class="n">～2%</td></tr>
+          <tr><td><span class="zn zT mono" style="padding:2px 6px;border-radius:2px">T</span> 節奏跑</td><td class="n">7:00 – 7:25</td><td>只能講短句</td><td>每次 12–25 分鐘，一週最多一次</td><td class="n">～8%</td></tr>
+          <tr><td><span class="zn zR mono" style="padding:2px 6px;border-radius:2px">R</span> 快步</td><td class="n">6:15 – 6:40</td><td>講不出話</td><td>20–30 秒短段 ×4–6，練跑姿不是練心肺</td><td class="n">～2%</td></tr>
         </tbody>
       </table>
     </div>
+    <div class="note"><b>校準後浮現一個關鍵事實：全馬目標配速 8:32，落在你的輕鬆跑區間裡。</b>
+      這代表 sub-6 <b>完全不是速度問題</b> —— 你現在的輕鬆跑就已經比目標配速快。
+      唯一的變數是能不能連續移動六小時。<br>
+      所以訓練重心不在速度課表，而在三件事：<b>累積時間、長跑距離、不要受傷</b>。
+      這也讓 T 與 R 那些快課的優先序往後排 —— 它們有用，但不是決勝點。</div>
     <div class="note warn"><b>訓練配速不等於比賽配速 —— 也不等於關門配速。</b>
       這是最容易誤解的地方，把三件事分開看：<br>
       <b>1. 關門線只管實體全馬。</b>線上賽（秋季半馬、冬季 25K）<b>沒有關門時間</b>；實體 17 公里組的關門是 3 小時，換算 <span class="mono">10:35/km</span>，比現在的訓練配速還寬鬆。<span class="mono">8:32/km</span> 只是實體全馬的門檻，那是 2027 年 5 月才要決定的分支。<br>
@@ -754,7 +762,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
           <tr><td class="mono">8:30 /km</td><td class="n">158</td><td class="n">0.75 m</td><td>輕鬆跑</td></tr>
           <tr><td class="mono">8:00 /km</td><td class="n">160</td><td class="n">0.78 m</td><td>輕鬆跑上緣</td></tr>
           <tr><td class="mono">7:30 /km</td><td class="n">165</td><td class="n">0.81 m</td><td>節奏跑</td></tr>
-          <tr class="mark"><td class="mono"><b>你現在 8:00</b></td><td class="n"><b>134</b></td><td class="n"><b>0.93 m</b></td><td><b>步幅過大，腳落在身體前方</b></td></tr>
+          <tr class="mark"><td class="mono"><b>你現在 8:00</b></td><td class="n"><b>149</b></td><td class="n"><b>0.84 m</b></td><td><b>已達標 · 08/29 實測，續往 155 推進</b></td></tr>
         </tbody>
       </table>
     </div>
@@ -1643,7 +1651,7 @@ function renderThisWeek(){
 
 const ZN={E:"E 輕鬆",L:"L 長跑",M:"M 馬配",T:"T 節奏",R:"R 快步",RACE:"比賽",S:"肌力"};
 /* 常溫基準配速。天氣分頁另外會加上熱天修正 —— 修正的是配速，不是強度。 */
-const ZPACE={E:"8:20–9:00",L:"8:40–9:20",M:"8:20–8:35",T:"7:10–7:35",R:"6:20–6:50",RACE:"見說明",S:""};
+const ZPACE={E:"7:40–8:20",L:"8:00–8:40",M:"8:20–8:35",T:"7:00–7:25",R:"6:15–6:40",RACE:"見說明",S:""};
 function sesHTML(s,wno,k){
   const[z,km,txt]=s;
   const id=doneKey(wno,k);
@@ -1981,11 +1989,13 @@ const GRADES=[[78,"極佳","var(--moss)"],[64,"良好","#7FA84E"],[50,"普通","
 const grade=s=>GRADES.find(g=>s>=g[0]);
 
 /* 熱天配速修正（秒/km） */
+/* 修正幅度依 2026/08/29 實測校準：在體感 33°C 下以鼻呼吸維持 8:21/km。
+   通用換算表假設未熱適應者，對已連續數週在台灣夏天訓練的人過度懲罰，故約減半。 */
 function heatAdj(at){
-  if(at===null) return 20;
-  if(at<=18) return 0;   if(at<=21) return 8;   if(at<=24) return 18;
-  if(at<=27) return 30;  if(at<=29) return 45;  if(at<=31) return 62;
-  if(at<=33) return 82;  return -1;             // -1 = 不建議長跑／節奏跑
+  if(at===null) return 12;
+  if(at<=18) return 0;   if(at<=21) return 5;   if(at<=24) return 11;
+  if(at<=27) return 18;  if(at<=29) return 25;  if(at<=31) return 33;
+  if(at<=33) return 42;  return -1;             // -1 = 不建議長跑／節奏跑
 }
 const adjPace=(base,add)=>mmss(base+add);
 
@@ -2155,7 +2165,7 @@ function assignWeek(){
 }
 
 /* 渲染 */
-const PACE_BASE={E:8*60+40,L:9*60+0,M:8*60+27,T:7*60+22,R:6*60+35,RACE:9*60+0};
+const PACE_BASE={E:8*60+0,L:8*60+20,M:8*60+27,T:7*60+12,R:6*60+27,RACE:8*60+20};
 function paceLine(z,at){
   const add=heatAdj(at), base=PACE_BASE[z]||PACE_BASE.E;
   if(add<0) return `<b style="color:var(--sun)">體感過高，建議改期或只做 20–30 分鐘輕鬆跑</b>`;
