@@ -1062,6 +1062,36 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   </div>
 
   <div class="block">
+    <h2>秋季賽獎品 <span class="tag">Rewards</span></h2>
+    <p class="lede">線上賽的獎品是<b>賽後統一寄送</b>，不是當場領取。所以 11 月跑完之後還要等一段時間 —— 先知道這件事，就不會以為漏寄了。</p>
+    <div class="grid g2">
+      <div class="card">
+        <div class="btnrow"><span class="pill">參賽即得</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">富士山原創提花浴巾（棕色）</h3>
+        <p style="color:var(--ink2);font-size:13.5px">所有<b>報名參賽者</b>都有，跟完賽與否無關。也就是說只要報了名，就算當天狀況不好沒跑完，這條浴巾還是你的。</p>
+      </div>
+      <div class="card">
+        <div class="btnrow"><span class="pill sun">完賽才有</span></div>
+        <h3 style="font-family:var(--f-display);font-size:18px">富士山原創完賽獎牌</h3>
+        <p style="color:var(--ink2);font-size:13.5px">只有<b>完成登錄距離</b>的人拿得到。你報 17 km 組，跑滿 17 km 就成立 —— 當天多跑到 21.1 是給自己的，獎牌看的是官方距離。</p>
+      </div>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>時間</th><th>事件</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">2026/09/09 – 10/25</td><td>報名期間（已開放）</td></tr>
+          <tr class="mark"><td class="mono">2026/10/31 – 11/09</td><td><b>賽期 10 天，挑一天跑</b></td></tr>
+          <tr><td class="mono">2027/01 下旬</td><td><b>獎品出貨</b> —— 浴巾＋完賽獎牌</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>從跑完到收到獎品大約要等兩個半月。</b>
+      這是線上賽的常態 —— 主辦方要等賽期結束、彙整所有參賽者的紀錄後才統一製作寄送。
+      日本寄台灣通常再多幾天，所以實際到手可能落在 2027 年 2 月初。</div>
+  </div>
+
+  <div class="block">
     <h2>實體賽組別 <span class="tag">Mt. Fuji Marathon</span></h2>
     <p class="lede">富士山馬拉松的組別是 42.195 / 17 / 10.5 / 8 / 4，沒有 21 公里這一檔 —— 半馬只能在線上跑。</p>
     <div class="tblwrap">
@@ -1086,6 +1116,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
         <tbody>
           <tr class="mark"><td class="mono">2026/09/09 – <b>10/25</b></td><td><b>秋季 TATTA RUN 報名</b><span class="pill sun" style="margin-left:6px">已開放</span></td><td>RUNNET</td><td><b>報 17 km 組 ¥6,500</b>（秋季無半馬組）。賽期 10/31–11/09，當天跑滿 21.1</td></tr>
           <tr><td class="mono">2026/12/08</td><td>冬季 TATTA RUN 報名開放（推測）</td><td>RUNNET</td><td>報 25 km 組</td></tr>
+          <tr><td class="mono">2027/01 下旬</td><td>秋季賽獎品出貨</td><td>RUNNET / 主辦方寄送</td><td>提花浴巾（參賽即得）＋完賽獎牌（完賽者）</td></tr>
           <tr class="mark"><td class="mono">2027/03 起<br><span style="color:var(--ink3);font-size:11px">留意開團</span></td><td><b>KNT 台灣 旅遊團</b><span class="pill sun" style="margin-left:6px">首選</span></td><td><a href="https://www.knt-taiwan.com/sport/form_table/journey_plan.php?id=459" target="_blank" rel="noopener">knt-taiwan.com</a><br><span class="mono" style="font-size:11px">02-8771-7551</span></td><td><b>保證參賽資格</b>，不必搶名額。含機票＋住宿＋報名費</td></tr>
           <tr><td class="mono">2027/05/07</td><td>KNT 日本 旅遊套裝</td><td>info-mtfujimarathon@or.knt.co.jp</td><td>日文洽詢；名額與台灣團分開計算</td></tr>
           <tr class="mark"><td class="mono">2027/06/01 10:00 JST<br><span style="color:var(--ink3);font-size:11px">＝台灣 09:00</span></td><td><b>一般報名開放</b></td><td>Run Japan</td><td>先到先得、開放後不久即額滿 —— 必須守在電腦前</td></tr>
@@ -1317,6 +1348,7 @@ const RACE_DAY = "2027-12-12";
 const EVENTS = [
  {d:"2026-10-25", t:"秋季賽報名截止", s:"已確認 · 報名已開放", cls:"hot"},
  {d:"2026-10-31", t:"秋季 TATTA RUN", s:"賽期 10/31–11/09 · 已確認", cls:"hot"},
+ {d:"2027-01-25", t:"秋季賽獎品出貨", s:"浴巾＋完賽獎牌 · 預計 1 月下旬", cls:""},
  {d:"2027-03-07", t:"冬季 TATTA RUN 25K", s:"賽期至 03/16 · 推測", cls:""},
  {d:"2027-06-01", t:"富士山馬拉松一般報名", s:"台灣時間 09:00 開搶", cls:"go"},
  {d:RACE_DAY,     t:"第 16 回富士山馬拉松", s:"推測日期", cls:"go"}
