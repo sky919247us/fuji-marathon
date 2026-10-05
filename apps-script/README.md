@@ -13,7 +13,7 @@
 1. 開 [sheets.new](https://sheets.new) 建一份新的 Google 試算表
 2. 命名為 `富士山訓練資料`（名字隨意）
 
-三個工作表 `runs` / `done` / `meta` 會在第一次執行時**自動建立**，不用手動開。
+四個工作表 `runs` / `body` / `done` / `meta` 會在第一次執行時**自動建立**，不用手動開。
 
 ## 2. 貼上程式碼
 
@@ -44,6 +44,7 @@
 ```
 CWA_KEY 已設定：是
 工作表 runs：就緒
+工作表 body：就緒
 工作表 done：就緒
 工作表 meta：就緒
 氣象取得成功：未來 14 個時段、逐時 56 點
@@ -100,13 +101,14 @@ Apps Script 的網頁應用程式**不會**自動套用新程式碼。改完要�
 | 天氣區塊說後端沒回傳資料 | `CWA_KEY` 沒設或打錯。跑一次 `selfTest` 看訊息 |
 | 改了 Code.gs 但行為沒變 | 忘記重新部署新版本（見上一節） |
 | 資料沒進試算表 | 打開試算表看 `runs` 工作表是否被手動改名或刪掉 |
-| 想清空重來 | 直接在試算表刪掉 `runs` / `done` / `meta` 三個工作表，下次呼叫會自動重建 |
+| 想清空重來 | 直接在試算表刪掉 `runs` / `body` / `done` / `meta` 四個工作表，下次呼叫會自動重建 |
 
 ## 資料長什麼樣
 
 | 工作表 | 欄位 | 說明 |
 |---|---|---|
 | `runs` | id, date, km, sec, type, note, created | 每一次跑步；`sec` 是總秒數，配速由前端算 |
+| `body` | id, date, weight, bodyFat, muscle, skeletal, visceral, bmr, water, restHR, waist, note, created | 身體組成（體重計數值＋腰圍）；空白＝那次沒量。前端「09 身體數據」 |
 | `done` | key, value, updated | 已完成的課表，key 形如 `5.2`＝第 5 週第 3 次 |
 | `meta` | key, value, updated | 目前只有 `branch`＝`half`（17K）或 `full`（全馬） |
 

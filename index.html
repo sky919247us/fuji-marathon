@@ -141,7 +141,7 @@ nav{
 .tabs button{
   flex:0 0 auto;appearance:none;background:none;border:0;
   border-bottom:2px solid transparent;
-  padding:13px 14px;cursor:pointer;
+  padding:13px 12px;cursor:pointer;
   font-family:var(--f-body);font-size:14px;color:var(--ink3);
   white-space:nowrap;transition:color .15s;
 }
@@ -1339,7 +1339,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     <h2>趨勢 <span class="tag">Trend</span></h2>
     <p class="lede" id="body-since"></p>
     <div class="grid g4" id="body-charts"></div>
-    <p style="font-size:12.5px;color:var(--ink3)">綠點＝往好的方向（體重、體脂、腰圍、內臟脂肪、心率下降；肌肉量、骨骼肌上升），橘點＝反方向。基礎代謝只看變化、不分好壞。</p>
+    <p style="font-size:12.5px;color:var(--ink3)">綠點＝往好的方向（體重、體脂、腰圍、內臟脂肪、心率下降；肌肉量、骨骼肌上升），橘點＝反方向，灰點＝變化還在日常浮動範圍內（例如體重不到 1 kg），先別解讀。基礎代謝只看變化、不分好壞。</p>
   </div>
 
   <div class="block">
@@ -1362,7 +1362,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
         <p style="color:var(--ink2);font-size:13.5px">耐力訓練讓心臟每跳一下送出更多血，靜止心率會慢慢往下走；持續數個月，平均約下降 5 下左右，個人差異大。體重計量到的是站著的心率，比真正的靜止心率高，<b>只拿來跟自己比</b>。</p>
       </div>
     </div>
-    <p style="font-size:12.5px;color:var(--ink3)">沒收的欄位：BMI、去脂體重可由體重與體脂直接換算；蛋白質、骨鹽量、身體年齡是體重計用模型推估、變化很小；腰臀比體重計量不到、只是估算，改用實際量的腰圍。</p>
+    <p style="font-size:12.5px;color:var(--ink3)">沒收的欄位：BMI 是體重除以身高平方（身高不變，等於體重換個單位）、去脂體重是體重扣掉脂肪量，都能從已記的數字推回來；蛋白質、骨鹽量、身體年齡是體重計用模型推估、變化很小；腰臀比體重計量不到、只是估算，改用實際量的腰圍。</p>
   </div>
 
   <div class="block">
@@ -1371,15 +1371,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     <div class="card">
       <form class="log" id="bodyform">
         <label class="fld">日期<input type="date" id="b-date" required></label>
-        <label class="fld">體重 kg<input type="number" id="b-weight" step="0.1" min="30" max="200"></label>
-        <label class="fld">體脂率 %<input type="number" id="b-fat" step="0.1" min="3" max="60"></label>
-        <label class="fld">肌肉量 kg<input type="number" id="b-muscle" step="0.1" min="10" max="150"></label>
-        <label class="fld">骨骼肌量 kg<input type="number" id="b-skel" step="0.1" min="5" max="100"></label>
-        <label class="fld">內臟脂肪等級<input type="number" id="b-visc" step="1" min="1" max="30"></label>
-        <label class="fld">基礎代謝 kcal<input type="number" id="b-bmr" step="1" min="500" max="5000"></label>
-        <label class="fld">身體水分 %<input type="number" id="b-water" step="0.1" min="20" max="80"></label>
-        <label class="fld">心率 bpm<input type="number" id="b-hr" step="1" min="30" max="150"></label>
-        <label class="fld">腰圍 cm<input type="number" id="b-waist" step="0.5" min="40" max="200"></label>
+        <label class="fld">體重 kg<input type="number" id="b-weight" step="any" min="30" max="200"></label>
+        <label class="fld">體脂率 %<input type="number" id="b-fat" step="any" min="3" max="60"></label>
+        <label class="fld">肌肉量 kg<input type="number" id="b-muscle" step="any" min="10" max="150"></label>
+        <label class="fld">骨骼肌量 kg<input type="number" id="b-skel" step="any" min="5" max="100"></label>
+        <label class="fld">內臟脂肪等級<input type="number" id="b-visc" step="any" min="1" max="30"></label>
+        <label class="fld">基礎代謝 kcal<input type="number" id="b-bmr" step="any" min="500" max="5000"></label>
+        <label class="fld">身體水分 %<input type="number" id="b-water" step="any" min="20" max="80"></label>
+        <label class="fld">心率 bpm<input type="number" id="b-hr" step="any" min="30" max="150"></label>
+        <label class="fld">腰圍 cm<input type="number" id="b-waist" step="any" min="40" max="200"></label>
         <label class="fld">備註<input type="text" id="b-note" placeholder="選填"></label>
         <button class="act" type="submit">加入</button>
       </form>
@@ -1388,7 +1388,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
   <div class="block">
     <h2>全部紀錄 <span class="tag">History · 最新在上</span></h2>
-    <p class="lede" style="font-size:13px">「期間跑量」＝從上一筆紀錄隔天到這一筆當天之間跑的總距離，用來對照數字變化是跑多少換來的。</p>
+    <p class="lede" style="font-size:13px">「期間跑量」＝從上一筆紀錄當天到這一筆前一天跑的總距離，用來對照數字變化是跑多少換來的。（建議早上量、你多半晚上跑，所以量測當天的跑步算進下一期。）</p>
     <div class="tblwrap">
       <table>
         <thead><tr>
@@ -1702,7 +1702,7 @@ function applyRemote(data){
       steps:r.steps||null,up:r.up,down:r.down,kcal:r.kcal,note:r.note||""}));
     save("fuji.log.v1",LOG);
   }
-  if(Array.isArray(data.body)){ BODY=data.body; save("fuji.body.v1",BODY); renderBody(); }
+  if(Array.isArray(data.body)){ BODY=data.body; save("fuji.body.v1",BODY); }   // 由結尾的 renderLog() 一併重畫
   if(data.done&&typeof data.done==="object"){ DONE=data.done; save("fuji.done.v1",DONE); }
   if(data.meta&&data.meta.tpref&&data.meta.tpref!==TPREF){
     TPREF=data.meta.tpref; save("fuji.tpref.v1",TPREF);
@@ -1999,6 +1999,7 @@ const allRuns=()=>{
 };
 
 function renderLog(){
+  renderBody();   // 身體數據頁的「期間跑量」依賴跑步紀錄：跑步一有變動（新增、刪除、同步）就一起重畫
   const rows=allRuns();
   $("#logcount").textContent=`共 ${rows.length} 筆（其中 ${SEED.length} 筆為內建基準紀錄，不可刪除）`;
   $("#log-rows").innerHTML=rows.length?[...rows].reverse().map((r,i)=>`
@@ -2037,6 +2038,9 @@ function renderLog(){
 $("#tabs").addEventListener("click",e=>{
   const b=e.target.closest("button[data-t]"); if(!b) return;
   $$("#tabs button").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
+  const tl=$("#tabs"), br=b.getBoundingClientRect(), tr=tl.getBoundingClientRect();
+  if(br.right>tr.right) tl.scrollLeft+=br.right-tr.right+12;
+  else if(br.left<tr.left) tl.scrollLeft-=tr.left-br.left+12;
   $$("main > section").forEach(s=>{s.hidden = s.id!==b.dataset.t;});
   window.scrollTo({top:0,behavior:"smooth"});
 });
@@ -2078,7 +2082,7 @@ $("#logform").addEventListener("submit",e=>{
 });
 
 $("#export").addEventListener("click",()=>{
-  const txt=JSON.stringify({runs:LOG,done:DONE,branch:BRANCH},null,2);
+  const txt=JSON.stringify({runs:LOG,body:BODY,done:DONE,branch:BRANCH},null,2);
   navigator.clipboard?.writeText(txt).then(
     ()=>{$("#export").textContent="已複製到剪貼簿";setTimeout(()=>$("#export").textContent="匯出 JSON",1800);},
     ()=>{window.prompt("複製以下內容：",txt);}
@@ -2538,25 +2542,27 @@ document.addEventListener("click",e=>{
 
 
 /* ══════════ 身體數據 ══════════
-   dir：-1＝數值下降為佳，+1＝上升為佳，0＝不分好壞 */
+   dir：-1＝數值下降為佳，+1＝上升為佳，0＝不分好壞
+   noise：小於這個幅度的變化視為日常浮動，不判好壞（經驗值，不是儀器規格） */
 const BODY_METRICS=[
-  {k:"weight",  l:"體重",     u:"kg",   dir:-1, dp:1},
-  {k:"bodyFat", l:"體脂率",   u:"%",    dir:-1, dp:1},
-  {k:"waist",   l:"腰圍",     u:"cm",   dir:-1, dp:1},
-  {k:"restHR",  l:"心率",     u:"bpm",  dir:-1, dp:0},
-  {k:"muscle",  l:"肌肉量",   u:"kg",   dir: 1, dp:1},
-  {k:"skeletal",l:"骨骼肌量", u:"kg",   dir: 1, dp:1},
-  {k:"visceral",l:"內臟脂肪", u:"級",   dir:-1, dp:0},
-  {k:"bmr",     l:"基礎代謝", u:"kcal", dir: 0, dp:0}
+  {k:"weight",  l:"體重",     u:"kg",   dir:-1, dp:1, noise:1},
+  {k:"bodyFat", l:"體脂率",   u:"%",    dir:-1, dp:1, noise:1},
+  {k:"waist",   l:"腰圍",     u:"cm",   dir:-1, dp:1, noise:1},
+  {k:"restHR",  l:"心率",     u:"bpm",  dir:-1, dp:0, noise:3},
+  {k:"muscle",  l:"肌肉量",   u:"kg",   dir: 1, dp:1, noise:1},
+  {k:"skeletal",l:"骨骼肌量", u:"kg",   dir: 1, dp:1, noise:0.5},
+  {k:"visceral",l:"內臟脂肪", u:"級",   dir:-1, dp:0, noise:1},
+  {k:"bmr",     l:"基礎代謝", u:"kcal", dir: 0, dp:0, noise:0}
 ];
 const hasV=v=>v!==null&&v!==undefined&&v!==""&&isFinite(+v);
 const fx=(v,dp)=>hasV(v)?(+v).toFixed(dp).replace(/\.0+$/,""):"—";
-const bodySorted=()=>[...BODY].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+const bodySorted=()=>BODY.filter(r=>r&&/^\d{4}-\d{2}-\d{2}$/.test(r.d)).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
 const seriesOf=k=>bodySorted().filter(r=>hasV(r[k]));
 const trendOf=(m,s)=>{
   const d=+s[s.length-1][m.k]-(+s[0][m.k]);
   const flat=Math.abs(d)<Math.pow(10,-m.dp)/2;
-  return {d:d,flat:flat,cls:(flat||m.dir===0)?"":(d*m.dir>0?"good":"bad")};
+  const noisy=!flat&&Math.abs(d)<m.noise;
+  return {d:d,flat:flat,noisy:noisy,cls:(flat||noisy||m.dir===0)?"":(d*m.dir>0?"good":"bad")};
 };
 
 function deltaHTML(m){
@@ -2566,7 +2572,7 @@ function deltaHTML(m){
   const t=trendOf(m,s);
   const dot=t.cls?`<i class="${t.cls}" role="img" aria-label="${t.cls==="good"?"改善":"變差"}"></i>`:"<i></i>";
   if(t.flat) return `<span class="d">${dot}持平　自 ${md(s[0].d)}</span>`;
-  return `<span class="d">${dot}${t.d>0?"+":"−"}${fx(Math.abs(t.d),m.dp)} ${m.u}　自 ${md(s[0].d)}</span>`;
+  return `<span class="d">${dot}${t.d>0?"+":"−"}${fx(Math.abs(t.d),m.dp)} ${m.u}${t.noisy?"（浮動範圍內）":""}　自 ${md(s[0].d)}</span>`;
 }
 
 function sparkSVG(m){
@@ -2618,11 +2624,12 @@ function renderBody(){
       ${deltaHTML(m)}${sparkSVG(m)}</div>`;
   }).join("");
 
-  // 期間跑量：上一筆紀錄的隔天 → 這一筆當天
+  // 期間跑量：上一筆紀錄當天 → 這一筆前一天（早上量、晚上跑，量測當天的跑步屬於下一期）
   const span={};
   asc.forEach((r,i)=>{
     span[r.id]= i===0 ? null
-      : runs.filter(x=>x.d>asc[i-1].d&&x.d<=r.d).reduce((a,x)=>a+x.km,0);
+      : asc[i-1].d===r.d ? "same"
+      : runs.filter(x=>x.d>=asc[i-1].d&&x.d<r.d).reduce((a,x)=>a+x.km,0);
   });
   $("#body-rows").innerHTML=asc.length?[...asc].reverse().map(r=>`<tr>
     <td class="mono">${ymd(r.d)}</td>
@@ -2631,7 +2638,7 @@ function renderBody(){
     <td class="n">${fx(r.visceral,0)}</td><td class="n">${fx(r.bmr,0)}</td>
     <td class="n">${fx(r.water,1)}</td><td class="n">${fx(r.restHR,0)}</td>
     <td class="n">${fx(r.waist,1)}</td>
-    <td class="n" style="color:var(--ink2)">${span[r.id]===null?"—":span[r.id].toFixed(1)}</td>
+    <td class="n" style="color:var(--ink2)">${span[r.id]===null?"—":span[r.id]==="same"?"同日":span[r.id].toFixed(1)}</td>
     <td style="white-space:normal;color:var(--ink2);font-size:13px;min-width:160px">${esc(r.note||"")}</td>
     <td><button class="ghost" data-delbody="${esc(r.id)}">刪除</button></td></tr>`).join("")
     :`<tr><td colspan="13" style="color:var(--ink3)">尚無紀錄</td></tr>`;
@@ -2661,7 +2668,7 @@ document.addEventListener("click",e=>{
 
 /* ══════════ 啟動 ══════════ */
 $("#f-date").value=iso(today);
-$("#b-date").value=iso(today);
+$("#b-date").value=iso(today); $("#b-date").max=iso(today);
 $("#today-lab").textContent=ymd(iso(today))+"（"+WD[today.getDay()]+"）";
 const dLeft=daysTo(RACE_DAY);
 $("#foot-note").textContent="距富士山馬拉松 "+dLeft+" 天 · 資料存於本機瀏覽器";
@@ -2669,7 +2676,7 @@ $("#br-half").setAttribute("aria-pressed",String(BRANCH==="half"));
 $("#br-full").setAttribute("aria-pressed",String(BRANCH==="full"));
 paintPref();
 renderCountdowns(); renderThisWeek(); renderAscent(); renderLadder();
-renderBase(); renderPlan(); renderLog(); renderBody();
+renderBase(); renderPlan(); renderLog();   // renderLog 會一併畫身體數據
 refreshChip();
 // 一次往返同時取回訓練資料與天氣；沒設定後端時 pullRemote 回 null，initWx 自行降級
 (async()=>{ const wx=await pullRemote(); initWx(false,wx); })();
