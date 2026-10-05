@@ -2556,12 +2556,15 @@ const BODY_METRICS=[
 ];
 const hasV=v=>v!==null&&v!==undefined&&v!==""&&isFinite(+v);
 const fx=(v,dp)=>hasV(v)?(+v).toFixed(dp).replace(/\.0+$/,""):"—";
-const bodySorted=()=>BODY.filter(r=>r&&/^\d{4}-\d{2}-\d{2}$/.test(r.d)).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+// 日期要是真實存在的日子（2026-02-30 這種形狀對、日曆不對的也排除）
+const validD=d=>typeof d==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(d)&&iso(dt(d))===d;
+const bodySorted=()=>BODY.filter(r=>r&&validD(r.d)).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
 const seriesOf=k=>bodySorted().filter(r=>hasV(r[k]));
 const trendOf=(m,s)=>{
   const d=+s[s.length-1][m.k]-(+s[0][m.k]);
-  const flat=Math.abs(d)<Math.pow(10,-m.dp)/2;
-  const noisy=!flat&&Math.abs(d)<m.noise;
+  // 先四捨五入到顯示位數再判斷：避免「畫面寫 −1 kg 卻說在浮動範圍內」，也避開浮點誤差（16.4−15.4＝0.99999…）
+  const ad=+Math.abs(d).toFixed(m.dp);
+  const flat=ad===0, noisy=!flat&&ad<m.noise;
   return {d:d,flat:flat,noisy:noisy,cls:(flat||noisy||m.dir===0)?"":(d*m.dir>0?"good":"bad")};
 };
 
@@ -2572,7 +2575,7 @@ function deltaHTML(m){
   const t=trendOf(m,s);
   const dot=t.cls?`<i class="${t.cls}" role="img" aria-label="${t.cls==="good"?"改善":"變差"}"></i>`:"<i></i>";
   if(t.flat) return `<span class="d">${dot}持平　自 ${md(s[0].d)}</span>`;
-  return `<span class="d">${dot}${t.d>0?"+":"−"}${fx(Math.abs(t.d),m.dp)} ${m.u}${t.noisy?"（浮動範圍內）":""}　自 ${md(s[0].d)}</span>`;
+  return `<span class="d">${dot}${t.d>0?"+":"−"}${fx(Math.abs(t.d),m.dp)} ${m.u}${t.noisy?'<span style="white-space:nowrap">（浮動範圍內）</span>':""}　自 ${md(s[0].d)}</span>`;
 }
 
 function sparkSVG(m){
@@ -2616,6 +2619,8 @@ function renderBody(){
     const rs=runs.filter(r=>r.d>=asc[0].d), km=rs.reduce((a,r)=>a+r.km,0);
     since.textContent=`自第一筆紀錄（${ymd(asc[0].d)}）以來：跑了 ${rs.length} 次、共 ${km.toFixed(1)} km。`;
   }else since.textContent="還沒有紀錄。";
+  const bad=BODY.length-asc.length;
+  if(bad) since.textContent+=`（另有 ${bad} 筆日期不正確沒有顯示，請到試算表的 body 工作表修正）`;
 
   $("#body-charts").innerHTML=BODY_METRICS.map(m=>{
     const r=latest(m.k);
