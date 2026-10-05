@@ -22,6 +22,9 @@ const WX_CACHE_SEC = 3600;       // 氣象資料快取 1 小時，避免打爆 C
 
 const SHEETS = {
   runs: ['id', 'date', 'clock', 'km', 'sec', 'type', 'steps', 'up', 'down', 'kcal', 'note', 'created'],
+  // 身體組成：只留與耐力訓練相關的欄位，小米體重計其餘衍生數值不收
+  body: ['id', 'date', 'weight', 'bodyFat', 'muscle', 'skeletal', 'visceral',
+         'bmr', 'water', 'restHR', 'waist', 'note', 'created'],
   done: ['key', 'value', 'updated'],
   meta: ['key', 'value', 'updated']
 };
@@ -49,6 +52,8 @@ function doPost(e) {
     try {
       switch (body.action) {
         case 'addRun':    return json({ ok: true, run: upsertRun(body.run) });
+        case 'addBody':   return json({ ok: true, body: upsertBody(body.body) });
+        case 'deleteBody':return json({ ok: true, deleted: deleteBody(body.id) });
         case 'deleteRun': return json({ ok: true, deleted: deleteRun(body.id) });
         case 'setDone':   return json({ ok: true, done: setDone(body.key, body.value) });
         case 'setMeta':   return json({ ok: true, meta: setMeta(body.key, body.value) });
@@ -92,7 +97,7 @@ function sheet(name) {
   }
   // 文字型欄位鎖成純文字。否則 "11.1"、"0930" 會被判定為數值、"22:07" 會被
   // 判定為時間，讀回來都對不上原本的字串（勾選狀態遺失、時段變成 1899 年的日期）。
-  const TEXT_COLS = { runs: ['id', 'clock', 'type'], done: ['key'], meta: ['key'] };
+  const TEXT_COLS = { runs: ['id', 'clock', 'type'], body: ['id'], done: ['key'], meta: ['key'] };
   if (sh.getMaxRows() > 1) {
     const head = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0].map(String);
     (TEXT_COLS[name] || []).forEach(function (c) {
@@ -168,6 +173,20 @@ function getData() {
       kcal:  numOrBlank(r.kcal)  === '' ? null : Number(r.kcal),
       note:  String(r.note || '')
     })).filter(r => r.km > 0 && r.sec > 0),
+    body: rows('body').map(r => ({
+      id:       String(r.id),
+      d:        ymd(r.date),
+      weight:   numOrBlank(r.weight)   === '' ? null : Number(r.weight),
+      bodyFat:  numOrBlank(r.bodyFat)  === '' ? null : Number(r.bodyFat),
+      muscle:   numOrBlank(r.muscle)   === '' ? null : Number(r.muscle),
+      skeletal: numOrBlank(r.skeletal) === '' ? null : Number(r.skeletal),
+      visceral: numOrBlank(r.visceral) === '' ? null : Number(r.visceral),
+      bmr:      numOrBlank(r.bmr)      === '' ? null : Number(r.bmr),
+      water:    numOrBlank(r.water)    === '' ? null : Number(r.water),
+      restHR:   numOrBlank(r.restHR)   === '' ? null : Number(r.restHR),
+      waist:    numOrBlank(r.waist)    === '' ? null : Number(r.waist),
+      note:     String(r.note || '')
+    })).filter(r => r.weight || r.waist),
     done: done,
     meta: meta,
     serverTime: new Date().toISOString()
@@ -197,6 +216,31 @@ function upsertRun(run) {
   if (at > 0) sh.getRange(at, 1, 1, row.length).setValues([row]);
   else        sh.appendRow(row);
   return run.id;
+}
+
+function upsertBody(b) {
+  if (!b || !b.id) throw new Error('缺少 body.id');
+  const sh = sheet('body');
+  const head = headerOf(sh);
+  const rec = {
+    id: String(b.id), date: ymd(b.d),
+    weight: numOrBlank(b.weight), bodyFat: numOrBlank(b.bodyFat),
+    muscle: numOrBlank(b.muscle), skeletal: numOrBlank(b.skeletal),
+    visceral: numOrBlank(b.visceral), bmr: numOrBlank(b.bmr),
+    water: numOrBlank(b.water), restHR: numOrBlank(b.restHR),
+    waist: numOrBlank(b.waist), note: String(b.note || ''), created: new Date()
+  };
+  const row = head.map(function (h) { return (h in rec) ? rec[h] : ''; });
+  const at = findRow('body', 'id', b.id);
+  if (at > 0) sh.getRange(at, 1, 1, row.length).setValues([row]);
+  else        sh.appendRow(row);
+  return b.id;
+}
+
+function deleteBody(id) {
+  const at = findRow('body', 'id', id);
+  if (at > 0) { sheet('body').deleteRow(at); return true; }
+  return false;
 }
 
 function deleteRun(id) {
@@ -231,6 +275,8 @@ function setMeta(key, value) {
 function applyQueue(ops) {
   ops.forEach(op => {
     if (op.action === 'addRun')    upsertRun(op.run);
+    else if (op.action === 'addBody')   upsertBody(op.body);
+    else if (op.action === 'deleteBody')deleteBody(op.id);
     else if (op.action === 'deleteRun') deleteRun(op.id);
     else if (op.action === 'setDone')   setDone(op.key, op.value);
     else if (op.action === 'setMeta')   setMeta(op.key, op.value);
@@ -332,7 +378,7 @@ function parseHourly(j) {
 function selfTest() {
   const out = [];
   out.push('CWA_KEY 已設定：' + (CWA_KEY() ? '是' : '否 ← 請先到專案設定新增指令碼屬性'));
-  ['runs', 'done', 'meta'].forEach(n => { sheet(n); out.push('工作表 ' + n + '：就緒'); });
+  ['runs', 'body', 'done', 'meta'].forEach(n => { sheet(n); out.push('工作表 ' + n + '：就緒'); });
   try {
     const w = getWeather(true);
     out.push('氣象取得成功：未來 ' + w.week.length + ' 個時段、逐時 ' + w.hourly.length + ' 點');

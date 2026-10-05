@@ -267,6 +267,16 @@ tr.now td{background:var(--blue-soft)}
 .vid{margin:2px 0 0}   /* figure 的 UA 預設左右 margin 是 40px，手機上會把影片壓成一半寬 */
 .vid iframe{width:100%;aspect-ratio:16/9;height:auto;border:1px solid var(--line);border-radius:3px;display:block;background:var(--surface2)}
 .vid figcaption{font-size:12px;color:var(--ink3);margin-top:5px;display:flex;gap:7px;align-items:baseline;flex-wrap:wrap}
+.bodychart{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.bodychart .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.bodychart .v{font-family:var(--f-mono);font-size:22px;font-weight:500;letter-spacing:-.02em;line-height:1.15;font-variant-numeric:tabular-nums}
+.bodychart .v small{font-size:12px;color:var(--ink3);font-family:var(--f-body);letter-spacing:0;font-weight:400}
+.bodychart .d{font-family:var(--f-mono);font-size:11.5px;color:var(--ink2)}
+.bodychart .d i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--ink3)}
+.bodychart .d i.good{background:var(--moss)}
+.bodychart .d i.bad{background:var(--sun)}
+.bodychart svg{width:100%;height:56px;display:block;margin-top:4px}
+#bodyform{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}  /* 日期欄 120px 會被截斷 */
 .pacechip{display:inline-block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.03em;padding:1px 6px;border-radius:2px;background:var(--blue-soft);color:var(--blue-deep);white-space:nowrap;margin-right:2px;vertical-align:1px}
 .chk{display:flex;gap:7px;align-items:center;font-size:12px;color:var(--ink3);padding-top:2px}
 .chk input{accent-color:var(--sun);width:15px;height:15px}
@@ -413,6 +423,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <button role="tab" data-t="s-str"  aria-selected="false"><span class="idx">06</span>肌力訓練</button>
       <button role="tab" data-t="s-race" aria-selected="false"><span class="idx">07</span>賽事情報</button>
       <button role="tab" data-t="s-log"  aria-selected="false"><span class="idx">08</span>訓練日誌</button>
+      <button role="tab" data-t="s-body" aria-selected="false"><span class="idx">09</span>身體數據</button>
     </div>
     <span class="syncchip" id="sync" title="資料同步狀態">—</span>
     </div>
@@ -1314,6 +1325,85 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 </section>
 
+
+<!-- ══════════ 09 身體數據 ══════════ -->
+<section id="s-body" class="stack" hidden>
+
+  <div class="block">
+    <h2>身體組成 <span class="tag">Body Composition</span></h2>
+    <p class="lede">追蹤慢跑對身體的長期影響。體重計的數字一天內就會因水分、進食浮動 ±1 kg，<b>看趨勢、不看單筆</b>——固定在<b>早上起床、如廁後、空腹</b>量，前後才比得起來。</p>
+    <div class="grid g4" id="body-tiles"></div>
+  </div>
+
+  <div class="block">
+    <h2>趨勢 <span class="tag">Trend</span></h2>
+    <p class="lede" id="body-since"></p>
+    <div class="grid g4" id="body-charts"></div>
+    <p style="font-size:12.5px;color:var(--ink3)">綠點＝往好的方向（體重、體脂、腰圍、內臟脂肪、心率下降；肌肉量、骨骼肌上升），橘點＝反方向。基礎代謝只看變化、不分好壞。</p>
+  </div>
+
+  <div class="block">
+    <h2>為什麼只記這幾項 <span class="tag">What Matters</span></h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:17px">腰圍比體重誠實</h3>
+        <p style="color:var(--ink2);font-size:13.5px">體重會跟著肝醣、水分、增肌上下波動；腰圍主要反映腹部脂肪，受當天水分影響小。<b>量法固定</b>：站直、正常吐氣結束時，量肋骨下緣與骨盆上緣的中間點（國健署建議；習慣量肚臍高度也可以，重點是每次同一處），捲尺水平、貼身不勒緊。國健署的腹部肥胖切點是男性 ≥90 cm、女性 ≥80 cm。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:17px">體脂與肌肉看「方向」</h3>
+        <p style="color:var(--ink2);font-size:13.5px">家用體重計用生物電阻推估，絕對值可能差好幾個百分點，但<b>同一台、同樣條件量出來的變化方向是可信的</b>。最理想的組合是體脂率下降、肌肉量持平或上升。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:17px">內臟脂肪</h3>
+        <p style="color:var(--ink2);font-size:13.5px">多數體重計的分級是 1–9 標準、10–14 偏高、15 以上過高（小米的確切切點未確認，以 App 報表標示為準）。有氧運動即使體重沒什麼變，也能降低內臟脂肪，而且它的反應通常比皮下脂肪快。</p>
+      </div>
+      <div class="card">
+        <h3 style="font-family:var(--f-display);font-size:17px">心率：長期才看得出來</h3>
+        <p style="color:var(--ink2);font-size:13.5px">耐力訓練讓心臟每跳一下送出更多血，靜止心率會慢慢往下走；持續數個月，平均約下降 5 下左右，個人差異大。體重計量到的是站著的心率，比真正的靜止心率高，<b>只拿來跟自己比</b>。</p>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink3)">沒收的欄位：BMI、去脂體重可由體重與體脂直接換算；蛋白質、骨鹽量、身體年齡是體重計用模型推估、變化很小；腰臀比體重計量不到、只是估算，改用實際量的腰圍。</p>
+  </div>
+
+  <div class="block">
+    <h2>記一筆 <span class="tag">Add Entry</span></h2>
+    <p class="lede">只填有量到的欄位，其餘留空。腰圍可以單獨記。</p>
+    <div class="card">
+      <form class="log" id="bodyform">
+        <label class="fld">日期<input type="date" id="b-date" required></label>
+        <label class="fld">體重 kg<input type="number" id="b-weight" step="0.1" min="30" max="200"></label>
+        <label class="fld">體脂率 %<input type="number" id="b-fat" step="0.1" min="3" max="60"></label>
+        <label class="fld">肌肉量 kg<input type="number" id="b-muscle" step="0.1" min="10" max="150"></label>
+        <label class="fld">骨骼肌量 kg<input type="number" id="b-skel" step="0.1" min="5" max="100"></label>
+        <label class="fld">內臟脂肪等級<input type="number" id="b-visc" step="1" min="1" max="30"></label>
+        <label class="fld">基礎代謝 kcal<input type="number" id="b-bmr" step="1" min="500" max="5000"></label>
+        <label class="fld">身體水分 %<input type="number" id="b-water" step="0.1" min="20" max="80"></label>
+        <label class="fld">心率 bpm<input type="number" id="b-hr" step="1" min="30" max="150"></label>
+        <label class="fld">腰圍 cm<input type="number" id="b-waist" step="0.5" min="40" max="200"></label>
+        <label class="fld">備註<input type="text" id="b-note" placeholder="選填"></label>
+        <button class="act" type="submit">加入</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>全部紀錄 <span class="tag">History · 最新在上</span></h2>
+    <p class="lede" style="font-size:13px">「期間跑量」＝從上一筆紀錄隔天到這一筆當天之間跑的總距離，用來對照數字變化是跑多少換來的。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr>
+          <th>日期</th><th class="n">體重 kg</th><th class="n">體脂 %</th><th class="n">肌肉 kg</th>
+          <th class="n">骨骼肌 kg</th><th class="n">內臟脂肪</th><th class="n">基代 kcal</th>
+          <th class="n">水分 %</th><th class="n">心率</th><th class="n">腰圍 cm</th><th class="n">期間跑量 km</th>
+          <th>備註</th><th></th>
+        </tr></thead>
+        <tbody id="body-rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
 </main>
 
 <footer>
@@ -1507,6 +1597,7 @@ const doneKey=(w,k)=>"w"+w+"s"+k;
   if(moved) save("fuji.done.v1",raw);
 })();
 let LOG=load("fuji.log.v1",[]);
+let BODY=load("fuji.body.v1",[]);
 let DONE=load("fuji.done.v1",{});
 BRANCH=load("fuji.branch.v1","half");          // 儲存層備妥後才還原分支選擇
 WEEKS=buildWeeks(BRANCH);
@@ -1592,7 +1683,11 @@ async function flushQueue(){
       body:JSON.stringify({action:"sync",ops:ops})
     });
     if(!j.ok) throw new Error(j.error||"後端回報失敗");
-    QUEUE=QUEUE.slice(ops.length); save("fuji.queue.v1",QUEUE);
+    QUEUE=QUEUE.slice(ops.length);
+    // 後端若還是沒有身體數據表的舊版，會默默略過這類操作（回應裡也沒有 body）——
+    // 留在佇列等後端更新後補送；否則後端更新後，雲端回傳的空表會把這段期間記的資料蓋掉
+    if(j.data&&!Array.isArray(j.data.body)) QUEUE=ops.filter(o=>/Body$/.test(o.action)).concat(QUEUE);
+    save("fuji.queue.v1",QUEUE);
     SYNCED=true;
     applyRemote(j.data);
   }catch(err){
@@ -1607,6 +1702,7 @@ function applyRemote(data){
       steps:r.steps||null,up:r.up,down:r.down,kcal:r.kcal,note:r.note||""}));
     save("fuji.log.v1",LOG);
   }
+  if(Array.isArray(data.body)){ BODY=data.body; save("fuji.body.v1",BODY); renderBody(); }
   if(data.done&&typeof data.done==="object"){ DONE=data.done; save("fuji.done.v1",DONE); }
   if(data.meta&&data.meta.tpref&&data.meta.tpref!==TPREF){
     TPREF=data.meta.tpref; save("fuji.tpref.v1",TPREF);
@@ -2440,8 +2536,132 @@ document.addEventListener("click",e=>{
   setRemote(document.querySelector("#gas-input").value);
 });
 
+
+/* ══════════ 身體數據 ══════════
+   dir：-1＝數值下降為佳，+1＝上升為佳，0＝不分好壞 */
+const BODY_METRICS=[
+  {k:"weight",  l:"體重",     u:"kg",   dir:-1, dp:1},
+  {k:"bodyFat", l:"體脂率",   u:"%",    dir:-1, dp:1},
+  {k:"waist",   l:"腰圍",     u:"cm",   dir:-1, dp:1},
+  {k:"restHR",  l:"心率",     u:"bpm",  dir:-1, dp:0},
+  {k:"muscle",  l:"肌肉量",   u:"kg",   dir: 1, dp:1},
+  {k:"skeletal",l:"骨骼肌量", u:"kg",   dir: 1, dp:1},
+  {k:"visceral",l:"內臟脂肪", u:"級",   dir:-1, dp:0},
+  {k:"bmr",     l:"基礎代謝", u:"kcal", dir: 0, dp:0}
+];
+const hasV=v=>v!==null&&v!==undefined&&v!==""&&isFinite(+v);
+const fx=(v,dp)=>hasV(v)?(+v).toFixed(dp).replace(/\.0+$/,""):"—";
+const bodySorted=()=>[...BODY].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+const seriesOf=k=>bodySorted().filter(r=>hasV(r[k]));
+const trendOf=(m,s)=>{
+  const d=+s[s.length-1][m.k]-(+s[0][m.k]);
+  const flat=Math.abs(d)<Math.pow(10,-m.dp)/2;
+  return {d:d,flat:flat,cls:(flat||m.dir===0)?"":(d*m.dir>0?"good":"bad")};
+};
+
+function deltaHTML(m){
+  const s=seriesOf(m.k);
+  if(!s.length) return '<span class="d">尚無資料</span>';
+  if(s.length<2) return '<span class="d">只有 1 筆，還看不出趨勢</span>';
+  const t=trendOf(m,s);
+  const dot=t.cls?`<i class="${t.cls}" role="img" aria-label="${t.cls==="good"?"改善":"變差"}"></i>`:"<i></i>";
+  if(t.flat) return `<span class="d">${dot}持平　自 ${md(s[0].d)}</span>`;
+  return `<span class="d">${dot}${t.d>0?"+":"−"}${fx(Math.abs(t.d),m.dp)} ${m.u}　自 ${md(s[0].d)}</span>`;
+}
+
+function sparkSVG(m){
+  const s=seriesOf(m.k); if(s.length<2) return "";
+  const W=200,H=56,p=6;
+  const xs=s.map(r=>dt(r.d).getTime()), ys=s.map(r=>+r[m.k]);
+  const x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys);
+  const sx=v=>p+(W-2*p)*((v-x0)/((x1-x0)||1));
+  const sy=v=>y1===y0?H/2:H-p-(H-2*p)*((v-y0)/(y1-y0));
+  const pts=s.map((r,i)=>sx(xs[i]).toFixed(1)+","+sy(ys[i]).toFixed(1));
+  const t=trendOf(m,s);
+  const col=t.cls==="good"?"var(--moss)":t.cls==="bad"?"var(--sun)":"var(--ink3)";
+  const area="M"+sx(xs[0]).toFixed(1)+","+(H-p)+" L"+pts.join(" L")+" L"+sx(xs[xs.length-1]).toFixed(1)+","+(H-p)+" Z";
+  // 圓點用「零長度線段＋圓頭」畫：preserveAspectRatio="none" 拉伸時仍保持正圓
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <path d="${area}" fill="${col}" opacity=".12"/>
+    <polyline points="${pts.join(" ")}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/>
+    <path d="${pts.map(q=>"M"+q+"h0").join("")}" fill="none" stroke="${col}" stroke-width="6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+  </svg>`;
+}
+
+function renderBody(){
+  const tiles=$("#body-tiles"); if(!tiles) return;
+  const latest=k=>{const s=seriesOf(k);return s.length?s[s.length-1]:null;};
+
+  tiles.innerHTML=["weight","bodyFat","waist","restHR"].map(k=>{
+    const m=BODY_METRICS.find(x=>x.k===k), r=latest(k);
+    return `<div class="tile"><span class="k">${m.l}</span>
+      <span class="v">${r?fx(r[k],m.dp):"—"}<span class="u"> ${m.u}</span></span>
+      <span class="n">${r?"最近一次 "+md(r.d):"尚無資料"}</span></div>`;
+  }).join("");
+
+  // 輸入欄提示上一次的數值，方便對照體重計報表輸入
+  [["#b-weight","weight",1],["#b-fat","bodyFat",1],["#b-muscle","muscle",1],["#b-skel","skeletal",1],
+   ["#b-visc","visceral",0],["#b-bmr","bmr",0],["#b-water","water",1],["#b-hr","restHR",0],["#b-waist","waist",1]]
+    .forEach(([id,k,dp])=>{const r=latest(k); $(id).placeholder=r?"上次 "+fx(r[k],dp):"";});
+
+  const asc=bodySorted(), runs=allRuns();
+  const since=$("#body-since");
+  if(asc.length){
+    const rs=runs.filter(r=>r.d>=asc[0].d), km=rs.reduce((a,r)=>a+r.km,0);
+    since.textContent=`自第一筆紀錄（${ymd(asc[0].d)}）以來：跑了 ${rs.length} 次、共 ${km.toFixed(1)} km。`;
+  }else since.textContent="還沒有紀錄。";
+
+  $("#body-charts").innerHTML=BODY_METRICS.map(m=>{
+    const r=latest(m.k);
+    return `<div class="bodychart"><span class="k">${m.l}</span>
+      <span class="v">${r?fx(r[m.k],m.dp):"—"}<small> ${m.u}</small></span>
+      ${deltaHTML(m)}${sparkSVG(m)}</div>`;
+  }).join("");
+
+  // 期間跑量：上一筆紀錄的隔天 → 這一筆當天
+  const span={};
+  asc.forEach((r,i)=>{
+    span[r.id]= i===0 ? null
+      : runs.filter(x=>x.d>asc[i-1].d&&x.d<=r.d).reduce((a,x)=>a+x.km,0);
+  });
+  $("#body-rows").innerHTML=asc.length?[...asc].reverse().map(r=>`<tr>
+    <td class="mono">${ymd(r.d)}</td>
+    <td class="n">${fx(r.weight,1)}</td><td class="n">${fx(r.bodyFat,1)}</td>
+    <td class="n">${fx(r.muscle,1)}</td><td class="n">${fx(r.skeletal,1)}</td>
+    <td class="n">${fx(r.visceral,0)}</td><td class="n">${fx(r.bmr,0)}</td>
+    <td class="n">${fx(r.water,1)}</td><td class="n">${fx(r.restHR,0)}</td>
+    <td class="n">${fx(r.waist,1)}</td>
+    <td class="n" style="color:var(--ink2)">${span[r.id]===null?"—":span[r.id].toFixed(1)}</td>
+    <td style="white-space:normal;color:var(--ink2);font-size:13px;min-width:160px">${esc(r.note||"")}</td>
+    <td><button class="ghost" data-delbody="${esc(r.id)}">刪除</button></td></tr>`).join("")
+    :`<tr><td colspan="13" style="color:var(--ink3)">尚無紀錄</td></tr>`;
+}
+
+$("#bodyform").addEventListener("submit",e=>{
+  e.preventDefault();
+  const n=id=>{const v=parseFloat($(id).value);return isFinite(v)?v:null;};
+  const rec={id:"b"+Date.now(),d:$("#b-date").value,
+    weight:n("#b-weight"),bodyFat:n("#b-fat"),muscle:n("#b-muscle"),skeletal:n("#b-skel"),
+    visceral:n("#b-visc"),bmr:n("#b-bmr"),water:n("#b-water"),restHR:n("#b-hr"),
+    waist:n("#b-waist"),note:$("#b-note").value.trim()};
+  if(rec.weight===null&&rec.waist===null){ alert("至少要填體重或腰圍其中一項"); return; }
+  BODY.push(rec); save("fuji.body.v1",BODY);
+  enqueue({action:"addBody",body:rec});
+  ["#b-weight","#b-fat","#b-muscle","#b-skel","#b-visc","#b-bmr","#b-water","#b-hr","#b-waist","#b-note"]
+    .forEach(id=>{$(id).value="";});
+  renderBody();
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-delbody]"); if(!b) return;
+  if(!confirm("確定刪除這筆身體數據？")) return;
+  BODY=BODY.filter(r=>r.id!==b.dataset.delbody); save("fuji.body.v1",BODY);
+  enqueue({action:"deleteBody",id:b.dataset.delbody});
+  renderBody();
+});
+
 /* ══════════ 啟動 ══════════ */
 $("#f-date").value=iso(today);
+$("#b-date").value=iso(today);
 $("#today-lab").textContent=ymd(iso(today))+"（"+WD[today.getDay()]+"）";
 const dLeft=daysTo(RACE_DAY);
 $("#foot-note").textContent="距富士山馬拉松 "+dLeft+" 天 · 資料存於本機瀏覽器";
@@ -2449,7 +2669,7 @@ $("#br-half").setAttribute("aria-pressed",String(BRANCH==="half"));
 $("#br-full").setAttribute("aria-pressed",String(BRANCH==="full"));
 paintPref();
 renderCountdowns(); renderThisWeek(); renderAscent(); renderLadder();
-renderBase(); renderPlan(); renderLog();
+renderBase(); renderPlan(); renderLog(); renderBody();
 refreshChip();
 // 一次往返同時取回訓練資料與天氣；沒設定後端時 pullRemote 回 null，initWx 自行降級
 (async()=>{ const wx=await pullRemote(); initWx(false,wx); })();
