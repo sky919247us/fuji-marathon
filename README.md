@@ -49,7 +49,7 @@ git push -u origin main
 ## 安全性
 
 - **前端不含任何金鑰。** 氣象署金鑰放在 Apps Script 的指令碼屬性，網頁透過後端代理取得預報。
-- `config.js` 裡的 Apps Script 網址是一把能讀寫訓練資料的鑰匙。網址不可猜測，但別主動公開；外流就重新部署換網址。
+- `config.js` 裡的 Apps Script 網址是一把能讀寫訓練與身體數據的鑰匙。網址不可猜測，但別主動公開；外流的處理方式見 [`apps-script/README.md`](apps-script/README.md) 第 5 節（新增部署作業換新網址、封存舊的）。
 - 不要把 `cwaKeyForLocalFileOnly` 填了之後 commit 上去 —— 那個欄位只給「直接雙擊本機 HTML 檔」的情境用。
 
 ## 離線
